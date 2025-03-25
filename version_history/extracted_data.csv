@@ -1,0 +1,37 @@
+Title,Description,Parents,Children,No_Parent,No_Children
+AI_Existential_Risk_Factor,Current and near-term AI technologies can contribute to existential risk by acting as intermediate risk factors.,"['AI_Intermediate_Factor', 'Risk_Not_Limited_To_AGI', 'Causal_Pathways_Exist']",[],False,True
+AI_Intermediate_Factor,"Current and near-term AI technologies can act as intermediate risk factors, magnifying the likelihood of previously identified sources of existential risk.",[],['AI_Existential_Risk_Factor'],True,False
+Risk_Not_Limited_To_AGI,This potential contribution to existential risk is not limited to the unaligned AGI scenario.,[],['AI_Existential_Risk_Factor'],True,False
+Causal_Pathways_Exist,There exist causal pathways from AI systems to existential risks that do not presuppose hypothetical future AI capabilities.,[],['AI_Existential_Risk_Factor'],True,False
+AI_Affects_Power_Dynamics,AI can shift or strengthen existing power dynamics between different actors.,"['AI_State_State_Risk', 'AI_State_Corporation_Risk', 'AI_State_Citizen_Risk']",[],False,True
+AI_State_State_Risk,"AI can disturb relationships between nation states, potentially leading to an ""AI arms race.""",[],['AI_Affects_Power_Dynamics'],True,False
+AI_State_Corporation_Risk,"The rise of tech corporations affects their relationships with states, creating power imbalances.",[],['AI_Affects_Power_Dynamics'],True,False
+AI_State_Citizen_Risk,AI surveillance technologies change the dynamics between states and citizens.,[],['AI_Affects_Power_Dynamics'],True,False
+AI_State_State_Risk,AI affects relationships between states in ways that can increase existential risk.,"['AI_Global_Power_Shift', 'AI_Arms_Race', 'Competition_Inhibits_Coordination']",[],False,True
+AI_Global_Power_Shift,"AI development contributes to a global shift in power towards nations like China (""Easternisation"").",[],['AI_State_State_Risk'],True,False
+AI_Arms_Race,"Concerns about technological competition can lead to an ""AI arms race"" between nations.",[],['AI_State_State_Risk'],True,False
+Competition_Inhibits_Coordination,Such competitive dynamics may inhibit international coordination and incentivize against AI safety precautions.,[],['AI_State_State_Risk'],True,False
+AI_State_Corporation_Risk,AI affects relationships between states and corporations in ways that can increase existential risk.,"['Tech_Corporation_Rise', 'Corporate_Global_Reach', 'Profit_Driven_Goals']",[],False,True
+Tech_Corporation_Rise,The past two decades have seen a monumental rise of private corporations in the technology sector with revenues comparable to national GDPs.,[],['AI_State_Corporation_Risk'],True,False
+Corporate_Global_Reach,"These corporations operate globally, making state regulation challenging.",[],['AI_State_Corporation_Risk'],True,False
+Profit_Driven_Goals,Many corporate goals are profit-driven and can be misaligned with wider societal interests.,[],['AI_State_Corporation_Risk'],True,False
+AI_State_Citizen_Risk,AI surveillance technologies enable potential stable repressive regimes that could constitute existential catastrophes.,"['AI_Surveillance_Growth', 'Insufficient_Ethical_Frameworks', 'Surveillance_Privatization']",[],False,True
+AI_Surveillance_Growth,There's been a rapid increase in the use of AI surveillance systems by states across different political systems.,[],['AI_State_Citizen_Risk'],True,False
+Insufficient_Ethical_Frameworks,Ethical and legal frameworks for these technologies are lagging behind their deployment.,[],['AI_State_Citizen_Risk'],True,False
+Surveillance_Privatization,"Private companies develop and sell surveillance technologies to governments, further normalizing mass surveillance.",[],['AI_State_Citizen_Risk'],True,False
+Nuclear_Risk_Argument,,"['AI_State_State_Risk', 'Cybersecurity_Intelligence_Impact', 'AI_Arms_Race_To_Military']",[],False,True
+AI_State_State_Risk,"AI affects relationships between states, potentially creating tensions.",[],['Nuclear_Risk_Argument'],True,False
+Cybersecurity_Intelligence_Impact,Changes in cybersecurity could affect a state's intelligence capabilities.,['AI_Arms_Race_To_Military'],['Nuclear_Risk_Argument'],False,False
+Pandemic_Risk_Argument,,"['AI_Information_Ecosystem_Risk', 'Response_Requires_Trust', 'AI_Biological_Weapons']",[],False,True
+AI_Information_Ecosystem_Risk,"AI threatens the information ecosystem, as seen with COVID-19 misinformation.",[],['Pandemic_Risk_Argument'],True,False
+Response_Requires_Trust,Effective pandemic response requires public trust in political systems.,[],['Pandemic_Risk_Argument'],True,False
+AI_Biological_Weapons,AI could be used to design and produce dangerous pathogens.,[],['Pandemic_Risk_Argument'],True,False
+Climate_Risk_Argument,,['AI_Information_Ecosystem_Risk'],[],False,True
+AI_Information_Ecosystem_Risk,AI threatens the information ecosystem through misinformation.,[],['Climate_Risk_Argument'],True,False
+AGI_Risk_Argument,,"['AI_Arms_Race', 'Safety_Corner_Cutting']",[],False,True
+AI_Arms_Race,"Concerns about technological competition can lead to an ""AI arms race"" between nations or corporations.",[],['AGI_Risk_Argument'],True,False
+Safety_Corner_Cutting,Competitive dynamics may incentivize corner-cutting on AI safety.,[],['AGI_Risk_Argument'],True,False
+Repressive_Regime_Argument,,"['AI_Surveillance_Growth', 'Lagging_Ethical_Frameworks', 'Surveillance_Privatization']",[],False,True
+AI_Surveillance_Growth,Rapid increase in AI surveillance technologies globally.,[],['Repressive_Regime_Argument'],True,False
+Lagging_Ethical_Frameworks,Even democratic countries fail to meet regulatory standards for surveillance.,[],['Repressive_Regime_Argument'],True,False
+Surveillance_Privatization,Private-public partnerships normalize surveillance beyond legal limits.,[],['Repressive_Regime_Argument'],True,False
