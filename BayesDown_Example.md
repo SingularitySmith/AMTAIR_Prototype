@@ -18,7 +18,7 @@
                      "p(no_grass_wet|no_sprinkler,no_rain)": "0.48"
                      }
 }
-	+<Sprinkler>: Activation of a centrifugal force based CO2 droplet distribution system.
+	+ <Sprinkler>: Activation of a centrifugal force based CO2 droplet distribution system.
 	{"instantiations": ["TRUE", "FALSE"],
 	"priors": {
 	                "p(TRUE)": "0.44838",
