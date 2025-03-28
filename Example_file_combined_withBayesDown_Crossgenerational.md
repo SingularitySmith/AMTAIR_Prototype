@@ -15,6 +15,7 @@
  + <P2>: Certain types of literature or visual image have been conclusively linked to crime. Excessive sex and violence in film and television has been shown (especially in studies in the US) to contribute to a tendency towards similar behaviour in spectators. There is no excuse for this and such images must be sacrificed, no matter what their artistic merit. #pro
   - <C2>: In fact, the link between sex and violence on screen and in real life is far from conclusive. To look at it from another angle, those individuals who _already have tendencies_ to violence are likely to watch violent `video nasties', just as those with a predilection for rape are likely to use pornography. The two are therefore connected but the individual's personality is formed first. #con
    - <C3>: Trying whether a third generation will also work. /* plus adding a comment to ignore <hallo> */
+   - [Thesis]
  - <C1a>: Censorship is wrong in principle. However violently we may disagree with a person's point of view or mode of expression, they must be free to express themselves in a free and civilized society.
 
 
