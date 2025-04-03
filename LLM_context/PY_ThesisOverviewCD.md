@@ -1,0 +1,975 @@
+From: https://docs.google.com/document/d/1muHRXgLpsdXfIkOsy3DCAsOGhpOGH6KBFwrf-Z3mtyI/edit?tab=t.0 
+# Research Proposal: AMTAIR  & Framework for AI Safety Strategy 
+
+**Candidate**:		Valentin Jakob Meyer  
+	**Program**:		Master's in Philosophy & Economics  
+	**Institution**:		University of Bayreuth  
+	**Supervisor**:		Professor Timo Speith  
+	**Date**:			September 2024
+
+## Tl;dr
+
+This research proposes the automation of the modeling of transformative AI risks (AMTAIR) and a scalable AI Grand Strategy framework to address existential risks from AI. The project combines Bayesian networks, DAGs, and live forecasting data to create dynamic, adaptive models for strategic decision-making. Building on the MTAIR framework, the research aims to integrate expert input, automate updates using LLMs, and formalize world models within the AI safety community. The resulting tools will help policymakers and researchers develop robust strategies to mitigate AI risks and ensure long-term human survival.
+
+## Abstract & Research Context:
+
+The rapid advancement of artificial intelligence (AI) technologies presents unprecedented opportunities alongside existential risks. As AI systems become increasingly capable, the need for a robust, evidence-based strategy to manage and mitigate these risks becomes critical. This research aims to develop a P(Doom) calculator—a probabilistic tool that quantifies the likelihood of catastrophic AI outcomes—and a comprehensive AI Grand Strategy framework to guide global policy responses. Building on the Modeling Transformative AI Risks (MTAIR) project, the research integrates Bayesian networks, Directed Acyclic Graphs (DAGs), and live data from prediction markets to develop dynamic, adaptive models that can inform strategic decision-making. The project seeks to formalize world models from the AI safety community, engage experts for probabilistic estimates, and automate model updates using frontier language models (LLMs). The resulting tools will provide policymakers and researchers with actionable insights, enabling them to navigate AI risks with greater confidence and clarity. Ultimately, this research contributes to the development of a scalable epistemic framework for AI governance, ensuring that strategic interventions are robust across multiple plausible futures.
+
+### Background:
+
+The capabilities of AI systems have been increasing rapidly and are widely expected to improve faster and faster. In tandem, concerns about extreme risks from these advancements are escalating (to an unprecedented scale) but developing policies to limit downside risks has proven extraordinarily difficult.  
+Policy proposals that effectively prevent existential catastrophes require robust assessments of their counterfactual impacts. Determining the downstream consequences of changes to the environment in which AI is developed relies on (1) flawless analysis of the mechanisms at play, (2) correct identification of the relevant variables and their interactions, (3) accurate estimation of the values of those variables. Any specific model must be doomed to fail because of the enormous complexity  
+in this space which results in compounding errors and exponentially multiplying uncertainty.  
+The environments in which the development of AI is progressing and the technologies themselves as well as their potential consequences, each contain so much complexity and uncertainty that any specific model of their interactions must fail due to the multiplication of uncertainties and the compounding of errors. This challenge gives rise to the absolute necessity for a more robust framework and comprehensive strategy for AI safety.  
+Put bluntly, if we want humanity to survive and flourish, we must develop an “AI Grand Strategy” that allows us to navigate the unprecedented challenges ahead by aggregating all available information in the most effective way and allows us to respond to dangers adequately and on time.
+
+### **Existing Literature:**
+
+The research draws heavily on prior work in AI risk modeling, particularly the **Modeling Transformative AI Risks (MTAIR)** project, which has set a precedent for epistemically robust approaches in this field. The MTAIR project, led by Manheim et al., attempts to map out the relationships between key hypotheses, debates, and uncertainties surrounding catastrophic risks from advanced AI. The project’s strength lies in its use of a structured, software-based model that integrates expert probability estimates, quantitative inputs, and dynamic scenario analyses. By employing Directed Acyclic Graphs (DAGs) and Bayesian networks, the MTAIR model offers a nuanced approach to decision support, enabling stakeholders to visualize the interplay of different factors and understand how small shifts in assumptions can lead to significant changes in existential risk assessments.
+
+The technical implementation of MTAIR illustrates how diverse ideas, models, and arguments from the AI risk literature—spanning policy proposals, alignment challenges, and strategic uncertainties—can be synthesized into a coherent framework. By integrating insights from experts across different fields, the MTAIR framework has proven to be a valuable tool in clarifying where the critical uncertainties lie, guiding where research and intervention efforts should be focused.
+
+Another critical precursor to the proposed research is the use of **Forecasting Trees** as developed by the community of superforecasters and AI risk analysts. Forecasting trees are decision trees designed to systematically break down complex forecasting questions into smaller, conditional probabilities. These tools have been instrumental in improving the granularity and precision of predictions related to AI development timelines, alignment risks, and global policy shifts. The combination of these forecasting methodologies with Bayesian networks allows for a richer, more layered analysis of potential AI trajectories.
+
+Together, these methodologies provide a foundation for the proposed research, which seeks to scale and adapt the epistemic framework established by MTAIR and apply it toward the development of a comprehensive AI Grand Strategy.
+
+### **Research Question:**
+
+The central research question guiding this work is: **How can the epistemic framework developed in the MTAIR project be adapted and scaled to formulate an AI Grand Strategy that is robust across a wide range of future scenarios?**
+
+Sub-questions that follow from this include:
+
+- *What attributes must a P(Doom) calculator possess to validly demonstrate the epistemic framework’s utility in quantifying existential risks?*  
+- *What key elements must be incorporated into an “AI Doomsday Clock” to produce reliable indicators of AI-driven existential risks in real-time?*  
+- *What are the most epistemically defensible methods for integrating qualitative arguments (e.g., policy proposals, expert forecasts) into a quantitative forecasting platform capable of guiding strategic AI governance?*
+
+Additionally, the research explores how an LLM-driven policy evaluation platform could be leveraged as the backbone for a comprehensive AI Grand Strategy. By using advanced language models to automate the extraction and structuring of causal models from extensive corpora of AI safety literature, expert discussions, and public discourse, the platform aims to continuously refine strategy recommendations based on live data inputs.
+
+The ultimate goal is to fully specify—drawing on principles from game theory and probabilistic reasoning—what constitutes the optimal AI safety strategy under various plausible future conditions. This involves not only identifying the most effective policy interventions but also determining how these strategies should be coordinated globally to maximize alignment and minimize catastrophic risks.
+
+## Research Objectives & Roadmap
+
+##### 1\.	Develop a P(Doom) Calculator:
+
+**Objective**: Create a probabilistic model that allows experts to input their own probability distributions and mechanisms, producing a quantified risk assessment of AI-related existential risks.  
+**Approach**: The model will integrate key hypotheses, conditional dependencies, and expert assessments into a Bayesian framework to generate probability distributions for catastrophic outcomes.  
+**Intended Output**: A working prototype that not only quantifies P(Doom) but also highlights critical assumptions, uncertainties, and intervention points for reducing risks.
+
+##### 2\.	Scale the MTAIR Framework into an AI Grand Strategy Platform:
+
+**Objective**: Adapt and scale the epistemic framework developed in the MTAIR project to construct a comprehensive AI Grand Strategy.  
+**Approach**: Build a scalable platform that synthesizes multiple epistemic inputs (e.g., integrates live data, prediction markets, and automated world model extractions) using directed acyclic graphs (DAGs) and Bayesian networks, combined with automated search algorithms that identify robust strategies across varying world trajectories.  
+**Intended** **Output**: A dynamic decision-support platform that continuously updates based on new information, allowing researchers and policymakers to adjust strategies in real-time.
+
+##### 3\.	Design a Grand AI Safety Strategy:
+
+**Objective**: Identify, evaluate, and optimize policy proposals that effectively mitigate existential risks from AI. Develop the comprehensive, adaptable AI Grand Strategy based on probabilistic scenario analysis.  
+**Approach**: Conduct a systematic review of existing proposals, engage experts in structured elicitation processes, and use the developed platform to identify strategy paths that perform well across diverse scenarios.  
+**Intended** **Output**: A set of AI governance recommendations and strategic guidelines tailored to minimize existential risks while accommodating uncertainty and rapid technological change.
+
+#### Intermediate Research Objectives, Steps to Answer the Research Question & Timeline:
+
+| Step | Goal | Approach | Deliverable | Status | Month |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| **1\. Literature Survey and Initial Analysis** | Survey existing literature on AI safety, governance strategies, and probabilistic modeling techniques. | Conduct a comprehensive literature review focusing on gaps and opportunities for your research. | Annotated bibliography and thematic map of key insights. | In progress | 1 |
+| **2\. Prototype Development: P(Doom) Calculator** | Develop an initial working model of the P(Doom) calculator using Bayesian networks and DAGs. | Build the tool using Guesstimate and Analytica with a focus on easy interaction and visualization. | A functional P(Doom) calculator prototype capable of generating quantified risk assessments. | Planned | 2 |
+| **3\. Engagement and Feedback Collection** | Share the prototype with experts and the broader AI safety community for feedback and improvement. | Publish posts on relevant forums (e.g., LessWrong, EA Forum) and organize workshops to gather input on model assumptions, structure, and usability. | Updated and refined model based on feedback and expert insights. | Planned | 2 |
+| **4\. Iterative Model Improvement and Scaling** | Refine the calculator and expand it to handle more complex scenarios, incorporating additional dependencies and uncertainty modeling. | Integrate feedback loops, extend the model’s scope to cover adjacent risk domains (e.g., s-risks), and incorporate new data streams. | A scalable platform with more advanced features and live data integration. | Planned | 3 |
+| **5\. Formalize World Models and Strategy Development** | Engage with experts to map out different worldviews and probabilistic estimates for AI governance. | Use structured elicitation and automated worldview extraction via LLMs to build comprehensive world models and strategic options. | Probabilistic world models and a preliminary AI Grand Strategy. | Planned | 3 |
+| **6\. Build an AGI “Doomsday Clock” Visualization Tool** | Develop a dynamic, public-facing tool to visualize current AI risk levels based on real-time model outputs. | Design an intuitive user interface that updates as new information is processed by the platform. | A graphical “Doomsday Clock” reflecting real-time risk levels and projections. | Planned | 3 |
+| **7\. Incorporate Live Forecasts and Automate Worldview Extraction** | Continuously update models by integrating live prediction market data and automating information extraction using frontier LLMs. | Collaborate with platforms like Metaculus and deploy LLMs to parse new insights from literature and community discussions. | A self-updating model that integrates real-time data and strategic insights. | Planned | 4 |
+| **8\. Iterative Strategy Formulation and Testing** | Develop and refine AI Grand Strategy recommendations based on updated scenarios and model outputs. | Test strategy recommendations against diverse world states and scenarios, refining as needed based on feedback and data. | A robust AI Grand Strategy adaptable to changing conditions and new insights. | Planned | 5 |
+| ***9\. Outreach and Policy Engagement*** | *Communicate the AI Grand Strategy to policymakers and relevant stakeholders.* | *Prepare policy briefs, organize events, and provide consultations to ensure effective dissemination and adoption.* | *A widely disseminated strategy with actionable pathways for implementation.* | *Not started* | *Post Thesis* |
+
+## Research Methodology:
+
+### **Key Methodological Approaches and Tools:**
+
+- **Iterative Development Cycle:** Alternating between theoretical analysis, model building, empirical testing, and feedback integration.  
+- **DAGs and Bayesian Networks:** The core framework for probabilistic reasoning and scenario analysis.  
+- **Hybrid Inside-Outside View Integration:** Balancing granular inside models with broad outside-view considerations for robustness.  
+- **LLM-Assisted Worldview Extraction:** Automating data integration and model updates using cutting-edge language models.  
+- **Forecasting Platforms and Engagement:** Leveraging prediction markets and expert networks for real-time updates and model validation.
+
+The methodology for this research combines a mix of theoretical modeling, empirical validation, and iterative development aimed at building a robust epistemic framework for AI safety strategy. The project is structured into several key phases, each focusing on different aspects of model development, testing, and scaling. Below, I detail the methodology, outlining the tools, techniques, and processes used to achieve the research objectives.
+
+#### **1\. Iterative Model Development: Integrating Theory with Practical Application**
+
+The research follows an iterative development approach, where the theoretical analysis, model construction, and empirical testing are interwoven:
+
+- **Theoretical Formulation**: The project starts with a conceptual exploration of key AI safety concerns (e.g., misalignment, power-seeking behavior) using Directed Acyclic Graphs (DAGs) and Bayesian networks. These models are structured to capture causal dependencies between risk factors and conditional probabilities of different catastrophic scenarios.  
+    
+- **Prototype Development**: Initial models are built using tools like Guesstimate and Analytica, allowing for rapid prototyping and intuitive visualization of risk assessments. This phase focuses on creating a functional P(Doom) calculator that experts can interact with to input probability distributions and test various scenarios.  
+    
+- **Feedback Loops**: Early prototypes will be shared with domain experts and AI governance communities (e.g., LessWrong, EA Forum) to gather feedback on model assumptions, usability, and clarity. This feedback is used to iteratively refine the model, improving its reliability and practical applicability.  
+    
+- **Scaling and Automation**: As the model matures, the focus shifts towards scaling the framework. This involves expanding the model’s scope to cover additional domains (e.g., s-risks), integrating live data feeds from prediction markets, and automating updates using frontier large language models (LLMs). The automation process ensures that the model remains up-to-date with the latest insights from AI safety research.
+
+#### **2\. Hybrid Approach: Combining Inside and Outside Views**
+
+To enhance the model’s robustness, the methodology incorporates both inside views (detailed, bottom-up analysis) and outside views (broad base-rate assessments from historical analogs and expert forecasts):
+
+- **Inside Views**: These are granular models that focus on specific mechanisms within AI systems, such as capability advancements, misalignment risks, and potential pathways to catastrophic outcomes. The inside view emphasizes detailed causal chains and conditional dependencies, offering high-resolution insights into how different factors might interact.  
+    
+- **Outside Views**: These involve integrating high-level forecasts and historical data, such as the base rates of transformative technologies and general risk factors. Outside views provide broader context and help mitigate biases that might arise from overly granular modeling.
+
+The graphic below illustrates how these two perspectives are integrated into a comprehensive framework, where both inside and outside views inform the overall risk assessment and strategic recommendations.
+
+#### **3\. Bayesian Networks and Directed Acyclic Graphs (DAGs)**
+
+The core of the probabilistic modeling relies on Bayesian networks and DAGs. These structures are chosen for their ability to:
+
+- **Model Causal Relationships**: Bayesian networks allow for the representation of dependencies between variables, capturing the probabilistic impact of each factor on the overall risk assessment.  
+- **Perform Scenario Analysis**: By varying key inputs and assumptions, the model generates a wide range of potential futures, enabling the exploration of different strategic options.  
+- **Quantify Uncertainty**: DAGs provide a structured way to handle uncertainty, with the ability to propagate it through the network and identify the most critical sources of risk.
+
+#### **4\. LLM-Driven Worldview Extraction**
+
+A novel aspect of this methodology is the integration of frontier LLMs for automating the extraction and structuring of world models:
+
+- **Automated Analysis**: LLMs are employed to scan large corpora of literature, community discussions, and expert papers, extracting causal models and probabilistic estimates directly from text.  
+- **Dynamic Updates**: The extracted data is fed back into the Bayesian network, ensuring that the model remains current as new insights emerge. This continuous update mechanism is particularly useful for adapting the AI Grand Strategy to the latest developments in AI research and policy.
+
+#### **5\. Empirical Testing and Real-Time Data Integration**
+
+To validate the models, real-time data and forecasts are incorporated from platforms like Metaculus and Good Judgment Open:
+
+- **Live Forecasts**: Prediction markets provide dynamic inputs that reflect the evolving consensus among experts on key AI safety questions. These forecasts are used to adjust the model’s parameters and update risk estimates accordingly.  
+- **Scenario Testing and Sensitivity Analysis**: The model undergoes rigorous testing across a range of hypothetical scenarios, identifying key leverage points and validating strategic recommendations against diverse world states.
+
+#### **6\. Strategy Formulation and Policy Outreach**
+
+The final phase involves translating the model outputs into actionable strategy recommendations:
+
+- **Iterative Strategy Refinement**: Using the evolving models, strategy paths are iteratively refined to ensure they remain robust across multiple plausible futures. The strategy is designed to be adaptable, with conditional branches that guide decision-makers depending on how certain events unfold.  
+- **Policy Engagement and Dissemination**: The research culminates in a comprehensive AI Grand Strategy that is communicated to key stakeholders through policy briefs, conferences, and direct consultations. The aim is to bridge the gap between academic research and practical policy implementation, ensuring that the strategy is both theoretically sound and operationally feasible.
+
+## Theory of Change, Uncertainties & Significance of the Research
+
+### Theory of Change:
+
+The research is driven by the need to develop an epistemically sound framework for AI governance that can guide policy decisions in high-stakes environments. By creating a P(Doom) calculator and scaling the MTAIR methodology, this project aims to clarify key risks, facilitate better decision-making, and inform strategic interventions to mitigate existential threats from AI.
+
+1. **Input:** Expert knowledge, probabilistic models, and live forecasting data.  
+2. **Process:** Develop, test, and refine a scalable platform that integrates worldviews, strategic insights, and live data.  
+3. **Output:** A robust AI Grand Strategy that provides actionable recommendations for policymakers.  
+4. **Impact:** Improved global coordination, better-informed AI governance, and reduced existential risks.
+
+**Uncertainties:**
+
+- **Epistemic:** The complexity of modeling interconnected risks, uncertainty about AI timelines, and unknown emergent properties of advanced AI systems.  
+- **Strategic:** Political feasibility, stakeholder alignment, and coordination challenges in implementing recommended strategies.
+
+#### **Significance of the Research:**
+
+This research provides a novel, quantitative approach to understanding and mitigating AI risks, bridging the gap between theoretical risk models and practical, implementable strategies.
+
+- **Academic Contributions:**  
+    
+  - Introduces a structured methodology for integrating probabilistic reasoning, causal modeling, and automated information extraction.  
+  - Advances the discourse in AI safety and governance by formalizing world models and refining strategic decision-making frameworks.
+
+
+- **Practical Contributions:**  
+    
+  - Develops actionable tools (e.g., P(Doom) calculator, AGI Doomsday Clock) that can directly inform policy decisions.  
+  - Offers a flexible, continuously updating platform that adapts to new information, enabling timely responses to emerging risks.
+
+#### Forward Chaining Rational:
+
+The project uses a forward-chaining approach that starts by identifying and collecting proposed policies, cruxes, and strategic questions relevant to AI governance:
+
+1. **Policy Collection:** Gather proposed AI safety strategies from the community and map them against potential world trajectories.  
+2. **Crux Identification:** Identify key arguments and cruxes that influence the success or failure of different strategies.  
+3. **Probabilistic Mapping:** Use DAGs and Bayesian networks to model how various policy choices interact with world states and outcomes.  
+4. **Strategy Formulation:** Develop robust AI Grand Strategy proposals that perform well across multiple plausible futures.
+
+This approach allows the project to generate strategies that are both theoretically sound and practically relevant.
+
+#### Backward Chaining Rational:
+
+Using backward chaining, the project identifies the end goals (e.g., survival of humanity, avoidance of AI-driven catastrophes) and works backward to determine the necessary steps:
+
+1. **End Goals:** Define the conditions for long-term human survival and flourishing in an AI-driven future.  
+2. **Critical Precursors:** Identify key interventions, decisions, and safeguards needed to achieve these end goals.  
+3. **Strategic Levers:** Map out specific strategies and policies that can drive the required interventions.  
+4. **Policy Recommendations:** Formulate actionable recommendations that ensure the critical conditions are met.
+
+This approach ensures that the developed strategy is outcome-focused, addressing the most significant threats directly.
+
+#### Key Assumptions:
+
+- **AI Timelines:** The project assumes that transformative AI could be developed within the next few decades, making timely intervention critical.  
+- **Model Validity:** Bayesian networks and DAGs are effective tools for modeling complex, uncertain environments and can be used to capture key risk interactions.  
+- **Community Engagement:** The AI safety and governance community is willing and able to provide the expert input needed to refine the models.  
+- **Scalability:** Frontier LLMs and prediction markets can effectively automate and update the strategy framework as new information emerges.
+
+#### Pitfalls & Countermeasures:
+
+1. **Unilateral Actions by Extremists with High P(Doom) Values:**  
+     
+   - **Countermeasure:** Ensure transparency in model assumptions and encourage balanced, evidence-based engagement. Emphasize the importance of collaborative, multi-stakeholder approaches in all communications and recommendations.
+
+2. **Next Steps Are Too Obvious to Warrant This Approach:**  
+     
+   - **Countermeasure:** Continuously validate the approach through feedback from experts and stakeholders. If the methodology reveals overly obvious solutions, pivot the research focus to explore more complex or under-addressed areas within AI governance.
+
+## Conclusion:
+
+The rapid evolution of artificial intelligence presents humanity with an unprecedented challenge: ensuring that powerful AI systems are aligned with human values and do not lead to catastrophic outcomes. Addressing this challenge requires a comprehensive, data-driven approach that integrates insights from diverse fields, including AI governance, probabilistic modeling, and strategic decision theory. This research proposal outlines the development of a P(Doom) calculator and a scalable AI Grand Strategy framework designed to meet this need.
+
+Building on the foundational work of the MTAIR project, this research advances the state of AI risk analysis by refining and expanding probabilistic models that synthesize expert knowledge, forecast dynamic scenarios, and provide actionable strategic guidance. The proposed methodology combines Bayesian networks, Directed Acyclic Graphs (DAGs), and automated information extraction via large language models (LLMs) to produce a continuously updating framework for AI governance. The integration of live data from prediction markets and expert elicitations ensures that the model remains adaptive and responsive to new developments in the rapidly evolving AI landscape.
+
+The significance of this research lies in its dual contributions: academic and practical. Academically, it introduces novel methodologies for quantifying AI risks and formalizing world models in the AI safety community. Practically, it offers policymakers a robust toolkit for navigating the complexities of AI governance, helping them make informed decisions that could determine the future trajectory of human civilization.
+
+By successfully executing this research, we aim to produce not only a set of cutting-edge tools for risk assessment but also a coherent AI Grand Strategy that can guide global efforts to manage transformative AI technologies. The ultimate vision is to contribute to a safer future where AI enhances human flourishing rather than threatening it. In doing so, this work aspires to advance both the understanding and the practice of AI safety, ensuring that we can anticipate and mitigate the greatest risks of our time.
+
+## 
+
+## 
+
+## Preliminary Bibliography:
+
+Tegan McCaslin, Josh Rosenberg, Ezra Karger, Avital Morris, Molly Hickman, Otto Kuusela, Sam Glover, Zach Jacobs, Phil Tetlock. (2024) [*Conditional Trees: \- A Method for Generating Informative Questions about Complex Topics*](https://static1.squarespace.com/static/635693acf15a3e2a14a56a4a/t/66ba37a144f1d6095de467df/1723479995772/AIConditionalTrees.pdf#page=113)*.* FRI Working Paper \#3
+
+Clarke, S., Cottier, B., Englander, A., Eth, D., Manheim, D., Martin, S.D. and Rice, I., 2022\. *Modeling Transformative AI Risks (MTAIR) Project--Summary Report*. arXiv preprint [https://arxiv.org/pdf/2206.09360](https://arxiv.org/pdf/2206.09360) 
+
+J. Carlsmith, “Is power-seeking AI an existential risk? \[draft\].” Apr. 2021\. \[Online\]. Available:  
+[Is power-seeking AI an existential risk? \[draft\]](https://docs.google.com/document/d/1smaI1lagHHcrhoi6ohdq3TYIZv0eNWWZMPEy8C8byYg/edit)
+
+J. Carlsmith, “Draft report on existential risk from power-seeking AI,” Effective Altruism Forum, (2021) [Draft report on existential risk from power-seeking AI — EA Forum](https://forum.effectivealtruism.org/posts/78NoGoRitPzeT8nga/draft-report-onexistential-risk-from-power-seeking-ai) 
+
+Bostrom, N. (2014). *Superintelligence: Paths, Dangers, Strategies*. Oxford University Press.
+
+Yudkowsky, E. (2008). *Artificial Intelligence as a Positive and Negative Factor in Global Risk*.
+
+Pearl, Judea. *“From Bayesian Networks to Causal Networks.” In Mathematical Models for Handling Partial Knowledge in Artificial Intelligence*, edited by Giulianella Coletti, Didier Dubois, Romano Scozzafava, 157-82. Boston: Springer, 1995\.
+
+Pearl, Judea. *Probabilistic Reasoning in Intelligent Systems: Networks of Plausible Inference*. San Francisco: M. Kaufmann, Cop, 1998\.
+
+### Links:
+
+[A Model-based Approach to AI Existential Risk](https://www.alignmentforum.org/posts/sGkRDrpphsu6Jhega/a-model-based-approach-to-ai-existential-risk) 
+
+[https://acp.analytica.com/view?invite=4560\&code=3000289064591444815](https://acp.analytica.com/view?invite=4560&code=3000289064591444815) 
+
+[Conditional Trees: AI Risk | Metaculus](https://www.metaculus.com/project/3508/) 
+
+**`META:`**   
+`Outline of Grand Strategy Project`
+
+`Valentin's argument for approaching this:` 
+
+* `Comprehensive causal graph`  
+  * `Good outcome path`  
+  * `Extinction outcome path`  
+  * `Then a list of causal factors`   
+    * `Most important world states`  
+* `Broad Parameters`   
+* `Narrativizing the findings`
+
+`For Project:`
+
+* `Kill scenario/terrible world state outcome?`
+
+---
+
+`Connected ideas:` 
+
+* `Conditional Probabilities & modeling`  
+* `Principle Item problem`
+
+
+
+
+---
+
+**`Convo: Grand Strategy for AI Risk & Political Decision Making|`**
+
+* `Empirical uncertainty around parameters and coefficient of how it influences decision-making`  
+* `Political Psychology & Decision Making| Q&A`  
+  * `A`  
+* `Test for if parameters are useful or just complicating:`   
+  * `Start with a bad outcome, then draw causalGlobal stability regarding AI Takeover/misalignment conditional on…`  
+    * `US democratic decision-making`  
+* `Unitary Executive Theory – Is it a risk?`
+
+### Minimum Viable Illustration
+
+1. Graphical Flowchart from relevant parameters to desired outcomes (Causal Model / Chain)  
+2. 1. Backup \- [Canva :-(](https://www.canva.com/design/DAGKYhP6zs0/Dqndn8517Brqym-LGfQimg/edit?utm_content=DAGKYhP6zs0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)   
+3. 
+
+### GOAT Implementation of Grand Strategy
+
+1. Graphical Flowchart from relevant parameters to desired outcomes (Causal Model / Chain)  
+2. 1. Attempt with [Guesstimate](https://www.getguesstimate.com/models)  
+3. 2. \+ more examples / illustrations  
+4. 3. Actual numerical calculations  
+5. Explanation of possible worlds framing  
+6. Explanation for handling conditional probabilities
+
+Version last updated on:	Sep 17, 2024
+
+# AI Risk & Governance Modeling Project Overview
+
+### TlDR: 
+
+We are working on scaling up the research work done by the team of the MTAIR (Modeling Transformative AI Risks) Project.   
+Our goal is to use frontier LLM's to automate the extraction of "world models" from writing in the AI Safety & Governance research community (e.g. papers, articles or other media used to convey more complex arguments).  
+We are using modeling software such as Analytics or Squiggle / Guesstimate to represent world models formally which enables us to automate the required steps with today's frontier LLMs. We are working on the scaffolding and prompting required for the necessary steps, e.g. argument mapping, quantification, formatting, testing etc. but expect diminishing reliance on the scaffolding as more capable models are released.   
+We also intend to connect the model representations directly with the APIs of the buoying prediction platforms in order to benefit from the rapidly increasing quality and quantity of forecasts.
+
+## Background
+
+The rapid advancement of artificial intelligence (AI) technologies presents unprecedented opportunities and existential risks. As AI capabilities accelerate, concerns about extreme outcomes—including human disempowerment or extinction (P(Doom))—are escalating. There is an urgent need for robust tools and strategies to assess and mitigate these risks effectively.  
+Our project aims to develop an AI Grand Strategy by leveraging Large Language Models (LLMs) to scale up the Modeling Transformative AI Risks (MTAIR) project.  
+By automating the extraction of "world models" from AI safety and governance literature, we intend to create tools that enhance individual and collective understanding of AI risks, improve coordination among stakeholders, and inform policy decisions.
+
+---
+
+### Project Objectives
+
+1. **Develop a P(Doom) Calculator**: Create a tool that allows individuals and organizations to explicitly reason about their expected AI risk, providing a standardized framework for assessing and discussing varying P(Doom) estimates.  
+     
+2. **Automate Worldview Extraction**: Utilize custom LLM prompt infrastructure to automatically extract and synthesize worldviews from new publications pertinent to AI safety, enabling systematic identification of key drivers and factors in AI risk pathways.  
+     
+3. **Integrate Live Forecasts**: Combine automated worldview extraction with live forecasts from prediction platforms to produce real-time assessments of AI risk, reflecting the latest developments and expert opinions.  
+     
+4. **Policy Impact Evaluation**: Develop tools to evaluate the expected impact of policy proposals (e.g., the EU AI Act) on reducing P(Doom) over specific time horizons, aiding policymakers in understanding the potential effectiveness of their actions.  
+     
+5. **Enhance Coordination and Collaboration**: Provide platforms that help stakeholders understand the assumptions underlying different AI risk assessments, facilitating better communication, consensus-building, and coordinated action.
+
+---
+
+## Methodology
+
+- **LLM Integration**: Implement advanced LLMs to automate the extraction of causal world models from AI safety literature, reducing reliance on manual analysis and enabling scalability.  
+    
+- **Modeling Framework**: Utilize Bayesian networks and Directed Acyclic Graphs (DAGs) to represent probabilistic dependencies and causal relationships in AI risk scenarios.  
+    
+- **Forecast Integration**: Connect with prediction markets and forecasting platforms to incorporate live data, ensuring that the tools remain up-to-date with the latest insights and trends.  
+    
+- **User Interface Development**: Create intuitive, user-friendly interfaces that allow users to input their assumptions, explore different scenarios, and visualize the impact of various policies and developments on P(Doom).
+
+---
+
+## Expected Impact
+
+- **Improved Risk Assessments**: Empower individuals and organizations to better understand and assess AI risks, leading to more informed decisions and strategies.  
+    
+- **Enhanced Collaboration**: By clarifying the assumptions and disagreements underlying different P(Doom) estimates, the tools will facilitate deeper discussions and collaboration within the AI safety community.  
+    
+- **Policy Guidance**: Provide policymakers with actionable insights into how different policy options may influence AI risks, supporting the development of effective governance frameworks.  
+    
+- **Public Engagement**: Increase awareness and understanding of AI risks among the broader public through accessible tools and visualizations (e.g., an AGI "Doomsday Clock").
+
+---
+
+# Detailed Technical Step-by-Step Plan
+
+---
+
+## **Phase 1: Initiation and Planning (Month 1\)**
+
+| Step | Task | Action | Outcome | Feasibility |
+| :---- | :---- | :---- | :---- | :---- |
+| 1 | **Literature Review and Analysis** | Conduct a comprehensive literature review on AI safety, probabilistic modeling techniques, LLM capabilities, and specifically on **Cupolas** and modeling correlations in **Analytica**. | \- Annotated bibliography of key papers and resources. \- Thematic map of insights related to AI risk modeling, Cupolas, and correlation handling. \- Identification of gaps and opportunities for our project. | Allocate two weeks for in-depth study using academic databases (e.g., IEEE Xplore, arXiv), and consult with experts if needed. |
+| 2 | **Stakeholder Engagement** | Schedule interviews and workshops with AI safety experts, policymakers, researchers, and members of the MTAIR team. | \- Validated use cases and requirements. \- Developed user personas for different target audiences (e.g., policymakers, researchers). \- Refined project objectives based on stakeholder input. | Leverage existing networks, professional contacts, and AI safety forums to arrange meetings. |
+| 3 | **Project Planning** | Develop a detailed project plan, including timelines, milestones, resource allocations, and risk management strategies. Incorporate the extension of MTAIR in Analytica with Cupolas and correlation modeling. | \- Comprehensive project plan document. \- Gantt chart outlining phases and tasks. \- Risk register identifying potential challenges and mitigation strategies. | Use project management tools like Microsoft Project or Asana to organize and visualize the plan. |
+
+---
+
+## **Phase 2: Prototype Development (Months 2–3)**
+
+| Step | Task | Action | Outcome | Feasibility |
+| :---- | :---- | :---- | :---- | :---- |
+| 4 | **P(Doom) Calculator Prototype** | \- **Define the Bayesian Network Structure**: Identify key variables, nodes, and dependencies representing AI risk factors. \- **Implement Cupolas in Analytica**: Use Cupolas to model correlations between different causal/probabilistic paths within the Bayesian network. | \- Functional prototype of the P(Doom) calculator with advanced correlation modeling. \- Documentation of the model structure and assumptions. | \- **Learning Curve**: Allocate time to gain proficiency in Analytica's Cupolas feature. \- **Validation**: Test the model with sample data to ensure accuracy. |
+| 5 | **LLM Integration Setup** | \- Set up APIs with selected LLMs (e.g., OpenAI's GPT-4, Anthropic's Claude). \- Develop initial prompts for extracting worldviews and causal models from AI safety literature. | \- Basic LLM-powered system capable of extracting structured information. \- Initial dataset of extracted world models. | \- Ensure API access and compliance with usage policies. \- Iteratively refine prompts based on output quality. |
+| 6 | **Initial Data Pipeline** | \- Establish connections with forecasting platforms like Metaculus and Good Judgment Open. \- Develop scripts to fetch, preprocess, and integrate live forecasts into the model. | \- Data pipeline that updates model inputs with real-time forecasts. \- Logs and documentation for data handling processes. | \- Address technical challenges in API integration. \- Ensure data privacy and compliance with platform terms. |
+| 7 | **User Interface Design** | \- Create wireframes and prototypes for the P(Doom) calculator interface. \- Incorporate visualization of correlations and dependencies using graphs and charts. | \- User-friendly interface allowing interaction with the model. \- Visual elements that help users understand complex relationships. | \- Use UI/UX design tools like Figma or Sketch. \- Gather feedback on usability from a small user group. |
+
+---
+
+## **Phase 3: Feedback and Iteration (Months 3–4)**
+
+| Step | Task | Action | Outcome | Feasibility |
+| :---- | :---- | :---- | :---- | :---- |
+| 8 | **User Testing and Feedback Collection** | \- Share the prototype with AI safety experts and potential users. \- Conduct usability tests focusing on functionality and comprehension. | \- Collected feedback on model accuracy, interface usability, and overall value. \- Identified areas for improvement. | \- Schedule sessions with participants. \- Use surveys and interviews to gather qualitative and quantitative data. |
+| 9 | **Model Refinement** | \- Incorporate feedback to improve the Bayesian network and correlation modeling. \- Adjust the Cupola configurations in Analytica for better accuracy. | \- Enhanced P(Doom) calculator with improved performance. \- Updated documentation reflecting changes. | \- Allocate time for iterative testing and validation. \- Ensure changes lead to measurable improvements. |
+| 10 | **Validation with Experts** | \- Hold in-depth sessions with domain experts to validate model assumptions and outputs. \- Focus on the interpretation of correlations and their implications. | \- Validation report confirming the model's credibility. \- Recommendations for further enhancements. | \- Coordinate availability with experts. \- Prepare detailed materials for review. |
+
+---
+
+## **Phase 4: Scaling and Automation (Months 4–5)**
+
+| Step | Task | Action | Outcome | Feasibility |
+| :---- | :---- | :---- | :---- | :---- |
+| 11 | **Worldview Extraction Enhancement** | \- Fine-tune LLMs using a curated corpus of AI safety literature. \- Develop advanced prompts to extract nuanced causal relationships, including correlated factors. | \- High-accuracy extraction system providing detailed world models. \- Expanded dataset enriching the Bayesian network. | \- Ensure computational resources are adequate for fine-tuning. \- Implement quality checks to maintain data integrity. |
+| 12 | **Data Pipeline Expansion** | \- Integrate additional forecasting platforms and relevant data sources (e.g., AI progress metrics). \- Enhance data processing scripts to handle larger volumes and more complex data. | \- Robust, scalable data pipeline supporting real-time updates. \- Increased diversity and reliability of model inputs. | \- Address challenges related to data format inconsistencies. \- Ensure system scalability. |
+| 13 | **Automated Updates Implementation** | \- Develop automation for regular model updates, including data fetching, preprocessing, and model recalculations. \- Implement monitoring tools to detect anomalies in data or outputs. | \- Self-updating P(Doom) calculator that remains current without manual intervention. \- Alert systems for significant changes in risk levels. | \- Use scheduling tools (e.g., cron jobs, task schedulers). \- Allocate time for testing and debugging automation scripts. |
+| 14 | **Policy Impact Evaluation Tool** | \- Design and develop a tool that simulates the impact of different policy proposals on AI risk factors. \- Incorporate modeling of correlations to assess indirect effects. | \- Functional policy evaluation tool with scenario analysis capabilities. \- User documentation and guidelines. | \- Utilize simulation frameworks compatible with Analytica. \- Engage with policy experts for validation. |
+
+---
+
+## **Phase 5: Strategy Development and Testing (Months 5–6)**
+
+| Step | Task | Action | Outcome | Feasibility |
+| :---- | :---- | :---- | :---- | :---- |
+| 15 | **AI Grand Strategy Formulation** | \- Use the integrated tools to develop comprehensive AI Grand Strategy recommendations. \- Analyze how correlated risk factors influence strategic decisions. | \- Draft AI Grand Strategy document outlining key policies and actions. \- Visual representations of strategy pathways. | \- Collaborate with strategic thinkers and domain experts. \- Ensure recommendations are actionable and evidence-based. |
+| 16 | **Scenario Testing** | \- Test the AI Grand Strategy against various simulated future scenarios. \- Assess robustness by varying correlated inputs and observing outcomes. | \- Report on strategy performance across scenarios. \- Identification of potential weaknesses and areas for adjustment. | \- Use computational resources for extensive simulations. \- Allocate time for in-depth analysis. |
+| 17 | **Expert Workshops** | \- Organize workshops with AI safety and policy experts to review and refine the strategy. \- Facilitate discussions on the implications of correlations in AI risk. | \- Refined AI Grand Strategy incorporating expert feedback. \- Enhanced understanding among stakeholders. | \- Plan events well in advance. \- Prepare comprehensive materials for effective engagement. |
+
+---
+
+## **Phase 6: Visualization and Public Engagement (Months 6–7)**
+
+| Step | Task | Action | Outcome | Feasibility |
+| :---- | :---- | :---- | :---- | :---- |
+| 18 | **AGI Doomsday Clock Development** | \- Design an intuitive visualization tool that represents AI risk levels, incorporating correlated variables. \- Ensure the clock updates in real-time based on the latest data. | \- Public-facing AGI Doomsday Clock accessible via web interface. \- Explanation of factors influencing the clock's position. | \- Use web development technologies (e.g., JavaScript, D3.js). \- Test for cross-platform compatibility and performance. |
+| 19 | **Public Platform Launch** | \- Develop a website or portal hosting the P(Doom) calculator, policy evaluation tool, and educational resources. \- Include sections explaining the significance of correlations in AI risk. | \- Accessible platform for stakeholders and the public. \- Resources promoting understanding and engagement. | \- Ensure website security and scalability. \- Plan for ongoing content updates. |
+| 20 | **Outreach and Communication** | \- Prepare policy briefs, academic papers, and presentations to share findings. \- Engage with media outlets, conferences, and forums to disseminate information. | \- Increased visibility of the project. \- Stakeholder awareness and potential collaboration opportunities. | \- Leverage existing networks and public relations strategies. \- Tailor messaging for different audiences. |
+
+---
+
+## **Phase 7: Ongoing Development and Maintenance (Months 8+)**
+
+| Step | Task | Action | Outcome | Feasibility |
+| :---- | :---- | :---- | :---- | :---- |
+| 21 | **Continuous Improvement** | \- Monitor tool performance and user feedback. \- Update models and data sources regularly, refining correlation modeling as new information emerges. | \- Sustained relevance and accuracy of the tools. \- Adaptability to changing AI risk landscapes. | \- Establish a maintenance schedule. \- Allocate resources for updates and support. |
+| 22 | **Expansion and Collaboration** | \- Seek partnerships with research institutions, think tanks, and industry players. \- Explore additional features, such as integrating more advanced statistical methods or machine learning techniques. | \- Broadened impact and enhanced capabilities of the project. \- Collaborative projects leading to innovation. | \- Attend networking events and conferences. \- Prepare proposals and collaboration agreements. |
+
+---
+
+## Why This Project is Crucial
+
+- **Timeliness**: With AI capabilities advancing rapidly, developing risk assessment tools and strategies is essential to mitigate existential threats effectively.  
+    
+- **Scalability**: Leveraging LLMs allows for scaling analysis to keep pace with the accelerating volume of AI safety literature and developments.  
+    
+- **Uniqueness**: This project fills a critical gap by providing quantitative, automated tools that integrate diverse worldviews and live forecasts, enhancing collective understanding and coordination.
+
+---
+
+## Our Team
+
+We bring together expertise in AI policy, probabilistic modeling, epistemology, and forecasting theory. Our backgrounds enable us to bridge technical and policy domains, ensuring that the tools we develop are both theoretically sound and practically useful.
+
+---
+
+## Conclusion & Appeal
+
+This project represents a significant step toward enhancing our collective ability to understand and mitigate AI risks. By developing scalable, automated tools that facilitate individual assessments, collaborative understanding, and informed policymaking, we aim to contribute meaningfully to the safe and beneficial development of AI technologies.  
+We are confident that with your support and collaboration, we can make substantial progress in reducing existential risks associated with AI and fostering a safer technological future.  
+Please help us find \<link to collaborators status spreadsheet\> & \<link to funding application spreadsheet\>
+
+# Meeting Notes:
+
+Use ChatGPT for feedback on clarity 
+
+Use American Spelling
+
+Section 3 (Theory & Formal Model) in section 2 (Background)? 
+
+Specific section on extraction
+
+### Advice to get moving: 
+
+Failure can okay \- fail fast, progress / learning will occur
+
+Take notes of choices that have to be made  
+	Pin down thoughts
+
+### 
+
+### Further Steps:
+
+* Setup "Project" AI chats  
+  * GPT's that know the project, thesis etc.  
+    * Good for conversations / has context
+
+* “Implement rough double of MTAIR Analytica model” in Python  
+  * Software choice  
+  * Implement MTAIR Analytica Model Clone in Colab
+
+* Manually extract 2-3 “inside view” world  model causal / probabilistic path to p(doom)
+
+* Extend Python MTAIR implementation with new world model extractions  
+  * Find workaround to account for correlations
+
+* Find policy candidates  
+  * Narrow Path
+
+* Use the model to show how policy candidates may influence p(doom)
+
+* Automate above pipeline with LLM’s
+
+
+
+
+---
+
+## 3rd Supervision Meeting \- [Timo - Valentin: Thesis Supervision Meeting 16:00](https://www.google.com/calendar/event?eid=cnFpczBuNWxqZ2o2ZGFnaGliMm5tbHFtdTBfMjAyNDExMjdUMTUwMDAwWiB2YWxlbnRpbjJtZXllckBt)
+
+### Deliverables for 27th of November:
+
+- [x] ~~Research Question~~   
+- [x] ~~Prepare Presentation~~  
+      - [x] ~~Outline Presentation~~  
+      - [x] ~~Finish Presentation~~
+
+### Presentation Feedback:
+
+Structure for Thesis
+
+### Research Question Discussion:
+
+---
+
+[Timo - Valentin: Thesis Supervision Meeting 16:00](https://www.google.com/calendar/event?eid=cnFpczBuNWxqZ2o2ZGFnaGliMm5tbHFtdTBfMjAyNDExMTNUMTUwMDAwWiB2YWxlbnRpbjJtZXllckBt)
+
+### Update on Deliverables:
+
+* Choice & justification of World- Models  
+  * Favour peer reviewed (⅔ ratio of peer reviewed to “external”)  
+  * Start with [Bucknall](https://dl.acm.org/doi/10.1145/3514094.3534146) & [Growiec](https://journals.vilniustech.lt/index.php/TEDE/article/view/21525) papers
+
+* Ideas / Candidates for policies  
+  * “[A Narrow Path](https://www.narrowpath.co)”   
+  * SB 1047
+
+### Agenda
+
+* World modeling "elements" Modules  
+  * Nodes  
+  * Edges (Matrix: Nodes \* Nodes)
+
+* Decide with Timo, Email Claudia, Sign up for Seminar Presentation  
+    
+    
+    
+    
+* Research question
+
+### 
+
+### Questions:
+
+#### Content level questions:
+
+What is my research question?  
+	How can I formulate my research question?
+
+#### Other Questions:
+
+How will the grading work?
+
+What is required for a top grade?
+
+What use of AI tools is adequate?
+
+Lit review outcome:
+
+* Exclusion / inclusion criteria for AI safety & governance papers / models  
+* List of suggested / common policies
+
+Start with 3-4 world models
+
+Find a few policy papers \- suggestions (\~10-20)
+
+---
+
+Conversation points:
+
+- Scope of literature review  
+  - Content level review: “model extractions, policy proposals”  
+  - Technical / theoretical background: “Bayesian modeling, DAGs, Software implementation, Formalization, correlation accounting”  
+- Mechanics of “world modelling” (MTAIR Analytica implementation)  
+- Software implementation  
+  - Try Python first  
+- Begin consultations with external researchers once a prototype is running  
+- Thesis & Project plan Gantt Chart (update & insert)  
+- Thesis content & timeline  
+  - Contributions to the literature  
+  - Start writing early (½ of time?)
+
+# 0.3 \- Six-Month Plan for MA Thesis: Development of a P(Doom) Calculator and Framework for AI Safety Strategy
+
+## Overview
+
+[This updated plan](https://docs.google.com/document/d/1-Extml99s0MUw8FioSfntGbRIcS1oYAzX0P3KIf_PRQ/edit?tab=t.x6f9d18ksf2i) outlines a detailed schedule for your six-month MA thesis project, focusing on the development of a P(Doom) calculator using Python in Google Colab Notebooks and establishing foundational systems for automating worldview extraction.  
+The plan incorporates informal consultations with researchers and is formatted as a table for clarity.
+
+---
+
+## ~~Phase 1: Planning & Background Research (Month 1\)~~
+
+### ~~Week 1-X: Literature Review and Analysis~~
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| ~~1.1~~ | ~~Conduct Comprehensive Literature Review~~ | ~~\- Identify key sources in AI safety, probabilistic modeling, LLM capabilities, Cupolas, and modeling correlations in Analytica. \- Use academic databases to gather relevant papers.~~ | ~~\- Annotated bibliography summarizing each source. \- Thematic mind map of key concepts.~~ |
+| ~~1.2~~ | ~~Identify Gaps and Opportunities~~ | ~~\- Analyze collected literature to find unexplored areas. \- Focus on how LLMs can enhance or automate aspects of the MTAIR framework.~~ | ~~\- Document outlining identified gaps and how the project will address them.~~ |
+
+### ~~Week 3: Project Planning~~
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| ~~1.5~~ | ~~Develop Detailed Project Plan~~ | ~~\- Outline project phases, tasks, and timelines. \- Define milestones and deliverables for each phase.~~ | ~~\- Comprehensive project plan document.~~ |
+| ~~1.6~~ | ~~Resource Allocation~~ | ~~\- Identify required resources (Python libraries, Google Colab access, APIs). \- Plan for any budget considerations, including potential funding applications.~~ | ~~\- Resource requirements list. \- Preliminary budget plan.~~ |
+| ~~1.7~~ | ~~Risk Management Planning~~ | ~~\- Identify potential risks and challenges. \- Develop mitigation strategies for each identified risk.~~ | ~~\- Risk register with mitigation plans.~~ |
+
+### ~~Week 4: Project Kickoff~~
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| ~~1.8~~ | ~~Finalize Project Plan~~ | ~~\- Review the project plan with your supervisor. \- Incorporate feedback and adjust timelines as necessary.~~ | ~~\- Finalized project plan approved by your supervisor.~~ |
+| ~~1.9~~ | ~~Set Up Development Environment~~ | ~~\- Organize digital folders and documentation templates. \- Set up Google Colab Notebooks for development. \- Install necessary Python libraries (e.g., pandas, numpy, networkx).~~ | ~~\- Ready-to-use Google Colab environment with necessary libraries installed.~~ |
+
+---
+
+## Phase 2: Prototype Development (Months 2–3)
+
+### Month 2, Weeks 5-6: P(Doom) Calculator Prototype
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 2.1 | Define Bayesian Network Structure | \- Identify key variables and dependencies representing AI risk factors. \- Map out relationships using influence diagrams. | \- Draft of Bayesian network structure. |
+| 2.2 | Implement Prototype in Python using Google Colab | \- Translate the Bayesian network into Python code. \- Use libraries like PyMC3 or \`pgmpy\` for probabilistic modeling. \- Input initial probability estimates based on literature. | \- Functional prototype of the P(Doom) calculator in a Google Colab Notebook. |
+
+### Week X: Informal Consultation with Researchers
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 1.3 | Prepare Engagement Materials | \- Prepare a brief project summary. \- Draft messages to reach out for informal discussions. | \- Project summary document. \- Email templates for outreach. |
+| 1.4 | Conduct Informal Discussions | \- Reach out to researchers for informal feedback. \- Share ideas and gather insights on the prototype concept. | \- Notes from discussions highlighting key insights. |
+
+### 
+
+### Month 2, Weeks 7-8: LLM Integration Setup
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 2.3 | Set Up API Access to LLMs | \- Obtain API keys for GPT-4 and Claude. \- Review API documentation and usage policies. | \- Verified API access and initial test calls. |
+| 2.4 | Develop Initial Prompts for Worldview Extraction | \- Create prompts to guide LLMs in extracting causal models from text. \- Test prompts using sample texts from AI safety literature. | \- Set of effective initial prompts. |
+| 2.5 | Implement Basic LLM-Powered Extraction in Python | \- Write Python code to interact with LLM APIs within Google Colab. \- Automate prompt submission and response handling. \- Store extracted information in a structured format. | \- Basic LLM extraction system in a Colab Notebook. |
+
+### Month 3, Weeks 9-10: Initial Data Pipeline
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 2.6 | Connect with Forecasting Platforms | \- Identify relevant platforms (e.g., Metaculus, Good Judgment Open). \- Obtain API access and understand data formats. | \- Established connections with forecasting platforms. |
+| 2.7 | Develop Data Fetching Scripts in Python | \- Write Python scripts to fetch forecast data. \- Normalize and preprocess data for integration into the model. | \- Functional data fetching scripts in Colab. |
+| 2.8 | Integrate Live Forecasts into P(Doom) Calculator | \- Link the forecast data to relevant variables in the Bayesian network. \- Update the calculator to use live data inputs. | \- Updated P(Doom) calculator with real-time data integration. |
+
+### Month 3, Weeks 11-12: User Interface Design
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 2.9 | Create Wireframes for User Interface | \- Design UI elements using Python libraries like `ipywidgets` or `Streamlit`. \- Focus on usability and clarity in presenting complex information. | \- UI wireframes or prototypes in Colab or Streamlit. |
+| 2.10 | Develop Interactive Prototype | \- Implement the UI in Google Colab or using a web app framework like `Streamlit`. \- Ensure functionality integrates with backend code. | \- Interactive prototype of the user interface. |
+| 2.11 | Conduct Usability Testing | \- Have a small group test the interface. \- Collect informal feedback on usability and user experience. | \- Usability feedback notes. |
+
+---
+
+## Phase 5: Preparation & Thesis Writing (Month 6\)
+
+### Weeks 27-28: Documentation and Thesis Drafting
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 5.1 | Outline Thesis Structure | \- Create a detailed outline of the thesis, aligning with academic guidelines. \- Organize chapters and sections logically. | \- Thesis outline with chapter headings and subheadings. |
+| 5.2 | Write Literature Review Chapter | \- Expand on the literature review conducted in Phase 1\. \- Synthesize findings to set the context for your research. | \- Draft of the literature review chapter. |
+| 5.3 | Document Methodology | \- Write detailed descriptions of the methods used, focusing on Python implementation and use of Google Colab. \- Include code snippets where appropriate. | \- Draft of the methodology chapter. |
+
+### Weeks 29-30: Results, Discussion, and Conclusion
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 5.4 | Present Results | \- Compile results from prototype development, feedback analysis, and model refinements. \- Use figures and tables to illustrate key findings. | \- Draft of the results chapter with visual aids. |
+| 5.5 | Write Discussion and Analysis | \- Interpret the results and discuss their implications. \- Relate findings back to the research objectives and existing literature. | \- Draft of the discussion chapter. |
+| 5.6 | Conclude and Suggest Future Work | \- Summarize key findings and contributions. \- Propose areas for future research and potential enhancements. | \- Draft of the conclusion chapter. |
+
+### Week 31: Revision and Finalization
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 5.7 | Thesis Review and Editing | \- Review the entire thesis for coherence, clarity, and compliance with formatting guidelines. \- Proofread for grammatical and typographical errors. | \- Revised thesis ready for submission. |
+| 5.8 | Prepare for Defense (if required) | \- Create a presentation summarizing your research. \- Practice defending your thesis with mock sessions. | \- Presentation slides and defense notes. |
+
+---
+
+## Phase 3: Feedback and Iteration (Month 4\)
+
+### Weeks 13-14: Informal Feedback Collection
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 3.1 | Prepare for Sharing Prototype | \- Ensure the prototype is stable and user-friendly. \- Prepare brief instructions for users. | \- Prototype ready for sharing with instructions. |
+| 3.2 | Share Prototype for Informal Feedback | \- Share the prototype with researchers and peers. \- Encourage informal discussions and gather feedback on functionality and usability. | \- Collected feedback from users. |
+
+### Weeks 15-16: Analyzing Feedback
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 3.3 | Analyze Feedback | \- Review feedback to identify common issues and suggestions. \- Prioritize changes based on impact and feasibility of addressing them. | \- List of improvements and action plan for implementation. |
+
+### Weeks 17-18: Model Refinement
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 3.4 | Refine Bayesian Network and Python Code | \- Adjust model assumptions and probability estimates based on feedback. \- Update Python code in Colab accordingly. | \- Refined P(Doom) calculator with documented changes. |
+| 3.5 | Improve LLM Prompts and Extraction Code | \- Refine prompts for better extraction quality. \- Update code to improve automation and data handling. | \- Improved LLM extraction system. |
+
+### Weeks 19-20: Final Adjustments
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 3.6 | Finalize Prototype | \- Make final adjustments to the prototype based on all feedback. \- Ensure code is well-documented and ready for inclusion in the thesis. | \- Finalized prototype of the P(Doom) calculator. |
+
+---
+
+## Phase 4: Scaling and Automation (Month 5\)
+
+### Weeks 21-22: Worldview Extraction Enhancement
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 4.1 | Expand Corpus for LLM Fine-Tuning | \- Collect additional AI safety literature and relevant publications. \- Organize the corpus for efficient access and use in prompts. | \- Expanded and organized corpus. |
+| 4.2 | Explore LLM Fine-Tuning Options | \- Investigate possibilities for fine-tuning LLMs or using open-source models. \- Assess feasibility within time and resource constraints. | \- Decision on LLM fine-tuning approach and plan. |
+
+### Weeks 23-24: Data Pipeline Expansion
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 4.3 | Integrate Additional Data Sources | \- Connect to more forecasting platforms and relevant data sources (e.g., AI progress metrics). \- Update data fetching scripts to handle new data formats. | \- Expanded data pipeline with multiple data sources. |
+| 4.4 | Enhance Data Processing Scripts | \- Optimize scripts for handling larger volumes and more complex data. \- Implement error handling and data validation mechanisms. | \- Robust data processing system with enhanced capabilities. |
+
+### Week 25: Iteration & Automate Updates
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 4.5 | Develop Automation Scripts in Python | \- Write scripts to automate data fetching, preprocessing, and model recalculations. \- Schedule regular updates using task schedulers or Colab features. | \- Automation scripts for regular model updates. |
+| 4.6 | Implement Monitoring and Alerts | \- Set up logging and monitoring tools to detect anomalies in data or outputs. \- Configure alerts for significant changes in risk levels. | \- Operational monitoring and alerting system. |
+
+### Week 26: Initial Policy Impact Evaluation Tool
+
+| Task No. | Task Description | Action Steps | Deliverables |
+| :---- | :---- | :---- | :---- |
+| 4.7 | Design Policy Evaluation Framework in Python | \- Outline how policies will be modeled within the Bayesian network. \- Identify key policy variables and their potential impacts. \- Implement initial code to simulate policy effects. | \- Basic policy evaluation tool in Python within Colab Notebook. |
+
+---
+
+## Additional Considerations
+
+- **Time Management**: Aim for approximately 25 hours per week dedicated to the thesis.  
+- **Regular Meetings**: Scheduled bi-weekly meetings with Timo to discuss progress and challenges.  
+- **Risk Mitigation**: Allow buffer time for unforeseen technical issues and stay focused on the defined scope.  
+- **Feasibility**: Ensure all tasks are achievable within the time frame and adjust as necessary based on progress.
+
+---
+
+## Summary of Deliverables by Month
+
+- **Month 1**:  
+    
+  - Annotated bibliography and literature review documents.  
+  - Informal consultation notes.  
+  - Finalized project plan and development environment set up.
+
+
+- **Month 2**:  
+    
+  - Draft Bayesian network structure.  
+  - Functional P(Doom) calculator prototype in Python.  
+  - Initial LLM prompts and basic extraction system.
+
+
+- **Month 3**:  
+    
+  - Integrated live forecasts into the calculator.  
+  - Interactive user interface prototype.  
+  - Usability feedback notes.
+
+
+- **Month 4**:  
+    
+  - Collected informal feedback and analysis.  
+  - Refined P(Doom) calculator and LLM extraction system.  
+  - Finalized prototype ready for thesis inclusion.
+
+
+- **Month 5**:  
+    
+  - Enhanced worldview extraction system.  
+  - Expanded data pipeline and automated updates.  
+  - Initial policy impact evaluation tool.
+
+
+- **Month 6**:  
+    
+  - Complete thesis document, including all chapters.  
+  - Presentation materials for thesis defense (if required).  
+  - Finalized tools and code documented for submission.
+
+# Research Question
+
+## How can frontier AI technologies be utilized to scale up Modeling Transformative AI Risks from **AI safety & governance literature**, And does this automated estimation of probability distributions over conditional trees of possible worlds enhance the forecasting of policy impacts?
+
+process automation enable/**enhance probabilistic policy assessments via conditional forecasting**  
+**for policy impact evaluation**?  
+*of existential risks from AI*
+
+How can frontier AI technologies be utilized to scale up Modeling Transformative AI Risks (from **AI safety & governance literature)**,
+
+And how can this process **enhance conditional forecasting for policy impact evaluation**?  
+*probabilistic estimation of existential risks from AI*
+
+and what are the implications of this automation  
+for enhancing probabilistic assessments of existential AI risks?  
+~~facilitate/contribute to navigating the ‘Narrow Path’ to avoid existential risks from AI?”~~  
+And how can this process **enhance conditional forecasting for policy impact evaluation**?  
+*probabilistic estimation of existential risks from AI*?
+
+“How can frontier AI technologies be utilized to automate the ~~extraction of causal models~~ from **AI safety literature**, and what are the implications of this automation for enhancing probabilistic assessments of existential AI risks?”
+
+“How can the **MTAIR** (Modeling Transformative AI Risks) **methodology be scaled and automated using frontier AI systems** to model transformative AI risks, and how does this facilitate/contribute to navigating the ‘Narrow Path’ to avoid existential risks from AI?”
+
+What are the requirements and bottlenecks in automating the MTAIR framework with frontier AI systems, and how can this process **enhance conditional forecasting for policy impact evaluation**?
+
+Can integrating live data from prediction markets into automated transformative AI risk models provide clearer predictions and robust policy proposals to reduce existential risks?
+
+How can modeling correlations between causal/probabilistic paths within the MTAIR framework using frontier AI systems improve our ability to identify and stay on the “Narrow Path”?
+
+How can Large Language Models be utilized to automate the extraction of causal world models from AI safety literature, and how does this integration enhance the *probabilistic estimation of existential risks from AI*?
+
+How can Large Language Models be utilized to automate the extraction of causal world models from AI safety literature, and how does this integration enhance the probabilistic estimation of existential risks from AI (P(Doom))?
+
+What are the methodological and epistemological challenges in developing a P(Doom) calculator using Bayesian networks and LLM-driven worldview extraction?
+
+In what ways can the integration of LLMs and **probabilistic modeling** contribute to the formulation of a comprehensive ~~AI Grand Strategy~~?
+
+How can automated worldview extraction reconcile differing perspectives in AI safety to create a unified framework for existential risk assessment?
+
+#### Individual Questions:
+
+Can the MTAIR Methodology (insert / explain) be automated with (today’s) LLMs ?  
+		MTAIR Methodology:  
+quantifying uncertainty explicitly using probability distributions  
+Hierarchical  
+Outside View, Inside View, Assimilation Logic  
+“meta-uncertainty”, by changing each point estimate into a distribution with a variance dependent on how confident we are in each probability estimate  
+	  
+	Are the analytical capabilities of today’s LLMs sufficient to scale MTAIR ?  
+	What are the (bottlenecks /) requirements to scaling (automating) the modeling of transformative AI risks ?
+
+Can live data from prediction markets be integrated into …
+
+Can correlations between causal/probabilistic paths be modelled in the MTAIR framework/methodology ?
+
+Does the automation & scaling of MTAIR lead to a functional policy impact assessment/prediction tool ?  
+/ allow automation of   
+Does LLM based scaling of MTAIR allow automated policy impact assessments () ?  
+	Conditional forecasting
+
+Does the automation & scaling of MTAIR lead to clear predictions / robust policy proposals for reducing (existential) risk(s) from AI ?
+
+How …
+
+Is the collection of policy proposals (Strategy) in “A Narrow Path” the natural outcome of … “scaling MTAIR” ? 
+
+#### General / Unifying Question:
+
+How 
+
+### Relevant Aspects / Criteria:
+
+“The most successful research topics are narrowly focused and carefully defined but are important parts of a broad-ranging, complex problem.”
+
+A good RQ is an asset as it:
+
+* Details the problem statement  
+* Further describes and refines the issue under study  
+* Adds focus to the problem statement  
+* Guides data collection and analysis  
+* Sets context of research.
+
+#### Feasible
+
+#### Interesting
+
+#### Novel
+
+#### Ethical
+
+#### Relevant
+
+#### Manageable
+
+#### Appropriate
+
+#### Potential value and publishability
+
+#### Systematic
+
+## Ideas for Research Questions:
+
+#### How strong are the correlations between parameters / conditional forecasts / clusters?
+
+	\~ explain the framework
+
+### What is the epistemically optimal parameter search algorithm?
+
+\~ pure theory
+
+### What is the Minimal viable product \- (minimum) example of a practical implementation?
+
+	\~ Running web application  
+	  
+	
+
+### What is an example for a “cluster”?
+
+How do “clusters” change given changes of conditional forecasts?
+
+## Possible Problems:
+
+* Finding no clusters  
+* Computational intractability  
+* Duplication of previous work  
+* No data (conditional forecasts, extractions …)  
+* Political analysis / impact forecasting is practically infeasible for some reason  
+* The framework / theoretic underpinnings are incoherent / wrong
+
+## Related Research Questions / Spin-offs
+
+\* cold also work as “forum posts or essays”
+
+### Idea: 
+
+Keep MAThesis as lean / to the point / on topic as possible \~ very clear line of thought / argumentation / “red-thread”  
+Outsource important/ related/ relevant “rabbit holes”/explorations to other papers/essays
+
+### Adjacent Write Up Opportunities:
+
+* #### “Rationality & Evolution” \- Patricia Rich
+
+* #### “Epistemic Organizations” \- Carsten Jung & Marco Meyer
+
+* #### “Advanced Philosophy of Economics” \- Walter Veit
+
+### Key Ideas & Candidates
+
+* Integrating live Prediction Markets  
+* …  
+* Automating & Scaling (Frameworks) with AI (Pipeline)  
+* Causal DAGs vs. Probabilistic DAGs vs. Argument Mapping vs. Bayesian Networks  
+  * E.g.:	Explain Differences / similarities, advantages / disadvantages …  
+* Conditional Forecasts / Policy proposal evaluation  
+* P(Doom) Calculator  
+* Content level extractions / world model formalization  
+* AI Grand Strategy “Summary” (detailing Narrow Path)  
+* Validation Techniques for Automation  
+  * E.g.:	How to systematically collect evidence on how robust your automation pipeline is  
+* Practical Utility of AMTAIR  
+  * E.g.:	How to get real world impact out of something like our AMTAIR project
