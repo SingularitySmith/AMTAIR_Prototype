@@ -1,4 +1,4 @@
-name: Auto-generate index.md for /docs
+name: Generate flat index.md from /docs
 
 on:
   push:
@@ -7,22 +7,29 @@ on:
 jobs:
   generate-index:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Generate index.md
         run: |
-          echo "# Directory Listing" > docs/index.md
-          echo "" >> docs/index.md
-          for file in docs/*; do
-            filename=$(basename "$file")
-            echo "- [$filename]($filename)" >> docs/index.md
+          SITE_URL="https://singularitysmith.github.io/AMTAIR_Prototype"
+          INDEX_FILE="docs/index.md"
+
+          echo "# 📂 Site Directory" > $INDEX_FILE
+          echo "" >> $INDEX_FILE
+
+          # Recursively find all files in /docs (excluding index.md itself)
+          find docs -type f ! -name 'index.md' | while read filepath; do
+            filename=$(basename "$filepath")
+            echo "- [$filename]($SITE_URL/$filename)" >> $INDEX_FILE
           done
 
-      - name: Commit and push index
+      - name: Commit and push if index.md changed
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add docs/index.md
-          git commit -m "Auto-generate docs/index.md" || echo "No changes to commit"
+          git diff --cached --quiet || git commit -m "Update docs/index.md with directory listing"
           git push
