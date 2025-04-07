@@ -1,0 +1,46 @@
+"Node
+= Variable
+= Title",Full BayesDown Statement,Description,"Meta Data
+(after [Statment] / <Argument>)",PA(Node),"Possible Instantiations (Variable=Node)
+Variable=TRUE: ""variable""
+Variable=FALSE: ""no_variable""",Possible Instantiations of each Parent Variable,"Line
+Number
+=",Indentation_Level,CH(Node),No Parents ,Has Parents,No Children,Has Children
+Grass_Wet,"[Grass_Wet]: Concentrated moisture on, between and around the blades of grass.
+{
+""instantiations"": [""grass_wet_TRUE"", ""grass_wet_FALSE""]
+}","Concentrated moisture on, between and around the blades of grass.","{
+""instantiations"": [""grass_wet_TRUE"", ""grass_wet_FALSE""]
+}","['rain', 'sprinkler']","
+[
+""grass_wet_TRUE"", 
+""grass_wet_FALSE""
+]","[
+[""sprinkler_TRUE"", ""sprinkler_TRUE""],
+[""rain_TRUE"", ""rain_FALSE""]
+]",1,0,"[
+]",FALSE,TRUE,TRUE,FALSE
+Rain,"<Rain>: Tears of angles crying high up in the skies hitting the ground.
+{
+""instantiations"": [""TRUE"", ""FALSE""]
+}",Tears of angles crying high up in the skies hitting the ground.,"{
+""instantiations"": [""TRUE"", ""FALSE""]
+}","[
+]","[
+""rain_TRUE"", 
+""rain_FALSE""
+]","[
+]","[
+2, 4
+]","[
+1, 2
+]","['Sprinkler, 'Grass_wet']",TRUE,FALSE,FALSE,TRUE
+Sprinkler,"[Sprinkler]: Activation of a centrifugal force based CO2 droplet distribution system.
+{
+""instantiations"": [""TRUE"", ""FALSE""]
+}",Acivation of a centrifugal force based CO2 droplet distribution system.,"{
+""instantiations"": [""TRUE"", ""FALSE""]
+}",['rain'],"[
+""sprinkler_TRUE"", 
+""sprinkler_FALSE""
+]","[""rain_TRUE"", ""rain_FALSE""]",3,1,['Grass_wet'],FALSE,TRUE,FALSE,TRUE
