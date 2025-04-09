@@ -2,16 +2,6 @@
 
 ## Instructions --- How to use this notebook:
 
-1.   Import Libraries & Install Packages: [Run Section 0.1](https://colab.research.google.com/github/SingularitySmith/AMTAIR_Prototype/blob/main/Public_AMTAIR_Prototype.ipynb#scrollTo=0_1_Import_Libraries_Packages)
-2.   Connect to GitHub Repository & Load Data files: Run Section 0.2
-3.   ...
-4. [Link Text](#cell-id)
-      Requires:
-<a name="cell-id"></a>
-# Heading
-This is the cell I'm linking to
-
-
 
 1. **Import Libraries & Install Packages**: Run Section 0.1 to set up the necessary dependencies for data processing and visualization.
 
@@ -27,14 +17,105 @@ This is the cell I'm linking to
 
 7. **Save and Export Results**: Sections 5.0-6.0 provide methods for archiving results and exporting visualizations.
 
-### Key Concepts:
+
+
+>[AMTAIR Prototype Demonstration (Public Colab Notebook)](#scrollTo=lt8-AnebGUXr)
+
+>>[Instructions --- How to use this notebook:](#scrollTo=22NBzTxxsnfQ)
+
+>[Heading](#scrollTo=22NBzTxxsnfQ)
+
+>>[Key Concepts:](#scrollTo=NovjnOw6bzLi)
+
+>>[Example Workflow:](#scrollTo=NovjnOw6bzLi)
+
+>>[Troubleshooting:](#scrollTo=NovjnOw6bzLi)
+
+>[0.1 Import Libraries & Packages](#scrollTo=GtVFO-s74vI_)
+
+>>[0.2 Connect to GitHub Repository](#scrollTo=2a3VR0fLhJow)
+
+>>[0.3 File Import](#scrollTo=y-ix4Rp5fE9m)
+
+>[1.0 Sources (PDF's of Papers) to ArgDown (.md file)](#scrollTo=52XyPlte5HrU)
+
+>>[1.1 Specify Source Document (e.g. PDF)](#scrollTo=ESKnZ_4f_a6y)
+
+>>[1.2 Generate ArgDown Extraction Prompt](#scrollTo=6ToQFra3_nl9)
+
+>>[1.3 Prepare LLM API Call](#scrollTo=pGv2KcZU_9Bn)
+
+>>[1.4 Make ArgDown Extraction LLM API Call](#scrollTo=i5xsDYnsAWC4)
+
+>>[1.5 Save ArgDown Extraction Response](#scrollTo=Lc2nMp8nAfeU)
+
+>>[1.6 Review and Check ArgDown.md File](#scrollTo=5HcCfqE4A0ht)
+
+>>[1.6.2 Check the Graph Structure with the ArgDown Sandbox Online](#scrollTo=gSpkvLbCC_PI)
+
+>>[1.7 Extract ArgDown Graph Information as DataFrame](#scrollTo=MAm0UKpeBvyr)
+
+>>[1.8 Store ArgDown Information as 'ArgDown.csv' file](#scrollTo=iFC6oiyICREn)
+
+>[2.0 Probability Extractions: ArgDown (.csv) to BayesDown (.md + plugin JSON syntax)](#scrollTo=7SGB0XMp5VFq)
+
+>>[2.1 Gernerate and Extract "Prior-, Conditional- and Posterior Probability Questions" from ArgDown.csv](#scrollTo=V66ZHih3BTC0)
+
+>>[2.2 Generate BayesDown Extraction Prompt](#scrollTo=5649brU2BTMh)
+
+>>[2.3 Repeat Steps from 1.3 to 1.8 but for BayesDown / Probability Extraction](#scrollTo=uBCTJNNeDwuT)
+
+>>[2.3 Converting ArgDown to BayesDown with Probability Extraction](#scrollTo=wF4W8y_C4ytX)
+
+>>>[2.3.1 BayesDown Format Specification](#scrollTo=ivcnd2ml41Nv)
+
+>[3.0 Data Extraction: BayesDown (.md) to Database (.csv)](#scrollTo=SJ9OIyEv5qqb)
+
+>>>[3.1 ExtractBayesDown-Data_v1](#scrollTo=AFnu_1Ludahi)
+
+>>[3.1.2 Test BayesDown Extraction](#scrollTo=eUBJh8Qp4yd4)
+
+>>[3.1.2.2 Check the Graph Structure with the ArgDown Sandbox Online](#scrollTo=z4Hgs0ICDQyW)
+
+>>>[3.1.2.B Test with 'Example_file_combined_withBayesDown_Crossgenerational.md'](#scrollTo=oSDF6M_h3h6O)
+
+>>[3.3 Extraction Algorithm and Code](#scrollTo=mv8f4c4D3yJj)
+
+>>>[3.3 Data-Post-Processing](#scrollTo=UcXf3fZ8dahj)
+
+>>>[3.4 Download and save finished data frame as .csv file](#scrollTo=xTwPO_J-dahj)
+
+>[4.0 Analysis & Inference: Practical Software Tools ()](#scrollTo=LHQm7ydMmPhN)
+
+>>[Phase 1: Dependencies/Functions](#scrollTo=LSeSAPvtgIgU)
+
+>>[Phase 2: Node Classification and Styling Module](#scrollTo=byAExfek5yFU)
+
+>>[Phase 3: HTML Content Generation Module](#scrollTo=gnS3jFGU52OZ)
+
+>>[Phase 4: Main Visualization Function](#scrollTo=d2uyG0Pi571f)
+
+>[Quickly check HTML Outputs](#scrollTo=bFtxTKmLElSF)
+
+>[5.0 Archive_version_histories](#scrollTo=0M9gFpK6ioHk)
+
+>[6.0 Save Outputs](#scrollTo=kjbIj19epbrF)
+
+>>[Convert ipynb to HTML in Colab](#scrollTo=0QqlN6dYpm4s)
+
+>>[Convert .ipynb Notebook to MarkDown](#scrollTo=pS6AhdiSCLw4)
+
+
+
+
+## Key Concepts:
 
 - **ArgDown**: A structured format for representing arguments, with hierarchical relationships between statements.
 - **BayesDown**: An extension of ArgDown that incorporates probabilistic information, allowing for Bayesian network construction.
 - **Extraction Pipeline**: The process of converting unstructured text to structured argument representations.
 - **Bayesian Networks**: Probabilistic graphical models that represent variables and their conditional dependencies.
 
-### Example Workflow:
+## Example Workflow:
 
 1. Load a sample ArgDown file from the repository
 2. Extract the hierarchical structure and relationships
@@ -42,12 +123,11 @@ This is the cell I'm linking to
 4. Generate a Bayesian network visualization
 5. Analyze conditional probabilities and risk pathways
 
-### Troubleshooting:
+## Troubleshooting:
 
 - If connectivity issues occur, ensure you have access to the GitHub repository
 - For visualization errors, check that all required libraries are properly installed
 - When processing custom files, ensure they follow the expected format conventions
-
 
 # 0.1 Import Libraries & Packages
 
@@ -138,7 +218,7 @@ print(md_content) # To see the output, run the code.
 print(df.head()) # To see the output, run the code.
 ```
 
-# 0.3 File Import
+## 0.3 File Import
 
 
 ```python
@@ -183,7 +263,7 @@ Combine Systemprompt + API Specifications + ArgDown Instructions + Prompt + Sour
 ```python
 display(Markdown(md_content))
 
-md_content_ex_rain
+
 ```
 
 ## 1.6.2 Check the Graph Structure with the ArgDown Sandbox Online
@@ -206,157 +286,16 @@ Extract:
 *   Instantiations
 *   Description
 
-
-
-
-```python
-
-```
-
-## 1.8 Store ArgDown Information as 'ArgDown.csv' file
-
-
-```python
-
-```
-
-# 2.0 Probability Extractions: ArgDown (.csv) to BayesDown (.md + plugin JSON syntax)
-
-
-```python
-
-```
-
-## 2.1 Gernerate and Extract "Prior-, Conditional- and Posterior Probability Questions" from ArgDown.csv
-
-
-```python
-
-```
-
-## 2.2 Generate BayesDown Extraction Prompt
-
-Generate 2nd Extraction Prompt for Probabilities based on the questions generated from the 'ArgDown.csv' extraction
-
-
-```python
-
-```
-
-## 2.3 Repeat Steps from 1.3 to 1.8 but for BayesDown / Probability Extraction
-
-## 2.3 Converting ArgDown to BayesDown with Probability Extraction
-
-BayesDown extends the ArgDown format by incorporating probabilistic information about arguments and their relationships. This section demonstrates how to transform an ArgDown representation into BayesDown by:
-
-1. **Extracting probability statements** from the text
-2. **Formalizing conditional relationships** between variables
-3. **Quantifying uncertainty** in argument strength and variable states
-
-
-
-### 2.3.1 BayesDown Format Specification
-
-BayesDown augments ArgDown with probability data in a structured JSON format:
-
-```json
-{
-  "instantiations": ["state_TRUE", "state_FALSE"],
-  "priors": {
-    "p(state_TRUE)": "0.7",
-    "p(state_FALSE)": "0.3"
-  },
-  "posteriors": {
-    "p(state_TRUE|condition1_TRUE,condition2_FALSE)": "0.9",
-    "p(state_TRUE|condition1_FALSE,condition2_TRUE)": "0.4"
-  }
-}
-
-2.3.2 Probability Extraction Process
-The probability extraction pipeline follows these steps:
-
-
-Identify variables and their possible states
-Extract prior probability statements
-Identify conditional relationships
-Extract conditional probability statements
-Format the data in BayesDown syntax
-
-2.3.3 Implementation Steps
-To extract probabilities and create BayesDown format:
-
-Run the extract_probabilities function on ArgDown text
-Process the results into a structured format
-Validate the probability distributions (ensure they sum to 1)
-Generate the enhanced BayesDown representation
-
-2.3.4 Validation and Quality Control
-The probability extraction process includes validation steps:
-
-Ensuring coherent probability distributions
-Checking for logical consistency in conditional relationships
-Verifying that all required probability statements are present
-Handling missing data with appropriate default values
-
-# 3.0 Data Extraction: BayesDown (.md) to Database (.csv)
-
-
-### 3.1 ExtractBayesDown-Data_v1
-Build data frame with extractable information from BayesDown
-
-
-```python
-# read sprinkler example -- Occam Colab Online
-file_path_ex_rain = "https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/BayesDown_Example.md"
-
-# Use requests.get to fetch content from URL
-response = requests.get(file_path_ex_rain)
-response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
-
-# Read content from the response
-md_content_ex_rain = response.text
-
-md_content_ex_rain
-```
-
-## 3.1.2 Test BayesDown Extraction
-
+Implementation nodes:
+- One function for ArgDown and BayesDown extraction, but:
+- IF YOU ONLY WANT ARGDOWN EXTRACTION: USE ARGUMENT IN FUNCTION CALL "parse_markdown_hierarchy(markdown_text, ArgDown = True)"
+- so if you set ArgDown = True, it guves you only instantiations, no probabilities.
 
 
 
 
 ```python
-display(Markdown(md_content_ex_rain)) # view BayesDown file formatted as MarkDown
-```
-
-## 3.1.2.2 Check the Graph Structure with the ArgDown Sandbox Online
-Copy and paste the BayesDown formatted ... in the ArgDown Sandbox below to quickly verify that the network renders correctly.
-
-### 3.1.2.B Test with 'Example_file_combined_withBayesDown_Crossgenerational.md'
-
-
-```python
-# read basic ArgDown example With BayesDown syntax added and corss generational added -- Ella
-import requests  # Import the requests library
-
-# **Corrected URL with /main/**
-file_path_easy_ex_B_CG = "https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/Example_file_combined_withBayesDown_Crossgenerational.md"
-
-# Use requests.get to fetch content from URL
-response = requests.get(file_path_easy_ex_B_CG)
-response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
-
-# Read content from the response
-md_content_easy_ex_B_CG = response.text
-
-md_content_easy_ex_B_CG
-```
-
-## 3.3 Extraction Algorithm and Code
-
-
-```python
-def parse_markdown_hierarchy(markdown_text):
+def parse_markdown_hierarchy(markdown_text, ArgDown = False):
     """Main function to parse markdown hierarchy into a DataFrame"""
 
     # Remove comments
@@ -369,10 +308,13 @@ def parse_markdown_hierarchy(markdown_text):
     titles_with_relations = establish_relationships(titles_info, clean_text)
 
     # Convert to DataFrame
-    df = convert_to_dataframe(titles_with_relations)
+    df = convert_to_dataframe(titles_with_relations, ArgDown)
 
     # Add No_Parent and No_Children columns
     df = add_no_parent_no_child_columns_to_df(df)
+
+    # Add Parents instantiation columns
+    df = add_parents_instantiation_columns_to_df(df)
 
     return df
 
@@ -586,11 +528,13 @@ def establish_relationships(titles_info, text):
 
     return titles_info
 
-    return titles_info
-
-def convert_to_dataframe(titles_info):
+def convert_to_dataframe(titles_info, ArgDown):
     """Convert the titles information dictionary to a pandas DataFrame"""
-    df = pd.DataFrame(columns=['Title', 'Description', 'line', 'line_numbers', 'indentation',
+    if ArgDown == True:
+        df = pd.DataFrame(columns=['Title', 'Description', 'line', 'line_numbers', 'indentation',
+                               'indentation_levels', 'Parents', 'Children', 'instantiations'])
+    else:
+        df = pd.DataFrame(columns=['Title', 'Description', 'line', 'line_numbers', 'indentation',
                                'indentation_levels', 'Parents', 'Children', 'instantiations',
                                'priors', 'posteriors'])
 
@@ -601,22 +545,38 @@ def convert_to_dataframe(titles_info):
                 # Only try to parse if metadata is not empty
                 if info['metadata'].strip():
                     jsonMetadata = json.loads(info['metadata'])
+                    if ArgDown == True:
+                        # Create the row dictionary with instantitions as metadata only, no probabilites yet
+                        row = {
+                            'Title': title,
+                            'Description': info.get('description', ''),
+                            'line': info.get('line',''),
+                            'line_numbers': info.get('line_numbers', []),
+                            'indentation': info.get('indentation',''),
+                            'indentation_levels': info.get('indentation_levels', []),
+                            'Parents': info.get('parents', []),
+                            'Children': info.get('children', []),
+                            # Extract specific metadata fields, defaulting to empty if not present
+                            'instantiations': jsonMetadata.get('instantiations', []),
+                        }
 
-                    # Create the row dictionary with basic fields
-                    row = {
-                        'Title': title,
-                        'Description': info.get('description', ''),
-                        'line': info.get('line',''),
-                        'line_numbers': info.get('line_numbers', []),
-                        'indentation': info.get('indentation',''),
-                        'indentation_levels': info.get('indentation_levels', []),
-                        'Parents': info.get('parents', []),
-                        'Children': info.get('children', []),
-                        # Extract specific metadata fields, defaulting to empty if not present
-                        'instantiations': jsonMetadata.get('instantiations', []),
-                        'priors': jsonMetadata.get('priors', {}),
-                        'posteriors': jsonMetadata.get('posteriors', {})
-                    }
+
+                    else:
+                        # create dict with probabilites
+                        row = {
+                            'Title': title,
+                            'Description': info.get('description', ''),
+                            'line': info.get('line',''),
+                            'line_numbers': info.get('line_numbers', []),
+                            'indentation': info.get('indentation',''),
+                            'indentation_levels': info.get('indentation_levels', []),
+                            'Parents': info.get('parents', []),
+                            'Children': info.get('children', []),
+                            # Extract specific metadata fields, defaulting to empty if not present
+                            'instantiations': jsonMetadata.get('instantiations', []),
+                            'priors': jsonMetadata.get('priors', {}),
+                            'posteriors': jsonMetadata.get('posteriors', {})
+                        }
                 else:
                     # Empty metadata case
                     row = {
@@ -681,7 +641,187 @@ def add_no_parent_no_child_columns_to_df(dataframe):
     dataframe['No_Children'] = no_children
 
     return dataframe
+
+def add_parents_instantiation_columns_to_df(dataframe):
+    """Add all possible instantiations of all parents as list with lists column to the DataFrame"""
+    # Create a new column to store parent instantiations
+    parent_instantiations = []
+
+    # Iterate through each row in the dataframe
+    for _, row in dataframe.iterrows():
+        parents = row['Parents']
+        parent_insts = []
+
+        # For each parent, find its instantiations and add to the list
+        for parent in parents:
+            # Find the row where Title matches the parent
+            parent_row = dataframe[dataframe['Title'] == parent]
+
+            # If parent found in the dataframe
+            if not parent_row.empty:
+                # Get the instantiations of this parent
+                parent_instantiation = parent_row['instantiations'].iloc[0]
+                parent_insts.append(parent_instantiation)
+
+        # Add the list of parent instantiations to our new column
+        parent_instantiations.append(parent_insts)
+
+    # Add the new column to the dataframe
+    dataframe['parent_instantiations'] = parent_instantiations
+
+    return dataframe
+
+
 ```
+
+
+```python
+# example use case:
+ex_csv = parse_markdown_hierarchy(md_content, ArgDown = True)
+ex_csv
+```
+
+## 1.8 Store ArgDown Information as 'ArgDown.csv' file
+
+
+```python
+
+```
+
+# 2.0 Probability Extractions: ArgDown (.csv) to BayesDown (.md + plugin JSON syntax)
+
+
+```python
+
+```
+
+## 2.1 Gernerate and Extract "Prior-, Conditional- and Posterior Probability Questions" from ArgDown.csv
+
+
+```python
+
+```
+
+## 2.2 Generate BayesDown Extraction Prompt
+
+Generate 2nd Extraction Prompt for Probabilities based on the questions generated from the 'ArgDown.csv' extraction
+
+
+```python
+
+```
+
+## 2.3 Repeat Steps from 1.3 to 1.8 but for BayesDown / Probability Extraction
+
+## 2.3 Converting ArgDown to BayesDown with Probability Extraction
+
+BayesDown extends the ArgDown format by incorporating probabilistic information about arguments and their relationships. This section demonstrates how to transform an ArgDown representation into BayesDown by:
+
+1. **Extracting probability statements** from the text
+2. **Formalizing conditional relationships** between variables
+3. **Quantifying uncertainty** in argument strength and variable states
+
+
+
+### 2.3.1 BayesDown Format Specification
+
+BayesDown augments ArgDown with probability data in a structured JSON format:
+
+```json
+{
+  "instantiations": ["state_TRUE", "state_FALSE"],
+  "priors": {
+    "p(state_TRUE)": "0.7",
+    "p(state_FALSE)": "0.3"
+  },
+  "posteriors": {
+    "p(state_TRUE|condition1_TRUE,condition2_FALSE)": "0.9",
+    "p(state_TRUE|condition1_FALSE,condition2_TRUE)": "0.4"
+  }
+}
+
+2.3.2 Probability Extraction Process
+The probability extraction pipeline follows these steps:
+
+
+Identify variables and their possible states
+Extract prior probability statements
+Identify conditional relationships
+Extract conditional probability statements
+Format the data in BayesDown syntax
+
+2.3.3 Implementation Steps
+To extract probabilities and create BayesDown format:
+
+Run the extract_probabilities function on ArgDown text
+Process the results into a structured format
+Validate the probability distributions (ensure they sum to 1)
+Generate the enhanced BayesDown representation
+
+2.3.4 Validation and Quality Control
+The probability extraction process includes validation steps:
+
+Ensuring coherent probability distributions
+Checking for logical consistency in conditional relationships
+Verifying that all required probability statements are present
+Handling missing data with appropriate default values
+
+# 3.0 Data Extraction: BayesDown (.md) to Database (.csv)
+
+
+### 3.1 ExtractBayesDown-Data_v1
+Build data frame with extractable information from BayesDown
+
+
+```python
+# read sprinkler example -- Occam Colab Online
+file_path_ex_rain = "https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/BayesDown_Example.md"
+
+# Use requests.get to fetch content from URL
+response = requests.get(file_path_ex_rain)
+response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
+
+# Read content from the response
+md_content_ex_rain = response.text
+
+md_content_ex_rain
+```
+
+## 3.1.2 Test BayesDown Extraction
+
+
+
+
+
+```python
+display(Markdown(md_content_ex_rain)) # view BayesDown file formatted as MarkDown
+```
+
+## 3.1.2.2 Check the Graph Structure with the ArgDown Sandbox Online
+Copy and paste the BayesDown formatted ... in the ArgDown Sandbox below to quickly verify that the network renders correctly.
+
+### 3.1.2.B Test with 'Example_file_combined_withBayesDown_Crossgenerational.md'
+
+
+```python
+# read basic ArgDown example With BayesDown syntax added and corss generational added
+import requests  # Import the requests library
+
+# **Corrected URL with /main/**
+file_path_easy_ex_B_CG = "https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/Example_file_combined_withBayesDown_Crossgenerational.md"
+
+# Use requests.get to fetch content from URL
+response = requests.get(file_path_easy_ex_B_CG)
+response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
+
+# Read content from the response
+md_content_easy_ex_B_CG = response.text
+
+md_content_easy_ex_B_CG
+```
+
+## 3.3 Extraction
+BayesDown Extraction Code already part of ArgDown extraction code, therefore just use same function "parse_markdown_hierarchy(markdown_data)" and ignore the extra argument ("ArgDown") because it is automatically set to false amd will by default extract BayesDown.
 
 
 ```python
@@ -1668,6 +1808,22 @@ print(result_df)
 
 
 
+1.   Import Libraries & Install Packages: [Run Section 0.1](https://colab.research.google.com/github/SingularitySmith/AMTAIR_Prototype/blob/main/Public_AMTAIR_Prototype.ipynb#scrollTo=0_1_Import_Libraries_Packages)
+2.   Connect to GitHub Repository & Load Data files: Run Section 0.2
+3.   ...
+4. [Link Text](#cell-id)
+      Requires:
+<a name="cell-id"></a>
+
+4. [Test](#Preview-MD-Content)
+
+
+##### Heading
+This is the cell I'm linking to
+
+
+
+
 ```python
 # notebook_name = "NoHTML_AMTAIR_Prototype"
 # repo_url = "https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/"
@@ -1675,6 +1831,24 @@ print(result_df)
 
 # !wget {repo_url}{notebook_name}.ipynb
 # !jupyter nbconvert --to markdown {notebook_name}.ipynb --output {notebook_name}.md --no-input
+```
+
+
+```python
+# Convert ipynb to HTML in Colab
+# Upload ipynb
+# from google.colab import files
+# f = files.upload()
+
+# Convert ipynb to html
+# import subprocess
+# file0 = list(f.keys())[0]
+# _ = subprocess.run(["pip", "install", "nbconvert"])
+# _ = subprocess.run(["jupyter", "nbconvert", file0, "--to", "html"])
+
+# download the html
+# files.download(file0[:-5]+"html")
+
 ```
 
 # 6.0 Save Outputs
@@ -1693,19 +1867,33 @@ Enjoy it!
 
 ```python
 #@title Convert ipynb to HTML in Colab
-# Upload ipynb
-from google.colab import files
-f = files.upload()
+import nbformat
+from nbconvert import HTMLExporter
+import os
 
-# Convert ipynb to html
-import subprocess
-file0 = list(f.keys())[0]
-_ = subprocess.run(["pip", "install", "nbconvert"])
-_ = subprocess.run(["jupyter", "nbconvert", file0, "--to", "html"])
+repo_url = "https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/"
+notebook_name = "AMTAIR_Prototype_example1"  #Change Notebook name and path when working on different examples
 
-# download the html
-files.download(file0[:-5]+"html")
+# Download the notebook file
+!wget {repo_url}{notebook_name}.ipynb -O {notebook_name}.ipynb  # Corrected line
 
+# Load the notebook
+# add error handling for file not found
+try:
+  with open(f"{notebook_name}.ipynb") as f:
+    nb = nbformat.read(f, as_version=4)
+except FileNotFoundError:
+  print(f"Error: File '{notebook_name}.ipynb' not found. Please check if it was downloaded correctly.")
+
+# Initialize the HTML exporter
+exporter = HTMLExporter()
+
+# Convert the notebook to HTML
+(body, resources) = exporter.from_notebook_node(nb)
+
+# Save the HTML to a file
+with open(f"{notebook_name}IPYNB.html", "w") as f:
+    f.write(body)
 ```
 
 ## Convert .ipynb Notebook to MarkDown
@@ -1714,12 +1902,22 @@ files.download(file0[:-5]+"html")
 ```python
 import nbformat
 from nbconvert import MarkdownExporter
+import os
 
-notebook_name = "NoHTML_AMTAIR_Prototype"
+repo_url = "https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/"
+notebook_name = "AMTAIR_Prototype_example1"  #Change Notebook name and path when working on different examples
+
+# Download the notebook file
+!wget {repo_url}{notebook_name}.ipynb -O {notebook_name}.ipynb  # Corrected line
 
 # Load the notebook
-with open(f"{notebook_name}.ipynb") as f:
+# add error handling for file not found
+try:
+  with open(f"{notebook_name}.ipynb") as f:
     nb = nbformat.read(f, as_version=4)
+except FileNotFoundError:
+  print(f"Error: File '{notebook_name}.ipynb' not found. Please check if it was downloaded correctly.")
+
 
 # Initialize the Markdown exporter
 exporter = MarkdownExporter(exclude_output=True)  # Correct initialization
