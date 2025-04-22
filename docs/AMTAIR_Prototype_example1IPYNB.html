@@ -7578,7 +7578,7 @@ a.anchor-link {
 </blockquote>
 </blockquote>
 <blockquote>
-<p><a href="#scrollTo=GtVFO-s74vI_">0.1 Import Libraries &amp; Packages</a></p>
+<p><a href="#scrollTo=GtVFO-s74vI_">0.1 Prepare Colab/Python Environment --- Import Libraries &amp; Packages</a></p>
 </blockquote>
 <blockquote>
 <blockquote>
@@ -7643,22 +7643,42 @@ a.anchor-link {
 </blockquote>
 <blockquote>
 <blockquote>
-<p><a href="#scrollTo=V66ZHih3BTC0">2.1 Generate and Extract "Prior-, Conditional- and Posterior Probability Questions" from ArgDown.csv</a></p>
+<p><a href="#scrollTo=WcF2nHXBZru4">2.1 Probability Extraction Questions --- 'ArgDown.csv' to 'ArgDown_WithQuestions.csv'</a></p>
 </blockquote>
 </blockquote>
 <blockquote>
 <blockquote>
-<p><a href="#scrollTo=5649brU2BTMh">2.2 Generate BayesDown Extraction Prompt</a></p>
+<p><a href="#scrollTo=-q9UOQ8yaBZn">2.2 'ArgDown_WithQuestions.csv' to 'BayesDownQuestions.md'</a></p>
 </blockquote>
 </blockquote>
 <blockquote>
 <blockquote>
-<p><a href="#scrollTo=uBCTJNNeDwuT">2.3 Repeat Steps from 1.3 to 1.8 but for BayesDown / Probability Extraction</a></p>
+<p><a href="#scrollTo=Ux4OUCPue6Bu">2.3 Generate BayesDown Probability Extraction Prompt</a></p>
 </blockquote>
 </blockquote>
 <blockquote>
 <blockquote>
-<p><a href="#scrollTo=wF4W8y_C4ytX">2.3 Converting ArgDown to BayesDown with Probability Extraction</a></p>
+<p><a href="#scrollTo=d4tB9WD-fIWZ">2.4 Prepare 2nd API call</a></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><a href="#scrollTo=oPWto83lfN9Q">2.5 Make BayesDown Probability Extraction API Call</a></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><a href="#scrollTo=L8NWpz8MfZ9_">2.6 Save BayesDown with Probability Estimates (.csv)</a></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><a href="#scrollTo=Q3PTtYgRfsLa">2.7 Review &amp; Verify BayesDown Probability Estimates</a></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><a href="#scrollTo=VwoAgBsafonh">2.7.2 Check the Graph Structure with the ArgDown Sandbox Online</a></p>
 </blockquote>
 </blockquote>
 <blockquote>
@@ -7666,6 +7686,11 @@ a.anchor-link {
 <blockquote>
 <p><a href="#scrollTo=ivcnd2ml41Nv">2.3.1 BayesDown Format Specification</a></p>
 </blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><a href="#scrollTo=19KDn2mKf309">2.8 Extract BayesDown with Probability Estimates as Dataframe</a></p>
 </blockquote>
 </blockquote>
 <blockquote>
@@ -7755,6 +7780,11 @@ a.anchor-link {
 </blockquote>
 </blockquote>
 <blockquote>
+<blockquote>
+<p><a href="#scrollTo=-Y7587rHcJ-5">COMBINED: 2.1 Generate and Extract "Prior-, Conditional- and Posterior Probability Questions" from 'ArgDown.csv' to 'ArgDown_WithQuestions.csv'</a></p>
+</blockquote>
+</blockquote>
+<blockquote>
 <p><a href="#scrollTo=kjbIj19epbrF">6.0 Save Outputs</a></p>
 </blockquote>
 <blockquote>
@@ -7805,7 +7835,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="0.1-Import-Libraries-&amp;-Packages">0.1 Import Libraries &amp; Packages<a class="anchor-link" href="#0.1-Import-Libraries-&amp;-Packages">¶</a></h1>
+<h1 id="0.1-Prepare-Colab/Python-Environment-----Import-Libraries-&amp;-Packages">0.1 Prepare Colab/Python Environment --- Import Libraries &amp; Packages<a class="anchor-link" href="#0.1-Prepare-Colab/Python-Environment-----Import-Libraries-&amp;-Packages">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7814,14 +7844,73 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pyvis
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>gspread<span class="w"> </span>pandas<span class="w"> </span>google-auth<span class="w"> </span>google-colab
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 0.1 --- Install &amp; Import Libraries &amp; Packages (One-Time Setup) ---</span>
 
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pgmpy
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>nbconvert
+<span class="c1">#  Stores Boolean Flag in Environment runs only when flag is absent</span>
+<span class="c1">#  Check if the setup flag variable exists in the global scope</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># If this variable exists, setup was already done successfully in this session.</span>
+    <span class="n">_setup_imports_done</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ Libraries already installed and imported in this session. Skipping setup."</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"⏳ Performing one-time library installation and imports..."</span><span class="p">)</span>
+
+    <span class="c1"># 1. Install Packages (Quietly using -q) Requiring Installation (not avialable in Colab by default)</span>
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>pyvis
+    <span class="c1"># Combine Google-related packages for slightly cleaner install</span>
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>--upgrade<span class="w"> </span>gspread<span class="w"> </span>pandas<span class="w"> </span>google-auth<span class="w"> </span>google-colab
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>pgmpy
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>nbconvert<span class="w">  </span>#<span class="w"> </span>Often<span class="w"> </span>pre-installed,<span class="w"> </span>but<span class="w"> </span>good<span class="w"> </span>to<span class="w"> </span>ensure
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"   --&gt; Installations complete."</span><span class="p">)</span>
+
+    <span class="c1"># 2. Import Libraries</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">requests</span>      <span class="c1"># For making HTTP requests</span>
+        <span class="kn">import</span> <span class="nn">io</span>            <span class="c1"># For working with in-memory file-like objects</span>
+        <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># For data manipulation</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="kn">import</span> <span class="nn">json</span>
+        <span class="kn">import</span> <span class="nn">re</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span> <span class="c1"># Combined imports</span>
+
+        <span class="c1"># Packages not avialable in Colab by default and require above installations below:</span>
+        <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+        <span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
+        <span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="kn">import</span> <span class="n">TabularCPD</span>
+        <span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="kn">import</span> <span class="n">VariableElimination</span>
+
+        <span class="kn">from</span> <span class="nn">pyvis.network</span> <span class="kn">import</span> <span class="n">Network</span>
+
+        <span class="c1"># Also good practice to print key library versions after import</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      pandas version: </span><span class="si">{</span><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      networkx version: </span><span class="si">{</span><span class="n">nx</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="c1"># Add others if specific versions are critical</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"   --&gt; Imports complete."</span><span class="p">)</span>
+
+        <span class="c1"># 3. Set the flag ONLY if all installs and imports were successful</span>
+        <span class="n">_setup_imports_done</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"✅ One-time setup finished successfully."</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"❌ ERROR during import: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"   --&gt; Setup did not complete successfully. Please check installations."</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"❌ UNEXPECTED ERROR during setup: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"   --&gt; Setup did not complete successfully."</span><span class="p">)</span>
+
+<span class="c1"># --- End of One-Time Setup Cell ---</span>
+
+<span class="c1"># Now you can proceed with the rest of your code, knowing the imports exist</span>
+<span class="c1"># if the setup cell didn't raise a critical error.</span>
 </pre></div>
 </div>
 </div>
@@ -7834,229 +7923,8 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Requirement already satisfied: pyvis in /usr/local/lib/python3.11/dist-packages (0.3.2)
-Requirement already satisfied: ipython&gt;=5.3.0 in /usr/local/lib/python3.11/dist-packages (from pyvis) (7.34.0)
-Requirement already satisfied: jinja2&gt;=2.9.6 in /usr/local/lib/python3.11/dist-packages (from pyvis) (3.1.6)
-Requirement already satisfied: jsonpickle&gt;=1.4.1 in /usr/local/lib/python3.11/dist-packages (from pyvis) (4.0.5)
-Requirement already satisfied: networkx&gt;=1.11 in /usr/local/lib/python3.11/dist-packages (from pyvis) (3.4.2)
-Requirement already satisfied: setuptools&gt;=18.5 in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (75.2.0)
-Requirement already satisfied: jedi&gt;=0.16 in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (0.19.2)
-Requirement already satisfied: decorator in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (4.4.2)
-Requirement already satisfied: pickleshare in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (0.7.5)
-Requirement already satisfied: traitlets&gt;=4.2 in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (5.7.1)
-Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0 in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (3.0.51)
-Requirement already satisfied: pygments in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (2.18.0)
-Requirement already satisfied: backcall in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (0.2.0)
-Requirement already satisfied: matplotlib-inline in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (0.1.7)
-Requirement already satisfied: pexpect&gt;4.3 in /usr/local/lib/python3.11/dist-packages (from ipython&gt;=5.3.0-&gt;pyvis) (4.9.0)
-Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.11/dist-packages (from jinja2&gt;=2.9.6-&gt;pyvis) (3.0.2)
-Requirement already satisfied: parso&lt;0.9.0,&gt;=0.8.4 in /usr/local/lib/python3.11/dist-packages (from jedi&gt;=0.16-&gt;ipython&gt;=5.3.0-&gt;pyvis) (0.8.4)
-Requirement already satisfied: ptyprocess&gt;=0.5 in /usr/local/lib/python3.11/dist-packages (from pexpect&gt;4.3-&gt;ipython&gt;=5.3.0-&gt;pyvis) (0.7.0)
-Requirement already satisfied: wcwidth in /usr/local/lib/python3.11/dist-packages (from prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0-&gt;ipython&gt;=5.3.0-&gt;pyvis) (0.2.13)
-Requirement already satisfied: gspread in /usr/local/lib/python3.11/dist-packages (6.2.0)
-Requirement already satisfied: pandas in /usr/local/lib/python3.11/dist-packages (2.2.2)
-Collecting pandas
-  Using cached pandas-2.2.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (89 kB)
-Requirement already satisfied: google-auth in /usr/local/lib/python3.11/dist-packages (2.38.0)
-Collecting google-auth
-  Using cached google_auth-2.39.0-py2.py3-none-any.whl.metadata (6.2 kB)
-Requirement already satisfied: google-colab in /usr/local/lib/python3.11/dist-packages (1.0.0)
-Requirement already satisfied: google-auth-oauthlib&gt;=0.4.1 in /usr/local/lib/python3.11/dist-packages (from gspread) (1.2.1)
-Requirement already satisfied: numpy&gt;=1.23.2 in /usr/local/lib/python3.11/dist-packages (from pandas) (2.0.2)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in /usr/local/lib/python3.11/dist-packages (from pandas) (2.8.2)
-Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.11/dist-packages (from pandas) (2025.2)
-Requirement already satisfied: tzdata&gt;=2022.7 in /usr/local/lib/python3.11/dist-packages (from pandas) (2025.2)
-Requirement already satisfied: cachetools&lt;6.0,&gt;=2.0.0 in /usr/local/lib/python3.11/dist-packages (from google-auth) (5.5.2)
-Requirement already satisfied: pyasn1-modules&gt;=0.2.1 in /usr/local/lib/python3.11/dist-packages (from google-auth) (0.4.2)
-Requirement already satisfied: rsa&lt;5,&gt;=3.1.4 in /usr/local/lib/python3.11/dist-packages (from google-auth) (4.9.1)
-Requirement already satisfied: ipykernel==6.17.1 in /usr/local/lib/python3.11/dist-packages (from google-colab) (6.17.1)
-Requirement already satisfied: ipyparallel==8.8.0 in /usr/local/lib/python3.11/dist-packages (from google-colab) (8.8.0)
-Requirement already satisfied: ipython==7.34.0 in /usr/local/lib/python3.11/dist-packages (from google-colab) (7.34.0)
-Requirement already satisfied: notebook==6.5.7 in /usr/local/lib/python3.11/dist-packages (from google-colab) (6.5.7)
-Requirement already satisfied: portpicker==1.5.2 in /usr/local/lib/python3.11/dist-packages (from google-colab) (1.5.2)
-Requirement already satisfied: requests==2.32.3 in /usr/local/lib/python3.11/dist-packages (from google-colab) (2.32.3)
-Requirement already satisfied: tornado==6.4.2 in /usr/local/lib/python3.11/dist-packages (from google-colab) (6.4.2)
-Requirement already satisfied: debugpy&gt;=1.0 in /usr/local/lib/python3.11/dist-packages (from ipykernel==6.17.1-&gt;google-colab) (1.8.0)
-Requirement already satisfied: jupyter-client&gt;=6.1.12 in /usr/local/lib/python3.11/dist-packages (from ipykernel==6.17.1-&gt;google-colab) (6.1.12)
-Requirement already satisfied: matplotlib-inline&gt;=0.1 in /usr/local/lib/python3.11/dist-packages (from ipykernel==6.17.1-&gt;google-colab) (0.1.7)
-Requirement already satisfied: nest-asyncio in /usr/local/lib/python3.11/dist-packages (from ipykernel==6.17.1-&gt;google-colab) (1.6.0)
-Requirement already satisfied: packaging in /usr/local/lib/python3.11/dist-packages (from ipykernel==6.17.1-&gt;google-colab) (24.2)
-Requirement already satisfied: psutil in /usr/local/lib/python3.11/dist-packages (from ipykernel==6.17.1-&gt;google-colab) (5.9.5)
-Requirement already satisfied: pyzmq&gt;=17 in /usr/local/lib/python3.11/dist-packages (from ipykernel==6.17.1-&gt;google-colab) (24.0.1)
-Requirement already satisfied: traitlets&gt;=5.1.0 in /usr/local/lib/python3.11/dist-packages (from ipykernel==6.17.1-&gt;google-colab) (5.7.1)
-Requirement already satisfied: decorator in /usr/local/lib/python3.11/dist-packages (from ipyparallel==8.8.0-&gt;google-colab) (4.4.2)
-Requirement already satisfied: entrypoints in /usr/local/lib/python3.11/dist-packages (from ipyparallel==8.8.0-&gt;google-colab) (0.4)
-Requirement already satisfied: tqdm in /usr/local/lib/python3.11/dist-packages (from ipyparallel==8.8.0-&gt;google-colab) (4.67.1)
-Requirement already satisfied: setuptools&gt;=18.5 in /usr/local/lib/python3.11/dist-packages (from ipython==7.34.0-&gt;google-colab) (75.2.0)
-Requirement already satisfied: jedi&gt;=0.16 in /usr/local/lib/python3.11/dist-packages (from ipython==7.34.0-&gt;google-colab) (0.19.2)
-Requirement already satisfied: pickleshare in /usr/local/lib/python3.11/dist-packages (from ipython==7.34.0-&gt;google-colab) (0.7.5)
-Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0 in /usr/local/lib/python3.11/dist-packages (from ipython==7.34.0-&gt;google-colab) (3.0.51)
-Requirement already satisfied: pygments in /usr/local/lib/python3.11/dist-packages (from ipython==7.34.0-&gt;google-colab) (2.18.0)
-Requirement already satisfied: backcall in /usr/local/lib/python3.11/dist-packages (from ipython==7.34.0-&gt;google-colab) (0.2.0)
-Requirement already satisfied: pexpect&gt;4.3 in /usr/local/lib/python3.11/dist-packages (from ipython==7.34.0-&gt;google-colab) (4.9.0)
-Requirement already satisfied: jinja2 in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (3.1.6)
-Requirement already satisfied: argon2-cffi in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (23.1.0)
-Requirement already satisfied: jupyter-core&gt;=4.6.1 in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (5.7.2)
-Requirement already satisfied: ipython-genutils in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (0.2.0)
-Requirement already satisfied: nbformat in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (5.10.4)
-Requirement already satisfied: nbconvert&gt;=5 in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (7.16.6)
-Requirement already satisfied: Send2Trash&gt;=1.8.0 in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (1.8.3)
-Requirement already satisfied: terminado&gt;=0.8.3 in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (0.18.1)
-Requirement already satisfied: prometheus-client in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (0.21.1)
-Requirement already satisfied: nbclassic&gt;=0.4.7 in /usr/local/lib/python3.11/dist-packages (from notebook==6.5.7-&gt;google-colab) (1.2.0)
-Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.11/dist-packages (from requests==2.32.3-&gt;google-colab) (3.4.1)
-Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.11/dist-packages (from requests==2.32.3-&gt;google-colab) (3.10)
-Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in /usr/local/lib/python3.11/dist-packages (from requests==2.32.3-&gt;google-colab) (2.3.0)
-Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.11/dist-packages (from requests==2.32.3-&gt;google-colab) (2025.1.31)
-Requirement already satisfied: requests-oauthlib&gt;=0.7.0 in /usr/local/lib/python3.11/dist-packages (from google-auth-oauthlib&gt;=0.4.1-&gt;gspread) (2.0.0)
-Requirement already satisfied: pyasn1&lt;0.7.0,&gt;=0.6.1 in /usr/local/lib/python3.11/dist-packages (from pyasn1-modules&gt;=0.2.1-&gt;google-auth) (0.6.1)
-Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.17.0)
-Requirement already satisfied: parso&lt;0.9.0,&gt;=0.8.4 in /usr/local/lib/python3.11/dist-packages (from jedi&gt;=0.16-&gt;ipython==7.34.0-&gt;google-colab) (0.8.4)
-Requirement already satisfied: platformdirs&gt;=2.5 in /usr/local/lib/python3.11/dist-packages (from jupyter-core&gt;=4.6.1-&gt;notebook==6.5.7-&gt;google-colab) (4.3.7)
-Requirement already satisfied: notebook-shim&gt;=0.2.3 in /usr/local/lib/python3.11/dist-packages (from nbclassic&gt;=0.4.7-&gt;notebook==6.5.7-&gt;google-colab) (0.2.4)
-Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.11/dist-packages (from nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (4.13.4)
-Requirement already satisfied: bleach!=5.0.0 in /usr/local/lib/python3.11/dist-packages (from bleach[css]!=5.0.0-&gt;nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (6.2.0)
-Requirement already satisfied: defusedxml in /usr/local/lib/python3.11/dist-packages (from nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (0.7.1)
-Requirement already satisfied: jupyterlab-pygments in /usr/local/lib/python3.11/dist-packages (from nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (0.3.0)
-Requirement already satisfied: markupsafe&gt;=2.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (3.0.2)
-Requirement already satisfied: mistune&lt;4,&gt;=2.0.3 in /usr/local/lib/python3.11/dist-packages (from nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (3.1.3)
-Requirement already satisfied: nbclient&gt;=0.5.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (0.10.2)
-Requirement already satisfied: pandocfilters&gt;=1.4.1 in /usr/local/lib/python3.11/dist-packages (from nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (1.5.1)
-Requirement already satisfied: fastjsonschema&gt;=2.15 in /usr/local/lib/python3.11/dist-packages (from nbformat-&gt;notebook==6.5.7-&gt;google-colab) (2.21.1)
-Requirement already satisfied: jsonschema&gt;=2.6 in /usr/local/lib/python3.11/dist-packages (from nbformat-&gt;notebook==6.5.7-&gt;google-colab) (4.23.0)
-Requirement already satisfied: ptyprocess&gt;=0.5 in /usr/local/lib/python3.11/dist-packages (from pexpect&gt;4.3-&gt;ipython==7.34.0-&gt;google-colab) (0.7.0)
-Requirement already satisfied: wcwidth in /usr/local/lib/python3.11/dist-packages (from prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0-&gt;ipython==7.34.0-&gt;google-colab) (0.2.13)
-Requirement already satisfied: oauthlib&gt;=3.0.0 in /usr/local/lib/python3.11/dist-packages (from requests-oauthlib&gt;=0.7.0-&gt;google-auth-oauthlib&gt;=0.4.1-&gt;gspread) (3.2.2)
-Requirement already satisfied: argon2-cffi-bindings in /usr/local/lib/python3.11/dist-packages (from argon2-cffi-&gt;notebook==6.5.7-&gt;google-colab) (21.2.0)
-Requirement already satisfied: webencodings in /usr/local/lib/python3.11/dist-packages (from bleach!=5.0.0-&gt;bleach[css]!=5.0.0-&gt;nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (0.5.1)
-Requirement already satisfied: tinycss2&lt;1.5,&gt;=1.1.0 in /usr/local/lib/python3.11/dist-packages (from bleach[css]!=5.0.0-&gt;nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (1.4.0)
-Requirement already satisfied: attrs&gt;=22.2.0 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=2.6-&gt;nbformat-&gt;notebook==6.5.7-&gt;google-colab) (25.3.0)
-Requirement already satisfied: jsonschema-specifications&gt;=2023.03.6 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=2.6-&gt;nbformat-&gt;notebook==6.5.7-&gt;google-colab) (2024.10.1)
-Requirement already satisfied: referencing&gt;=0.28.4 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=2.6-&gt;nbformat-&gt;notebook==6.5.7-&gt;google-colab) (0.36.2)
-Requirement already satisfied: rpds-py&gt;=0.7.1 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=2.6-&gt;nbformat-&gt;notebook==6.5.7-&gt;google-colab) (0.24.0)
-Requirement already satisfied: jupyter-server&lt;3,&gt;=1.8 in /usr/local/lib/python3.11/dist-packages (from notebook-shim&gt;=0.2.3-&gt;nbclassic&gt;=0.4.7-&gt;notebook==6.5.7-&gt;google-colab) (1.16.0)
-Requirement already satisfied: cffi&gt;=1.0.1 in /usr/local/lib/python3.11/dist-packages (from argon2-cffi-bindings-&gt;argon2-cffi-&gt;notebook==6.5.7-&gt;google-colab) (1.17.1)
-Requirement already satisfied: soupsieve&gt;1.2 in /usr/local/lib/python3.11/dist-packages (from beautifulsoup4-&gt;nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (2.6)
-Requirement already satisfied: typing-extensions&gt;=4.0.0 in /usr/local/lib/python3.11/dist-packages (from beautifulsoup4-&gt;nbconvert&gt;=5-&gt;notebook==6.5.7-&gt;google-colab) (4.13.2)
-Requirement already satisfied: pycparser in /usr/local/lib/python3.11/dist-packages (from cffi&gt;=1.0.1-&gt;argon2-cffi-bindings-&gt;argon2-cffi-&gt;notebook==6.5.7-&gt;google-colab) (2.22)
-Requirement already satisfied: anyio&gt;=3.1.0 in /usr/local/lib/python3.11/dist-packages (from jupyter-server&lt;3,&gt;=1.8-&gt;notebook-shim&gt;=0.2.3-&gt;nbclassic&gt;=0.4.7-&gt;notebook==6.5.7-&gt;google-colab) (4.9.0)
-Requirement already satisfied: websocket-client in /usr/local/lib/python3.11/dist-packages (from jupyter-server&lt;3,&gt;=1.8-&gt;notebook-shim&gt;=0.2.3-&gt;nbclassic&gt;=0.4.7-&gt;notebook==6.5.7-&gt;google-colab) (1.8.0)
-Requirement already satisfied: sniffio&gt;=1.1 in /usr/local/lib/python3.11/dist-packages (from anyio&gt;=3.1.0-&gt;jupyter-server&lt;3,&gt;=1.8-&gt;notebook-shim&gt;=0.2.3-&gt;nbclassic&gt;=0.4.7-&gt;notebook==6.5.7-&gt;google-colab) (1.3.1)
-Requirement already satisfied: pgmpy in /usr/local/lib/python3.11/dist-packages (1.0.0)
-Requirement already satisfied: networkx in /usr/local/lib/python3.11/dist-packages (from pgmpy) (3.4.2)
-Requirement already satisfied: numpy in /usr/local/lib/python3.11/dist-packages (from pgmpy) (2.0.2)
-Requirement already satisfied: scipy in /usr/local/lib/python3.11/dist-packages (from pgmpy) (1.14.1)
-Requirement already satisfied: scikit-learn in /usr/local/lib/python3.11/dist-packages (from pgmpy) (1.6.1)
-Requirement already satisfied: pandas in /usr/local/lib/python3.11/dist-packages (from pgmpy) (2.2.2)
-Requirement already satisfied: torch in /usr/local/lib/python3.11/dist-packages (from pgmpy) (2.6.0+cu124)
-Requirement already satisfied: statsmodels in /usr/local/lib/python3.11/dist-packages (from pgmpy) (0.14.4)
-Requirement already satisfied: tqdm in /usr/local/lib/python3.11/dist-packages (from pgmpy) (4.67.1)
-Requirement already satisfied: joblib in /usr/local/lib/python3.11/dist-packages (from pgmpy) (1.4.2)
-Requirement already satisfied: opt-einsum in /usr/local/lib/python3.11/dist-packages (from pgmpy) (3.4.0)
-Requirement already satisfied: pyro-ppl in /usr/local/lib/python3.11/dist-packages (from pgmpy) (1.9.1)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in /usr/local/lib/python3.11/dist-packages (from pandas-&gt;pgmpy) (2.8.2)
-Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.11/dist-packages (from pandas-&gt;pgmpy) (2025.2)
-Requirement already satisfied: tzdata&gt;=2022.7 in /usr/local/lib/python3.11/dist-packages (from pandas-&gt;pgmpy) (2025.2)
-Requirement already satisfied: pyro-api&gt;=0.1.1 in /usr/local/lib/python3.11/dist-packages (from pyro-ppl-&gt;pgmpy) (0.1.2)
-Requirement already satisfied: filelock in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (3.18.0)
-Requirement already satisfied: typing-extensions&gt;=4.10.0 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (4.13.2)
-Requirement already satisfied: jinja2 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (3.1.6)
-Requirement already satisfied: fsspec in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (2025.3.2)
-Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.4.127 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (12.4.127)
-Requirement already satisfied: nvidia-cuda-runtime-cu12==12.4.127 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (12.4.127)
-Requirement already satisfied: nvidia-cuda-cupti-cu12==12.4.127 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (12.4.127)
-Requirement already satisfied: nvidia-cudnn-cu12==9.1.0.70 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (9.1.0.70)
-Requirement already satisfied: nvidia-cublas-cu12==12.4.5.8 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (12.4.5.8)
-Requirement already satisfied: nvidia-cufft-cu12==11.2.1.3 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (11.2.1.3)
-Requirement already satisfied: nvidia-curand-cu12==10.3.5.147 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (10.3.5.147)
-Requirement already satisfied: nvidia-cusolver-cu12==11.6.1.9 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (11.6.1.9)
-Requirement already satisfied: nvidia-cusparse-cu12==12.3.1.170 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (12.3.1.170)
-Requirement already satisfied: nvidia-cusparselt-cu12==0.6.2 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (0.6.2)
-Requirement already satisfied: nvidia-nccl-cu12==2.21.5 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (2.21.5)
-Requirement already satisfied: nvidia-nvtx-cu12==12.4.127 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (12.4.127)
-Requirement already satisfied: nvidia-nvjitlink-cu12==12.4.127 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (12.4.127)
-Requirement already satisfied: triton==3.2.0 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (3.2.0)
-Requirement already satisfied: sympy==1.13.1 in /usr/local/lib/python3.11/dist-packages (from torch-&gt;pgmpy) (1.13.1)
-Requirement already satisfied: mpmath&lt;1.4,&gt;=1.1.0 in /usr/local/lib/python3.11/dist-packages (from sympy==1.13.1-&gt;torch-&gt;pgmpy) (1.3.0)
-Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /usr/local/lib/python3.11/dist-packages (from scikit-learn-&gt;pgmpy) (3.6.0)
-Requirement already satisfied: patsy&gt;=0.5.6 in /usr/local/lib/python3.11/dist-packages (from statsmodels-&gt;pgmpy) (1.0.1)
-Requirement already satisfied: packaging&gt;=21.3 in /usr/local/lib/python3.11/dist-packages (from statsmodels-&gt;pgmpy) (24.2)
-Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil&gt;=2.8.2-&gt;pandas-&gt;pgmpy) (1.17.0)
-Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.11/dist-packages (from jinja2-&gt;torch-&gt;pgmpy) (3.0.2)
-Requirement already satisfied: nbconvert in /usr/local/lib/python3.11/dist-packages (7.16.6)
-Requirement already satisfied: beautifulsoup4 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (4.13.4)
-Requirement already satisfied: bleach!=5.0.0 in /usr/local/lib/python3.11/dist-packages (from bleach[css]!=5.0.0-&gt;nbconvert) (6.2.0)
-Requirement already satisfied: defusedxml in /usr/local/lib/python3.11/dist-packages (from nbconvert) (0.7.1)
-Requirement already satisfied: jinja2&gt;=3.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (3.1.6)
-Requirement already satisfied: jupyter-core&gt;=4.7 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (5.7.2)
-Requirement already satisfied: jupyterlab-pygments in /usr/local/lib/python3.11/dist-packages (from nbconvert) (0.3.0)
-Requirement already satisfied: markupsafe&gt;=2.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (3.0.2)
-Requirement already satisfied: mistune&lt;4,&gt;=2.0.3 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (3.1.3)
-Requirement already satisfied: nbclient&gt;=0.5.0 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (0.10.2)
-Requirement already satisfied: nbformat&gt;=5.7 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (5.10.4)
-Requirement already satisfied: packaging in /usr/local/lib/python3.11/dist-packages (from nbconvert) (24.2)
-Requirement already satisfied: pandocfilters&gt;=1.4.1 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (1.5.1)
-Requirement already satisfied: pygments&gt;=2.4.1 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (2.18.0)
-Requirement already satisfied: traitlets&gt;=5.1 in /usr/local/lib/python3.11/dist-packages (from nbconvert) (5.7.1)
-Requirement already satisfied: webencodings in /usr/local/lib/python3.11/dist-packages (from bleach!=5.0.0-&gt;bleach[css]!=5.0.0-&gt;nbconvert) (0.5.1)
-Requirement already satisfied: tinycss2&lt;1.5,&gt;=1.1.0 in /usr/local/lib/python3.11/dist-packages (from bleach[css]!=5.0.0-&gt;nbconvert) (1.4.0)
-Requirement already satisfied: platformdirs&gt;=2.5 in /usr/local/lib/python3.11/dist-packages (from jupyter-core&gt;=4.7-&gt;nbconvert) (4.3.7)
-Requirement already satisfied: jupyter-client&gt;=6.1.12 in /usr/local/lib/python3.11/dist-packages (from nbclient&gt;=0.5.0-&gt;nbconvert) (6.1.12)
-Requirement already satisfied: fastjsonschema&gt;=2.15 in /usr/local/lib/python3.11/dist-packages (from nbformat&gt;=5.7-&gt;nbconvert) (2.21.1)
-Requirement already satisfied: jsonschema&gt;=2.6 in /usr/local/lib/python3.11/dist-packages (from nbformat&gt;=5.7-&gt;nbconvert) (4.23.0)
-Requirement already satisfied: soupsieve&gt;1.2 in /usr/local/lib/python3.11/dist-packages (from beautifulsoup4-&gt;nbconvert) (2.6)
-Requirement already satisfied: typing-extensions&gt;=4.0.0 in /usr/local/lib/python3.11/dist-packages (from beautifulsoup4-&gt;nbconvert) (4.13.2)
-Requirement already satisfied: attrs&gt;=22.2.0 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.7-&gt;nbconvert) (25.3.0)
-Requirement already satisfied: jsonschema-specifications&gt;=2023.03.6 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.7-&gt;nbconvert) (2024.10.1)
-Requirement already satisfied: referencing&gt;=0.28.4 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.7-&gt;nbconvert) (0.36.2)
-Requirement already satisfied: rpds-py&gt;=0.7.1 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=5.7-&gt;nbconvert) (0.24.0)
-Requirement already satisfied: pyzmq&gt;=13 in /usr/local/lib/python3.11/dist-packages (from jupyter-client&gt;=6.1.12-&gt;nbclient&gt;=0.5.0-&gt;nbconvert) (24.0.1)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.11/dist-packages (from jupyter-client&gt;=6.1.12-&gt;nbclient&gt;=0.5.0-&gt;nbconvert) (2.8.2)
-Requirement already satisfied: tornado&gt;=4.1 in /usr/local/lib/python3.11/dist-packages (from jupyter-client&gt;=6.1.12-&gt;nbclient&gt;=0.5.0-&gt;nbconvert) (6.4.2)
-Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil&gt;=2.1-&gt;jupyter-client&gt;=6.1.12-&gt;nbclient&gt;=0.5.0-&gt;nbconvert) (1.17.0)
+<pre>✅ Libraries already installed and imported in this session. Skipping setup.
 </pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">requests</span>      <span class="c1"># For making HTTP requests</span>
-<span class="kn">import</span> <span class="nn">io</span>           <span class="c1"># For working with in-memory file-like objects</span>
-
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>   <span class="c1"># For data manipulation</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
-<span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="kn">import</span> <span class="n">TabularCPD</span>
-<span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="kn">import</span> <span class="n">VariableElimination</span>
-<span class="kn">from</span> <span class="nn">pyvis.network</span> <span class="kn">import</span> <span class="n">Network</span>
-</pre></div>
 </div>
 </div>
 </div>
@@ -8083,7 +7951,10 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Specify the base repository URL</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 0.2 --- Connect to GitHub Repository --- Load Files</span>
+
+
+<span class="c1"># Specify the base repository URL</span>
 <span class="n">repo_url</span> <span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/"</span>
 
 <span class="k">def</span> <span class="nf">load_file_from_repo</span><span class="p">(</span><span class="n">relative_path</span><span class="p">):</span>
@@ -8144,7 +8015,7 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span> <span class="c1"># To see the output, run the code.</span>
@@ -8205,7 +8076,7 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">md_content</span>
@@ -8219,7 +8090,7 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>'[Grass_Wet]: Concentrated moisture on, between and around the blades of grass.{"instantiations": ["grass_wet_TRUE", "grass_wet_FALSE"]} \n +[Rain]: Tears of angles crying high up in the skies hitting the ground.{"instantiations": ["rain_TRUE", "rain_FALSE"]} \n +[Sprinkler]: Activation of a centrifugal force based CO2 droplet distribution system.{"instantiations": ["sprinkler_TRUE", "sprinkler_FALSE"]} \n  +[Rain]\n'</pre>
 </div>
@@ -8248,6 +8119,36 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 1.1.a) --- MTAIR Online Model (Analytica) ---</span>
+
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">IFrame</span>
+
+<span class="n">IFrame</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="s2">"https://acp.analytica.com/view0?invite=4560&amp;code=3000289064591444815"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">"100%"</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">"900px"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<iframe allowfullscreen="" frameborder="0" height="900px" src="https://acp.analytica.com/view0?invite=4560&amp;code=3000289064591444815" width="100%"></iframe>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -8259,6 +8160,101 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 1.2.0 --- Prompt Template Function Definitions ---</span>
+
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Template</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="k">class</span> <span class="nc">PromptTemplate</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Template system for LLM prompts with variable substitution"""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize with template string using $variable format"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Substitute variables in the template"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">safe_substitute</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'PromptTemplate'</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Load template from a file"""</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">template</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">PromptLibrary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Collection of prompt templates for different extraction tasks"""</span>
+
+    <span class="c1"># ArgDown extraction prompt</span>
+    <span class="n">ARGDOWN_EXTRACTION</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">You are an expert in creating structured argument maps in ArgDown format. Your task is to extract the key arguments, premises, and conclusions from the provided text, and represent them in a hierarchical ArgDown format.</span>
+
+<span class="s2">Follow these guidelines:</span>
+<span class="s2">1. Use the format [Statement]: Description for main claims</span>
+<span class="s2">2. Use the + symbol and indentation to indicate supporting statements</span>
+<span class="s2">3. Capture the core argumentative structure, focusing on causal relationships and key claims</span>
+<span class="s2">4. Ensure each statement has a clear, concise title followed by a fuller description</span>
+<span class="s2">5. Add the "instantiations" field to indicate possible states of each variable</span>
+
+<span class="s2">Here is the metadata format to include for each node:</span>
+<span class="s2">{"instantiations": ["node_TRUE", "node_FALSE"]}</span>
+
+<span class="s2">Example:</span>
+<span class="s2">[Thesis]: Main claim of the text. {"instantiations": ["thesis_TRUE", "thesis_FALSE"]}</span>
+<span class="s2"> + [Support1]: First supporting argument. {"instantiations": ["support1_TRUE", "support1_FALSE"]}</span>
+<span class="s2">   + [Evidence1]: Evidence for Support1. {"instantiations": ["evidence1_TRUE", "evidence1_FALSE"]}</span>
+<span class="s2"> + [Support2]: Second supporting argument. {"instantiations": ["support2_TRUE", "support2_FALSE"]}</span>
+
+<span class="s2">Text to analyze:</span>
+<span class="s2">$text</span>
+
+<span class="s2">Create an ArgDown representation that captures the key arguments, their relationships, and possible states:</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+    <span class="c1"># BayesDown probability extraction prompt</span>
+    <span class="n">BAYESDOWN_EXTRACTION</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">You are an expert in probabilistic reasoning and Bayesian networks. Your task is to extend the provided ArgDown structure with probability information, creating a BayesDown representation.</span>
+
+<span class="s2">For each statement in the ArgDown structure, you need to:</span>
+<span class="s2">1. Estimate prior probabilities for each possible state</span>
+<span class="s2">2. Estimate conditional probabilities given parent states</span>
+<span class="s2">3. Maintain the original structure and relationships</span>
+
+<span class="s2">Here is the format to follow:</span>
+<span class="s2">[Node]: Description. { "instantiations": ["node_TRUE", "node_FALSE"], "priors": { "p(node_TRUE)": "0.7", "p(node_FALSE)": "0.3" }, "posteriors": { "p(node_TRUE|parent_TRUE)": "0.9", "p(node_TRUE|parent_FALSE)": "0.4", "p(node_FALSE|parent_TRUE)": "0.1", "p(node_FALSE|parent_FALSE)": "0.6" } }</span>
+<span class="s2"> [Parent]: Parent description. {...}</span>
+
+
+<span class="s2">Here are the specific probability questions to answer:</span>
+<span class="s2">$questions</span>
+
+<span class="s2">ArgDown structure to enhance:</span>
+<span class="s2">$argdown</span>
+
+<span class="s2">Provide the complete BayesDown representation with probabilities:</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_template</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">template_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PromptTemplate</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get a prompt template by name"""</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">template_name</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">template_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Template not found: </span><span class="si">{</span><span class="n">template_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -8267,6 +8263,468 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="1.3-Prepare-LLM-API-Call">1.3 Prepare LLM API Call<a class="anchor-link" href="#1.3-Prepare-LLM-API-Call">¶</a></h2><p>Combine Systemprompt + API Specifications + ArgDown Instructions + Prompt + Source PDF for API Call</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 1.3.0 --- Provider-Agnostic LLM API Interface ---</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">LLMResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Standard response object for LLM completions"""</span>
+    <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">usage</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="n">raw_response</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="n">created_at</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">LLMProvider</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Abstract base class for LLM providers"""</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="n">system_prompt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span>
+                <span class="n">max_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMResponse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Generate a completion from the LLM"""</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_available_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return a list of available models from this provider"""</span>
+        <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">OpenAIProvider</span><span class="p">(</span><span class="n">LLMProvider</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""OpenAI API implementation"""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">organization</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize with API key from args or environment"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"OPENAI_API_KEY"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"OpenAI API key is required. Provide as argument or set OPENAI_API_KEY environment variable."</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">organization</span> <span class="o">=</span> <span class="n">organization</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"OPENAI_ORGANIZATION"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_base</span> <span class="o">=</span> <span class="s2">"https://api.openai.com/v1"</span>
+
+    <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="n">system_prompt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"gpt-4-turbo"</span><span class="p">,</span>
+                <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span>
+                <span class="n">max_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMResponse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Generate a completion using OpenAI's API"""</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+            <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">organization</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s2">"OpenAI-Organization"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">organization</span>
+
+        <span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">system_prompt</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"system"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">system_prompt</span><span class="p">})</span>
+
+        <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">prompt</span><span class="p">})</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"model"</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+            <span class="s2">"messages"</span><span class="p">:</span> <span class="n">messages</span><span class="p">,</span>
+            <span class="s2">"temperature"</span><span class="p">:</span> <span class="n">temperature</span><span class="p">,</span>
+            <span class="s2">"max_tokens"</span><span class="p">:</span> <span class="n">max_tokens</span>
+        <span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_base</span><span class="si">}</span><span class="s2">/chat/completions"</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">data</span>
+        <span class="p">)</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">LLMResponse</span><span class="p">(</span>
+            <span class="n">content</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">"choices"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"message"</span><span class="p">][</span><span class="s2">"content"</span><span class="p">],</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">"model"</span><span class="p">],</span>
+            <span class="n">usage</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">"usage"</span><span class="p">],</span>
+            <span class="n">raw_response</span><span class="o">=</span><span class="n">result</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_available_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return a list of available OpenAI models"""</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"Authorization"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s2">"</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">organization</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s2">"OpenAI-Organization"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">organization</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_base</span><span class="si">}</span><span class="s2">/models"</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span>
+        <span class="p">)</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">models</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"data"</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">model</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">AnthropicProvider</span><span class="p">(</span><span class="n">LLMProvider</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Anthropic Claude API implementation"""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Initialize with API key from args or environment"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ANTHROPIC_API_KEY"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Anthropic API key is required. Provide as argument or set ANTHROPIC_API_KEY environment variable."</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_base</span> <span class="o">=</span> <span class="s2">"https://api.anthropic.com/v1"</span>
+
+    <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="n">system_prompt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"claude-3-opus-20240229"</span><span class="p">,</span>
+                <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">,</span>
+                <span class="n">max_tokens</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMResponse</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Generate a completion using Anthropic's API"""</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"Content-Type"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">,</span>
+            <span class="s2">"X-API-Key"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">,</span>
+            <span class="s2">"anthropic-version"</span><span class="p">:</span> <span class="s2">"2023-06-01"</span>
+        <span class="p">}</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"model"</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+            <span class="s2">"messages"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}],</span>
+            <span class="s2">"temperature"</span><span class="p">:</span> <span class="n">temperature</span><span class="p">,</span>
+            <span class="s2">"max_tokens"</span><span class="p">:</span> <span class="n">max_tokens</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">system_prompt</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">"system"</span><span class="p">]</span> <span class="o">=</span> <span class="n">system_prompt</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_base</span><span class="si">}</span><span class="s2">/messages"</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">data</span>
+        <span class="p">)</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">LLMResponse</span><span class="p">(</span>
+            <span class="n">content</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">"content"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"text"</span><span class="p">],</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">"model"</span><span class="p">],</span>
+            <span class="n">usage</span><span class="o">=</span><span class="p">{</span><span class="s2">"prompt_tokens"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"usage"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"input_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                   <span class="s2">"completion_tokens"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"usage"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"output_tokens"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>
+            <span class="n">raw_response</span><span class="o">=</span><span class="n">result</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_available_models</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Return a list of available Anthropic models"""</span>
+        <span class="c1"># Anthropic doesn't have a models endpoint, so we return a static list</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s2">"claude-3-opus-20240229"</span><span class="p">,</span>
+            <span class="s2">"claude-3-sonnet-20240229"</span><span class="p">,</span>
+            <span class="s2">"claude-3-haiku-20240307"</span>
+        <span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">LLMFactory</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Factory for creating LLM providers"""</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">create_provider</span><span class="p">(</span><span class="n">provider_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LLMProvider</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create and return an LLM provider instance"""</span>
+        <span class="k">if</span> <span class="n">provider_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"openai"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">OpenAIProvider</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">provider_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"anthropic"</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">AnthropicProvider</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported provider: </span><span class="si">{</span><span class="n">provider_name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 1.3.0 --- API Call Function Definitions ---</span>
+
+<span class="k">def</span> <span class="nf">extract_argdown_from_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">provider_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"openai"</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Extract ArgDown representation from text using LLM</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text: The source text to extract arguments from</span>
+<span class="sd">        provider_name: The LLM provider to use (openai or anthropic)</span>
+<span class="sd">        model: Specific model to use, or None for default</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Extracted ArgDown representation</span>
+<span class="sd">    """</span>
+    <span class="c1"># Create LLM provider</span>
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">LLMFactory</span><span class="o">.</span><span class="n">create_provider</span><span class="p">(</span><span class="n">provider_name</span><span class="p">)</span>
+
+    <span class="c1"># Get extraction prompt</span>
+    <span class="n">prompt_template</span> <span class="o">=</span> <span class="n">PromptLibrary</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s2">"ARGDOWN_EXTRACTION"</span><span class="p">)</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">prompt_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="c1"># Set model-specific parameters</span>
+    <span class="k">if</span> <span class="n">provider_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"openai"</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="ow">or</span> <span class="s2">"gpt-4-turbo"</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="mf">0.3</span>  <span class="c1"># Lower temperature for more deterministic extraction</span>
+        <span class="n">max_tokens</span> <span class="o">=</span> <span class="mi">4000</span>
+    <span class="k">elif</span> <span class="n">provider_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"anthropic"</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model</span> <span class="ow">or</span> <span class="s2">"claude-3-opus-20240229"</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="mf">0.2</span>
+        <span class="n">max_tokens</span> <span class="o">=</span> <span class="mi">4000</span>
+
+    <span class="c1"># Call the LLM</span>
+    <span class="n">system_prompt</span> <span class="o">=</span> <span class="s2">"You are an expert in argument mapping and causal reasoning."</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">complete</span><span class="p">(</span>
+        <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span>
+        <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+        <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Extract the ArgDown content (remove any markdown code blocks if present)</span>
+    <span class="n">argdown_content</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span>
+    <span class="k">if</span> <span class="s2">"```"</span> <span class="ow">in</span> <span class="n">argdown_content</span><span class="p">:</span>
+        <span class="c1"># Extract content between code blocks if present</span>
+        <span class="kn">import</span> <span class="nn">re</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"```(?:argdown)?\n([\s\S]*?)\n```"</span><span class="p">,</span> <span class="n">argdown_content</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">matches</span><span class="p">:</span>
+            <span class="n">argdown_content</span> <span class="o">=</span> <span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">argdown_content</span>
+
+<span class="k">def</span> <span class="nf">validate_argdown</span><span class="p">(</span><span class="n">argdown_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Validate ArgDown representation to ensure it's well-formed</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        argdown_text: ArgDown representation to validate</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary with validation results</span>
+<span class="sd">    """</span>
+    <span class="c1"># Initialize validation results</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"is_valid"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">"errors"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"warnings"</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">"stats"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"node_count"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"relationship_count"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">"max_depth"</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Basic syntax checks</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">argdown_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">node_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">'\[(.*?)\]:'</span>
+    <span class="n">instantiation_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">'{"instantiations":'</span>
+
+    <span class="c1"># Track nodes and relationships</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">relationships</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">current_depth</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+        <span class="c1"># Skip empty lines</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Calculate indentation depth</span>
+        <span class="n">indent</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="s1">'+'</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+            <span class="n">indent</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'+'</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+
+        <span class="n">current_depth</span> <span class="o">=</span> <span class="n">indent</span>
+        <span class="n">max_depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">current_depth</span><span class="p">)</span>
+
+        <span class="c1"># Check for node definitions</span>
+        <span class="kn">import</span> <span class="nn">re</span>
+        <span class="n">node_matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">node_pattern</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node_matches</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node_matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">"stats"</span><span class="p">][</span><span class="s2">"node_count"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Check for instantiations</span>
+            <span class="k">if</span> <span class="n">instantiation_pattern</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">"warnings"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Line </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: Node '</span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s2">' is missing instantiations metadata"</span><span class="p">)</span>
+
+        <span class="c1"># Check parent-child relationships</span>
+        <span class="k">if</span> <span class="n">indent</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s1">'+'</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">node_matches</span><span class="p">:</span>
+            <span class="c1"># This is a child node; find its parent</span>
+            <span class="n">parent_indent</span> <span class="o">=</span> <span class="n">indent</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">'+'</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">and</span> <span class="n">lines</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">'+'</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">==</span> <span class="n">parent_indent</span><span class="p">:</span>
+                    <span class="n">parent_matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">node_pattern</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">parent_matches</span><span class="p">:</span>
+                        <span class="n">parent</span> <span class="o">=</span> <span class="n">parent_matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">relationships</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">parent</span><span class="p">,</span> <span class="n">node</span><span class="p">))</span>
+                        <span class="n">results</span><span class="p">[</span><span class="s2">"stats"</span><span class="p">][</span><span class="s2">"relationship_count"</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">break</span>
+                <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="s2">"stats"</span><span class="p">][</span><span class="s2">"max_depth"</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_depth</span>
+
+    <span class="c1"># If we didn't find any nodes, that's a problem</span>
+    <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s2">"stats"</span><span class="p">][</span><span class="s2">"node_count"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">"is_valid"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">"errors"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"No valid nodes found in ArgDown representation"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="k">def</span> <span class="nf">process_source_document</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">provider_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"openai"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Process a source document to extract ArgDown representation</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        file_path: Path to the source document</span>
+<span class="sd">        provider_name: The LLM provider to use</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary with extraction results</span>
+<span class="sd">    """</span>
+    <span class="c1"># Load the source document</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".pdf"</span><span class="p">):</span>
+        <span class="c1"># PDF handling requires additional libraries</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">PyPDF2</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">reader</span> <span class="o">=</span> <span class="n">PyPDF2</span><span class="o">.</span><span class="n">PdfReader</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+                <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">reader</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">+=</span> <span class="n">page</span><span class="o">.</span><span class="n">extract_text</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">"PyPDF2 is required for PDF processing. Install it with: pip install PyPDF2"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">file_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".txt"</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">file_path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".md"</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported file format: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="c1"># Extract ArgDown</span>
+    <span class="n">argdown_content</span> <span class="o">=</span> <span class="n">extract_argdown_from_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">provider_name</span><span class="p">)</span>
+
+    <span class="c1"># Validate the extraction</span>
+    <span class="n">validation_results</span> <span class="o">=</span> <span class="n">validate_argdown</span><span class="p">(</span><span class="n">argdown_content</span><span class="p">)</span>
+
+    <span class="c1"># Prepare results</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"source_path"</span><span class="p">:</span> <span class="n">file_path</span><span class="p">,</span>
+        <span class="s2">"extraction_timestamp"</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">(),</span>
+        <span class="s2">"argdown_content"</span><span class="p">:</span> <span class="n">argdown_content</span><span class="p">,</span>
+        <span class="s2">"validation"</span><span class="p">:</span> <span class="n">validation_results</span><span class="p">,</span>
+        <span class="s2">"provider"</span><span class="p">:</span> <span class="n">provider_name</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">results</span>
+
+<span class="k">def</span> <span class="nf">save_argdown_extraction</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Save ArgDown extraction results</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        results: Extraction results dictionary</span>
+<span class="sd">        output_path: Path to save the results</span>
+<span class="sd">    """</span>
+    <span class="c1"># Save the ArgDown content</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">"argdown_content"</span><span class="p">])</span>
+
+    <span class="c1"># Save metadata alongside</span>
+    <span class="n">metadata_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'.md'</span><span class="p">,</span> <span class="s1">'_metadata.json'</span><span class="p">)</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"source_path"</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">"source_path"</span><span class="p">],</span>
+        <span class="s2">"extraction_timestamp"</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">"extraction_timestamp"</span><span class="p">],</span>
+        <span class="s2">"validation"</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">"validation"</span><span class="p">],</span>
+        <span class="s2">"provider"</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">"provider"</span><span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata_path</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 1.3 --- Prepare LLM API Call ---</span>
+<span class="k">def</span> <span class="nf">prepare_extraction_call</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="n">provider_name</span><span class="o">=</span><span class="s2">"openai"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Prepare the LLM API call for ArgDown extraction"""</span>
+
+    <span class="c1"># Load the source document</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Processing source document: </span><span class="si">{</span><span class="n">source_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="c1"># Determine provider and model</span>
+    <span class="n">provider</span> <span class="o">=</span> <span class="n">provider_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">provider</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"openai"</span><span class="p">,</span> <span class="s2">"anthropic"</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported provider: </span><span class="si">{</span><span class="n">provider</span><span class="si">}</span><span class="s2">. Use 'openai' or 'anthropic'."</span><span class="p">)</span>
+
+    <span class="c1"># Set default model if none provided</span>
+    <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">provider</span> <span class="o">==</span> <span class="s2">"openai"</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="s2">"gpt-4-turbo"</span>
+        <span class="k">elif</span> <span class="n">provider</span> <span class="o">==</span> <span class="s2">"anthropic"</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="s2">"claude-3-opus-20240229"</span>
+
+    <span class="c1"># Print configuration</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Using provider: </span><span class="si">{</span><span class="n">provider</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Selected model: </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">"source_path"</span><span class="p">:</span> <span class="n">source_path</span><span class="p">,</span>
+        <span class="s2">"provider"</span><span class="p">:</span> <span class="n">provider</span><span class="p">,</span>
+        <span class="s2">"model"</span><span class="p">:</span> <span class="n">model</span>
+    <span class="p">}</span>
+
+<span class="c1"># Usage example:</span>
+<span class="n">source_path</span> <span class="o">=</span> <span class="s2">"example_document.pdf"</span>  <span class="c1"># Replace with actual document path</span>
+<span class="n">extraction_config</span> <span class="o">=</span> <span class="n">prepare_extraction_call</span><span class="p">(</span><span class="n">source_path</span><span class="p">,</span> <span class="n">provider_name</span><span class="o">=</span><span class="s2">"openai"</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -8289,7 +8747,40 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span> 
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 1.4 --- Make ArgDown Extraction LLM API Call ---</span>
+<span class="k">def</span> <span class="nf">execute_extraction</span><span class="p">(</span><span class="n">extraction_config</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Execute the ArgDown extraction using the LLM API"""</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Starting extraction from </span><span class="si">{</span><span class="n">extraction_config</span><span class="p">[</span><span class="s1">'source_path'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Process the document</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">process_source_document</span><span class="p">(</span>
+            <span class="n">extraction_config</span><span class="p">[</span><span class="s2">"source_path"</span><span class="p">],</span>
+            <span class="n">provider_name</span><span class="o">=</span><span class="n">extraction_config</span><span class="p">[</span><span class="s2">"provider"</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Print success message</span>
+        <span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Extraction completed in </span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Extracted </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">'validation'</span><span class="p">][</span><span class="s1">'stats'</span><span class="p">][</span><span class="s1">'node_count'</span><span class="p">]</span><span class="si">}</span><span class="s2"> nodes with "</span>
+              <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">'validation'</span><span class="p">][</span><span class="s1">'stats'</span><span class="p">][</span><span class="s1">'relationship_count'</span><span class="p">]</span><span class="si">}</span><span class="s2"> relationships"</span><span class="p">)</span>
+
+        <span class="c1"># Print any warnings</span>
+        <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s1">'validation'</span><span class="p">][</span><span class="s1">'warnings'</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Warnings:"</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">warning</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s1">'validation'</span><span class="p">][</span><span class="s1">'warnings'</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"- </span><span class="si">{</span><span class="n">warning</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error during extraction: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">raise</span>
+
+<span class="c1"># Usage example:</span>
+<span class="n">extraction_results</span> <span class="o">=</span> <span class="n">execute_extraction</span><span class="p">(</span><span class="n">extraction_config</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8319,7 +8810,45 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span> 
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 1.5 --- Save ArgDown Extraction Response ---</span>
+
+<span class="k">def</span> <span class="nf">save_extraction_results</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">output_directory</span><span class="o">=</span><span class="s2">"./outputs"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Save the extraction results to file"""</span>
+
+    <span class="c1"># Ensure output directory exists</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_directory</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Create base filename from source</span>
+    <span class="kn">import</span> <span class="nn">os.path</span>
+    <span class="n">base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">"source_path"</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'.'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">-%H%M%S"</span><span class="p">)</span>
+    <span class="n">output_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_name</span><span class="si">}</span><span class="s2">_argdown_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.md"</span>
+    <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_directory</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">)</span>
+
+    <span class="c1"># Save the results</span>
+    <span class="n">save_argdown_extraction</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">output_path</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Saved ArgDown extraction to: </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Metadata saved to: </span><span class="si">{</span><span class="n">output_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'.md'</span><span class="p">,</span><span class="w"> </span><span class="s1">'_metadata.json'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="c1"># Also save to standard location for further processing</span>
+    <span class="n">standard_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_directory</span><span class="p">,</span> <span class="s2">"ArgDown.md"</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">standard_path</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">"argdown_content"</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Also saved to standard location: </span><span class="si">{</span><span class="n">standard_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output_path</span>
+
+<span class="c1"># Usage example:</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="n">save_extraction_results</span><span class="p">(</span><span class="n">extraction_results</span><span class="p">)</span>
+
+<span class="c1"># Preview the extracted ArgDown</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="c1"># Display the first 500 characters of the extracted ArgDown</span>
+<span class="n">preview</span> <span class="o">=</span> <span class="n">extraction_results</span><span class="p">[</span><span class="s2">"argdown_content"</span><span class="p">][:</span><span class="mi">500</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"..."</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extraction_results</span><span class="p">[</span><span class="s2">"argdown_content"</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">500</span> <span class="k">else</span> <span class="n">extraction_results</span><span class="p">[</span><span class="s2">"argdown_content"</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"## Extracted ArgDown Preview</span><span class="se">\n\n</span><span class="s2">```</span><span class="se">\n</span><span class="si">{</span><span class="n">preview</span><span class="si">}</span><span class="se">\n</span><span class="s2">```"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -8341,7 +8870,7 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">md_content</span><span class="p">))</span>
@@ -8381,10 +8910,12 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">IFrame</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 1.6.2 --- ArgDown Online Sandbox ---</span>
+
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">IFrame</span>
 
 <span class="n">IFrame</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="s2">"https://argdown.org/sandbox/map/"</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s2">"100%"</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s2">"600px"</span><span class="p">)</span>
 </pre></div>
@@ -8397,7 +8928,7 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <iframe allowfullscreen="" frameborder="0" height="600px" src="https://argdown.org/sandbox/map/" width="100%"></iframe>
 </div>
@@ -8435,7 +8966,9 @@ When encountering errors, accessing the data, try using "RAW" Urls.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">parse_markdown_hierarchy_fixed</span><span class="p">(</span><span class="n">markdown_text</span><span class="p">,</span> <span class="n">ArgDown</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 1.7 --- Parsing ArgDown &amp; BayesDown (.md to .csv) ---</span>
+
+<span class="k">def</span> <span class="nf">parse_markdown_hierarchy_fixed</span><span class="p">(</span><span class="n">markdown_text</span><span class="p">,</span> <span class="n">ArgDown</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Main function to parse markdown hierarchy into a DataFrame with correct parent-child relationships"""</span>
 
     <span class="c1"># Remove comments</span>
@@ -11417,6 +11950,193 @@ Handling missing data with appropriate default values</p>
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 3.3.1 Data Post-Processing Functions ---</span>
+
+<span class="c1"># --- 3.3 Data-Post-Processing ---</span>
+
+<span class="k">def</span> <span class="nf">enhance_extracted_data</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Enhance the extracted data with calculated columns</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df: DataFrame with extracted BayesDown data</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Enhanced DataFrame with additional columns</span>
+<span class="sd">    """</span>
+    <span class="c1"># Create a copy to avoid modifying the original</span>
+    <span class="n">enhanced_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># 1. Calculate joint probabilities</span>
+    <span class="n">enhanced_df</span><span class="p">[</span><span class="s1">'joint_probabilities'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">enhanced_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Title'</span><span class="p">]</span>
+        <span class="n">priors</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'priors'</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'priors'</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">posteriors</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'posteriors'</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'posteriors'</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="n">parents</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Parents'</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'Parents'</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[]</span>
+
+        <span class="c1"># Skip if no parents or no priors</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parents</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">priors</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Initialize joint probabilities dictionary</span>
+        <span class="n">joint_probs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Get instantiations</span>
+        <span class="n">instantiations</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'instantiations'</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">instantiations</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">instantiations</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># For each parent and child instantiation combination, calculate joint probability</span>
+        <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">instantiations</span><span class="p">:</span>
+            <span class="c1"># Get this instantiation's prior probability</span>
+            <span class="n">inst_prior_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"p(</span><span class="si">{</span><span class="n">inst</span><span class="si">}</span><span class="s2">)"</span>
+            <span class="k">if</span> <span class="n">inst_prior_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">priors</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">inst_prior</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">priors</span><span class="p">[</span><span class="n">inst_prior_key</span><span class="p">])</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># For each parent</span>
+            <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+                <span class="n">parent_row</span> <span class="o">=</span> <span class="n">enhanced_df</span><span class="p">[</span><span class="n">enhanced_df</span><span class="p">[</span><span class="s1">'Title'</span><span class="p">]</span> <span class="o">==</span> <span class="n">parent</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">parent_row</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">parent_insts</span> <span class="o">=</span> <span class="n">parent_row</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'instantiations'</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent_insts</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">parent_insts</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="k">for</span> <span class="n">parent_inst</span> <span class="ow">in</span> <span class="n">parent_insts</span><span class="p">:</span>
+                    <span class="c1"># Get conditional probability</span>
+                    <span class="n">cond_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"p(</span><span class="si">{</span><span class="n">inst</span><span class="si">}</span><span class="s2">|</span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">parent_inst</span><span class="si">}</span><span class="s2">)"</span>
+                    <span class="k">if</span> <span class="n">cond_key</span> <span class="ow">in</span> <span class="n">posteriors</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">cond_prob</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">posteriors</span><span class="p">[</span><span class="n">cond_key</span><span class="p">])</span>
+
+                            <span class="c1"># Get parent's prior</span>
+                            <span class="n">parent_priors</span> <span class="o">=</span> <span class="n">parent_row</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'priors'</span><span class="p">]</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent_priors</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                                <span class="k">continue</span>
+
+                            <span class="n">parent_prior_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"p(</span><span class="si">{</span><span class="n">parent_inst</span><span class="si">}</span><span class="s2">)"</span>
+                            <span class="k">if</span> <span class="n">parent_prior_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parent_priors</span><span class="p">:</span>
+                                <span class="k">continue</span>
+
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">parent_prior</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">parent_priors</span><span class="p">[</span><span class="n">parent_prior_key</span><span class="p">])</span>
+
+                                <span class="c1"># Calculate joint probability: P(A,B) = P(A|B) * P(B)</span>
+                                <span class="n">joint_prob</span> <span class="o">=</span> <span class="n">cond_prob</span> <span class="o">*</span> <span class="n">parent_prior</span>
+                                <span class="n">joint_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"p(</span><span class="si">{</span><span class="n">inst</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">parent</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">parent_inst</span><span class="si">}</span><span class="s2">)"</span>
+                                <span class="n">joint_probs</span><span class="p">[</span><span class="n">joint_key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">joint_prob</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+                            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+                                <span class="k">continue</span>
+                        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+                            <span class="k">continue</span>
+
+        <span class="c1"># Store joint probabilities in dataframe</span>
+        <span class="n">enhanced_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'joint_probabilities'</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_probs</span>
+
+    <span class="c1"># 2. Calculate network metrics</span>
+    <span class="c1"># Create a directed graph</span>
+    <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+
+    <span class="c1"># Add nodes</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">enhanced_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'Title'</span><span class="p">])</span>
+
+    <span class="c1"># Add edges</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">enhanced_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Title'</span><span class="p">]</span>
+        <span class="n">parents</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Parents'</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'Parents'</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+                <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="p">)</span>
+
+    <span class="c1"># Calculate centrality measures</span>
+    <span class="n">degree_centrality</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">degree_centrality</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">in_degree_centrality</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">in_degree_centrality</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">out_degree_centrality</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">out_degree_centrality</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">betweenness_centrality</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">betweenness_centrality</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">betweenness_centrality</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()}</span>
+
+    <span class="c1"># Add metrics to dataframe</span>
+    <span class="n">enhanced_df</span><span class="p">[</span><span class="s1">'degree_centrality'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">enhanced_df</span><span class="p">[</span><span class="s1">'in_degree_centrality'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">enhanced_df</span><span class="p">[</span><span class="s1">'out_degree_centrality'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">enhanced_df</span><span class="p">[</span><span class="s1">'betweenness_centrality'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">enhanced_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Title'</span><span class="p">]</span>
+        <span class="n">enhanced_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'degree_centrality'</span><span class="p">]</span> <span class="o">=</span> <span class="n">degree_centrality</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">enhanced_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'in_degree_centrality'</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_degree_centrality</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">enhanced_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'out_degree_centrality'</span><span class="p">]</span> <span class="o">=</span> <span class="n">out_degree_centrality</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">enhanced_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'betweenness_centrality'</span><span class="p">]</span> <span class="o">=</span> <span class="n">betweenness_centrality</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># 3. Add Markov blanket information (parents, children, and children's parents)</span>
+    <span class="n">enhanced_df</span><span class="p">[</span><span class="s1">'markov_blanket'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">enhanced_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Title'</span><span class="p">]</span>
+        <span class="n">parents</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Parents'</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'Parents'</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[]</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Children'</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'Children'</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[]</span>
+
+        <span class="c1"># Get children's parents (excluding this node)</span>
+        <span class="n">childrens_parents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+            <span class="n">child_row</span> <span class="o">=</span> <span class="n">enhanced_df</span><span class="p">[</span><span class="n">enhanced_df</span><span class="p">[</span><span class="s1">'Title'</span><span class="p">]</span> <span class="o">==</span> <span class="n">child</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">child_row</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="n">child_parents</span> <span class="o">=</span> <span class="n">child_row</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'Parents'</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child_parents</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">childrens_parents</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">child_parents</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">title</span><span class="p">])</span>
+
+        <span class="c1"># Remove duplicates</span>
+        <span class="n">childrens_parents</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">childrens_parents</span><span class="p">))</span>
+
+        <span class="c1"># Combine to get Markov blanket</span>
+        <span class="n">markov_blanket</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">parents</span> <span class="o">+</span> <span class="n">children</span> <span class="o">+</span> <span class="n">childrens_parents</span><span class="p">))</span>
+        <span class="n">enhanced_df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="s1">'markov_blanket'</span><span class="p">]</span> <span class="o">=</span> <span class="n">markov_blanket</span>
+
+    <span class="k">return</span> <span class="n">enhanced_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">"&lt;ipython-input-14-98a102ccdd99&gt;"</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">1</span>
+<span class="ansi-red-fg">    --- # @title 3.3.1 Data Post-Processing Functions ---</span>
+        ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -11426,6 +12146,32 @@ Handling missing data with appropriate default values</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># here we add all the rows that we have to calculate (joint probability..., maybe in several rounds (e.g. first add conditional proability, then use this column to calc joint probability...)</span>
+
+<span class="c1"># 3.3 Data Post-Processing</span>
+
+<span class="c1"># Enhance the extracted dataframe with calculated columns</span>
+<span class="n">enhanced_df</span> <span class="o">=</span> <span class="n">enhance_extracted_data</span><span class="p">(</span><span class="n">result_df</span><span class="p">)</span>
+
+<span class="c1"># Display the enhanced dataframe</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Enhanced DataFrame with additional calculated columns:"</span><span class="p">)</span>
+<span class="n">enhanced_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="c1"># Check some calculated metrics</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Joint Probabilities Example:"</span><span class="p">)</span>
+<span class="n">example_node</span> <span class="o">=</span> <span class="n">enhanced_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'Title'</span><span class="p">]</span>
+<span class="n">joint_probs</span> <span class="o">=</span> <span class="n">enhanced_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'joint_probabilities'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Joint probabilities for </span><span class="si">{</span><span class="n">example_node</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">joint_probs</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Network Metrics:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">enhanced_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">'Title'</span><span class="p">]</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Degree Centrality: </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">'degree_centrality'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Betweenness Centrality: </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">'betweenness_centrality'</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Save the enhanced dataframe</span>
+<span class="n">enhanced_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'enhanced_extracted_data.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Enhanced data saved to 'enhanced_extracted_data.csv'"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -12676,6 +13422,72 @@ Handling missing data with appropriate default values</p>
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title 0.0.0 --- Install &amp; Import Libraries &amp; Packages (One-Time Colab Setup) ---</span>
+
+<span class="c1"># implement boolean flags to indicate parts of the code that has to be skipped</span>
+<span class="c1"># best practice in Colab?</span>
+
+<span class="c1"># !pip install ...    vs.  %pip install ...   vs.  from  ...  import ...  as ...    vs.   !apt-get -qq install -y</span>
+<span class="c1"># "!" preceding a code block line in tells Colab/Jupyter to execute as command line</span>
+
+<span class="c1"># Check if the setup flag variable exists in the global scope</span>
+<span class="k">if</span> <span class="s1">'setup_complete'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Performing one-time setup..."</span><span class="p">)</span>
+    <span class="c1"># --- Your one-time code goes here ---</span>
+    <span class="c1"># Example: Install packages, download small files, initialize complex objects</span>
+    <span class="c1"># !pip install -q some_package</span>
+    <span class="c1"># import some_package</span>
+    <span class="c1"># data = download_small_dataset()</span>
+    <span class="n">my_initialized_object</span> <span class="o">=</span> <span class="s2">"This is initialized"</span>
+    <span class="c1"># --- End of one-time code ---</span>
+
+    <span class="c1"># Set the flag to indicate setup is done for this session</span>
+    <span class="n">setup_complete</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"One-time setup finished."</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Setup already completed in this session. Skipping."</span><span class="p">)</span>
+
+<span class="c1"># You can now safely use variables/objects created during setup</span>
+<span class="c1"># print(my_initialized_object)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># If this variable exists, the block was already run successfully.</span>
+    <span class="n">_setup_marker</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Setup already completed in this session. Skipping."</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Performing one-time setup..."</span><span class="p">)</span>
+    <span class="c1"># --- Your one-time code goes here ---</span>
+    <span class="c1"># !pip install -q another_package</span>
+    <span class="c1"># configuration = load_config()</span>
+    <span class="c1"># --- End of one-time code ---</span>
+
+    <span class="c1"># Create the marker variable ONLY after successful execution</span>
+    <span class="n">_setup_marker</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"One-time setup finished."</span><span class="p">)</span>
+
+<span class="c1"># Use things created in setup</span>
+<span class="c1"># print(configuration)</span>
+
+
+<span class="n">library_name</span> <span class="o">=</span> <span class="s2">"your_library_name"</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">__import__</span><span class="p">(</span><span class="n">library_name</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The library '</span><span class="si">{</span><span class="n">library_name</span><span class="si">}</span><span class="s2">' is available in Colab."</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The library '</span><span class="si">{</span><span class="n">library_name</span><span class="si">}</span><span class="s2">' is not available in Colab."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -12698,6 +13510,94 @@ Requires:
 </li>
 </ol>
 <h5 id="Heading">Heading<a class="anchor-link" href="#Heading">¶</a></h5><p>This is the cell I'm linking to</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># prompt: how to title code blocks</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>      <span class="c1"># For making HTTP requests</span>
+<span class="kn">import</span> <span class="nn">io</span>           <span class="c1"># For working with in-memory file-like objects</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>   <span class="c1"># For data manipulation</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">pgmpy.models</span> <span class="kn">import</span> <span class="n">BayesianNetwork</span>
+<span class="kn">from</span> <span class="nn">pgmpy.factors.discrete</span> <span class="kn">import</span> <span class="n">TabularCPD</span>
+<span class="kn">from</span> <span class="nn">pgmpy.inference</span> <span class="kn">import</span> <span class="n">VariableElimination</span>
+<span class="kn">from</span> <span class="nn">pyvis.network</span> <span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">IFrame</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+
+<span class="c1"># --- 2. Data Processing: ArgDown to BayesDown ---</span>
+<span class="c1"># Load the data from the ArgDown_WithQuestions CSV file</span>
+<span class="n">argdown_with_questions_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'ArgDown_WithQuestions.csv'</span><span class="p">)</span>
+
+<span class="c1"># Display the DataFrame</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">argdown_with_questions_df</span><span class="p">)</span>
+<span class="n">argdown_with_questions_df</span>
+
+
+<span class="c1"># --- 2.2 ArgDown_WithQuestions.csv to BayesDownQuestions.md ---</span>
+<span class="k">def</span> <span class="nf">extract_bayesdown_questions_fixed</span><span class="p">(</span><span class="n">argdown_with_questions_path</span><span class="p">,</span> <span class="n">output_md_path</span><span class="p">,</span> <span class="n">include_questions_as_comments</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="c1"># ... (function code as before) ...</span>
+
+
+<span class="c1"># --- 2.3 Generate BayesDown Probability Extraction Prompt ---</span>
+<span class="c1"># ... (code for generating the prompt) ...</span>
+
+
+<span class="c1"># --- 2.4 Prepare 2nd API call ---</span>
+<span class="c1"># ... (code for preparing the API call) ...</span>
+
+
+<span class="c1"># --- 2.5 Make BayesDown Probability Extraction API Call ---</span>
+<span class="c1"># ... (code for making the API call) ...</span>
+
+
+<span class="c1"># --- 2.6 Save BayesDown with Probability Estimates (.csv) ---</span>
+<span class="c1"># ... (code for saving the data) ...</span>
+
+
+<span class="c1"># --- 2.7 Review &amp; Verify BayesDown Probability Estimates ---</span>
+<span class="c1"># ... (code for review and verification) ...</span>
+
+
+<span class="c1"># --- 2.8 Extract BayesDown with Probability Estimates as Dataframe ---</span>
+<span class="c1"># ... (code for extraction) ...</span>
+
+
+<span class="c1"># --- 3. Data Extraction: BayesDown (.md) to Database (.csv) ---</span>
+<span class="c1"># --- 3.1 ExtractBayesDown-Data_v1 ---</span>
+<span class="c1"># ... (code for BayesDown data extraction) ...</span>
+
+
+<span class="c1"># --- 3.1.2 Test BayesDown Extraction ---</span>
+<span class="c1"># ... (code for testing BayesDown extraction) ...</span>
+
+
+<span class="c1"># --- 3.3 Extraction ---</span>
+<span class="c1"># ... (code for extraction) ...</span>
+
+
+<span class="c1"># --- 3.3 Data-Post-Processing ---</span>
+<span class="c1"># ... (code for data post-processing) ...</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -13341,12 +14241,12 @@ Enjoy it!</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [129]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#@title Convert ipynb to HTML in Colab</span>
@@ -13382,6 +14282,29 @@ Enjoy it!</p>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>--2025-04-22 03:18:20--  https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/AMTAIR_Prototype_example1.ipynb
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.109.133, 185.199.111.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 325314 (318K) [text/plain]
+Saving to: ‘AMTAIR_Prototype_example1.ipynb’
+
+AMTAIR_Prototype_ex 100%[===================&gt;] 317.69K  --.-KB/s    in 0.02s   
+
+2025-04-22 03:18:20 (13.8 MB/s) - ‘AMTAIR_Prototype_example1.ipynb’ saved [325314/325314]
+
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -13393,15 +14316,17 @@ Enjoy it!</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [130]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbformat</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title --- Convert .ipynb Notebook to MarkDown ---</span>
+
+<span class="kn">import</span> <span class="nn">nbformat</span>
 <span class="kn">from</span> <span class="nn">nbconvert</span> <span class="kn">import</span> <span class="n">MarkdownExporter</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -13434,6 +14359,29 @@ Enjoy it!</p>
 </div>
 </div>
 </div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>--2025-04-22 03:20:25--  https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/AMTAIR_Prototype_example1.ipynb
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 325314 (318K) [text/plain]
+Saving to: ‘AMTAIR_Prototype_example1.ipynb’
+
+          AMTAIR_Pr   0%[                    ]       0  --.-KB/s               AMTAIR_Prototype_ex 100%[===================&gt;] 317.69K  --.-KB/s    in 0.03s   
+
+2025-04-22 03:20:25 (11.3 MB/s) - ‘AMTAIR_Prototype_example1.ipynb’ saved [325314/325314]
+
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -13442,7 +14390,38 @@ Enjoy it!</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span> 
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># @title --- Convert .ipynb Notebook to PDF ---</span>
+
+<span class="kn">import</span> <span class="nn">nbformat</span>
+<span class="kn">from</span> <span class="nn">nbconvert</span> <span class="kn">import</span> <span class="n">PDFExporter</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">repo_url</span> <span class="o">=</span> <span class="s2">"https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/"</span>
+<span class="n">notebook_name</span> <span class="o">=</span> <span class="s2">"AMTAIR_Prototype_example1"</span>  <span class="c1">#Change Notebook name and path when working on different examples</span>
+
+<span class="c1"># Download the notebook file</span>
+<span class="o">!</span>wget<span class="w"> </span><span class="o">{</span>repo_url<span class="o">}{</span>notebook_name<span class="o">}</span>.ipynb<span class="w"> </span>-O<span class="w"> </span><span class="o">{</span>notebook_name<span class="o">}</span>.ipynb<span class="w">  </span>#<span class="w"> </span>Corrected<span class="w"> </span>line
+
+<span class="c1"># Load the notebook</span>
+<span class="c1"># add error handling for file not found</span>
+<span class="k">try</span><span class="p">:</span>
+  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">notebook_name</span><span class="si">}</span><span class="s2">.ipynb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">nb</span> <span class="o">=</span> <span class="n">nbformat</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">as_version</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error: File '</span><span class="si">{</span><span class="n">notebook_name</span><span class="si">}</span><span class="s2">.ipynb' not found. Please check if it was downloaded correctly."</span><span class="p">)</span>
+
+
+<span class="c1"># Initialize the PDF exporter</span>
+<span class="n">exporter</span> <span class="o">=</span> <span class="n">PDFExporter</span><span class="p">(</span><span class="n">exclude_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Changed to PDFExporter</span>
+
+
+<span class="c1"># Convert the notebook to PDF</span>
+<span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">resources</span><span class="p">)</span> <span class="o">=</span> <span class="n">exporter</span><span class="o">.</span><span class="n">from_notebook_node</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
+
+
+<span class="c1"># Save the PDF to a file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">notebook_name</span><span class="si">}</span><span class="s2">IPYNB.pdf"</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># Changed to 'wb' for binary writing</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

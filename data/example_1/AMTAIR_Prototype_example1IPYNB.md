@@ -29,7 +29,7 @@
 
 >>[Troubleshooting:](#scrollTo=NovjnOw6bzLi)
 
->[0.1 Import Libraries & Packages](#scrollTo=GtVFO-s74vI_)
+>[0.1 Prepare Colab/Python Environment --- Import Libraries & Packages](#scrollTo=GtVFO-s74vI_)
 
 >>[0.2 Connect to GitHub Repository](#scrollTo=2a3VR0fLhJow)
 
@@ -57,15 +57,25 @@
 
 >[2.0 Probability Extractions: ArgDown (.csv) to BayesDown (.md + plugin JSON syntax)](#scrollTo=7SGB0XMp5VFq)
 
->>[2.1 Generate and Extract "Prior-, Conditional- and Posterior Probability Questions" from ArgDown.csv](#scrollTo=V66ZHih3BTC0)
+>>[2.1 Probability Extraction Questions --- 'ArgDown.csv' to 'ArgDown_WithQuestions.csv'](#scrollTo=WcF2nHXBZru4)
 
->>[2.2 Generate BayesDown Extraction Prompt](#scrollTo=5649brU2BTMh)
+>>[2.2 'ArgDown_WithQuestions.csv' to 'BayesDownQuestions.md'](#scrollTo=-q9UOQ8yaBZn)
 
->>[2.3 Repeat Steps from 1.3 to 1.8 but for BayesDown / Probability Extraction](#scrollTo=uBCTJNNeDwuT)
+>>[2.3 Generate BayesDown Probability Extraction Prompt](#scrollTo=Ux4OUCPue6Bu)
 
->>[2.3 Converting ArgDown to BayesDown with Probability Extraction](#scrollTo=wF4W8y_C4ytX)
+>>[2.4 Prepare 2nd API call](#scrollTo=d4tB9WD-fIWZ)
+
+>>[2.5 Make BayesDown Probability Extraction API Call](#scrollTo=oPWto83lfN9Q)
+
+>>[2.6 Save BayesDown with Probability Estimates (.csv)](#scrollTo=L8NWpz8MfZ9_)
+
+>>[2.7 Review & Verify BayesDown Probability Estimates](#scrollTo=Q3PTtYgRfsLa)
+
+>>[2.7.2 Check the Graph Structure with the ArgDown Sandbox Online](#scrollTo=VwoAgBsafonh)
 
 >>>[2.3.1 BayesDown Format Specification](#scrollTo=ivcnd2ml41Nv)
+
+>>[2.8 Extract BayesDown with Probability Estimates as Dataframe](#scrollTo=19KDn2mKf309)
 
 >[3.0 Data Extraction: BayesDown (.md) to Database (.csv)](#scrollTo=SJ9OIyEv5qqb)
 
@@ -99,6 +109,8 @@
 
 >>>>>[Heading](#scrollTo=ulwM2lfJcY6g)
 
+>>[COMBINED: 2.1 Generate and Extract "Prior-, Conditional- and Posterior Probability Questions" from 'ArgDown.csv' to 'ArgDown_WithQuestions.csv'](#scrollTo=-Y7587rHcJ-5)
+
 >[6.0 Save Outputs](#scrollTo=kjbIj19epbrF)
 
 >>[Convert ipynb to HTML in Colab](#scrollTo=0QqlN6dYpm4s)
@@ -129,41 +141,75 @@
 - For visualization errors, check that all required libraries are properly installed
 - When processing custom files, ensure they follow the expected format conventions
 
-# 0.1 Import Libraries & Packages
+# 0.1 Prepare Colab/Python Environment --- Import Libraries & Packages
 
 
 
 ```python
-!pip install pyvis
-!pip install --upgrade gspread pandas google-auth google-colab
+# @title 0.1 --- Install & Import Libraries & Packages (One-Time Setup) ---
 
-!pip install pgmpy
-!pip install nbconvert
-```
+#  Stores Boolean Flag in Environment runs only when flag is absent
+#  Check if the setup flag variable exists in the global scope
 
+try:
+    # If this variable exists, setup was already done successfully in this session.
+    _setup_imports_done
+    print("✅ Libraries already installed and imported in this session. Skipping setup.")
 
-```python
+except NameError:
+    print("⏳ Performing one-time library installation and imports...")
 
-import requests      # For making HTTP requests
-import io           # For working with in-memory file-like objects
+    # 1. Install Packages (Quietly using -q) Requiring Installation (not avialable in Colab by default)
+    !pip install -q pyvis
+    # Combine Google-related packages for slightly cleaner install
+    !pip install -q --upgrade gspread pandas google-auth google-colab
+    !pip install -q pgmpy
+    !pip install -q nbconvert  # Often pre-installed, but good to ensure
 
-import pandas as pd   # For data manipulation
-import numpy as np
-import json
-import re
-import matplotlib.pyplot as plt
-from IPython.display import HTML, display
-from IPython.display import Markdown, display
+    print("   --> Installations complete.")
 
-import networkx as nx
-```
+    # 2. Import Libraries
+    try:
+        import requests      # For making HTTP requests
+        import io            # For working with in-memory file-like objects
+        import pandas as pd  # For data manipulation
+        import numpy as np
+        import json
+        import re
+        import matplotlib.pyplot as plt
+        from IPython.display import HTML, display, Markdown # Combined imports
 
+        # Packages not avialable in Colab by default and require above installations below:
+        import networkx as nx
 
-```python
-from pgmpy.models import BayesianNetwork
-from pgmpy.factors.discrete import TabularCPD
-from pgmpy.inference import VariableElimination
-from pyvis.network import Network
+        from pgmpy.models import BayesianNetwork
+        from pgmpy.factors.discrete import TabularCPD
+        from pgmpy.inference import VariableElimination
+
+        from pyvis.network import Network
+
+        # Also good practice to print key library versions after import
+        print(f"      pandas version: {pd.__version__}")
+        print(f"      networkx version: {nx.__version__}")
+        # Add others if specific versions are critical
+
+        print("   --> Imports complete.")
+
+        # 3. Set the flag ONLY if all installs and imports were successful
+        _setup_imports_done = True
+        print("✅ One-time setup finished successfully.")
+
+    except ImportError as e:
+        print(f"❌ ERROR during import: {e}")
+        print("   --> Setup did not complete successfully. Please check installations.")
+    except Exception as e:
+        print(f"❌ UNEXPECTED ERROR during setup: {e}")
+        print("   --> Setup did not complete successfully.")
+
+# --- End of One-Time Setup Cell ---
+
+# Now you can proceed with the rest of your code, knowing the imports exist
+# if the setup cell didn't raise a critical error.
 ```
 
 ## 0.2 Connect to GitHub Repository
@@ -177,6 +223,9 @@ When encountering errors, accessing the data, try using "RAW" Urls.
 
 
 ```python
+# @title 0.2 --- Connect to GitHub Repository --- Load Files
+
+
 # Specify the base repository URL
 repo_url = "https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/"
 
@@ -231,19 +280,582 @@ md_content
 
 Review the source document, ensure it is suitable for API call and upload to / store it in the correct location.
 
+
+```python
+# @title 1.1.a) --- MTAIR Online Model (Analytica) ---
+
+from IPython.display import IFrame
+
+IFrame(src="https://acp.analytica.com/view0?invite=4560&code=3000289064591444815", width="100%", height="900px")
+```
+
 ## 1.2 Generate ArgDown Extraction Prompt
 
 Generate Extraction Prompt
+
+
+```python
+# @title 1.2.0 --- Prompt Template Function Definitions ---
+
+from string import Template
+from typing import Dict, Optional, Union, List
+
+class PromptTemplate:
+    """Template system for LLM prompts with variable substitution"""
+
+    def __init__(self, template: str):
+        """Initialize with template string using $variable format"""
+        self.template = Template(template)
+
+    def format(self, **kwargs) -> str:
+        """Substitute variables in the template"""
+        return self.template.safe_substitute(**kwargs)
+
+    @classmethod
+    def from_file(cls, filepath: str) -> 'PromptTemplate':
+        """Load template from a file"""
+        with open(filepath, 'r') as f:
+            template = f.read()
+        return cls(template)
+
+class PromptLibrary:
+    """Collection of prompt templates for different extraction tasks"""
+
+    # ArgDown extraction prompt
+    ARGDOWN_EXTRACTION = PromptTemplate("""
+You are an expert in creating structured argument maps in ArgDown format. Your task is to extract the key arguments, premises, and conclusions from the provided text, and represent them in a hierarchical ArgDown format.
+
+Follow these guidelines:
+1. Use the format [Statement]: Description for main claims
+2. Use the + symbol and indentation to indicate supporting statements
+3. Capture the core argumentative structure, focusing on causal relationships and key claims
+4. Ensure each statement has a clear, concise title followed by a fuller description
+5. Add the "instantiations" field to indicate possible states of each variable
+
+Here is the metadata format to include for each node:
+{"instantiations": ["node_TRUE", "node_FALSE"]}
+
+Example:
+[Thesis]: Main claim of the text. {"instantiations": ["thesis_TRUE", "thesis_FALSE"]}
+ + [Support1]: First supporting argument. {"instantiations": ["support1_TRUE", "support1_FALSE"]}
+   + [Evidence1]: Evidence for Support1. {"instantiations": ["evidence1_TRUE", "evidence1_FALSE"]}
+ + [Support2]: Second supporting argument. {"instantiations": ["support2_TRUE", "support2_FALSE"]}
+
+Text to analyze:
+$text
+
+Create an ArgDown representation that captures the key arguments, their relationships, and possible states:
+""")
+
+    # BayesDown probability extraction prompt
+    BAYESDOWN_EXTRACTION = PromptTemplate("""
+You are an expert in probabilistic reasoning and Bayesian networks. Your task is to extend the provided ArgDown structure with probability information, creating a BayesDown representation.
+
+For each statement in the ArgDown structure, you need to:
+1. Estimate prior probabilities for each possible state
+2. Estimate conditional probabilities given parent states
+3. Maintain the original structure and relationships
+
+Here is the format to follow:
+[Node]: Description. { "instantiations": ["node_TRUE", "node_FALSE"], "priors": { "p(node_TRUE)": "0.7", "p(node_FALSE)": "0.3" }, "posteriors": { "p(node_TRUE|parent_TRUE)": "0.9", "p(node_TRUE|parent_FALSE)": "0.4", "p(node_FALSE|parent_TRUE)": "0.1", "p(node_FALSE|parent_FALSE)": "0.6" } }
+ [Parent]: Parent description. {...}
+
+
+Here are the specific probability questions to answer:
+$questions
+
+ArgDown structure to enhance:
+$argdown
+
+Provide the complete BayesDown representation with probabilities:
+""")
+
+    @classmethod
+    def get_template(cls, template_name: str) -> PromptTemplate:
+        """Get a prompt template by name"""
+        if hasattr(cls, template_name):
+            return getattr(cls, template_name)
+        else:
+            raise ValueError(f"Template not found: {template_name}")
+```
 
 ## 1.3 Prepare LLM API Call
 
 Combine Systemprompt + API Specifications + ArgDown Instructions + Prompt + Source PDF for API Call
 
+
+```python
+# @title 1.3.0 --- Provider-Agnostic LLM API Interface ---
+
+import os
+import json
+import time
+import requests
+from abc import ABC, abstractmethod
+from typing import Dict, List, Optional, Union, Any
+from dataclasses import dataclass
+
+@dataclass
+class LLMResponse:
+    """Standard response object for LLM completions"""
+    content: str
+    model: str
+    usage: Dict[str, int]
+    raw_response: Dict[str, Any]
+    created_at: float = time.time()
+
+class LLMProvider(ABC):
+    """Abstract base class for LLM providers"""
+
+    @abstractmethod
+    def complete(self,
+                prompt: str,
+                system_prompt: Optional[str] = None,
+                temperature: float = 0.7,
+                max_tokens: int = 4000) -> LLMResponse:
+        """Generate a completion from the LLM"""
+        pass
+
+    @abstractmethod
+    def get_available_models(self) -> List[str]:
+        """Return a list of available models from this provider"""
+        pass
+
+class OpenAIProvider(LLMProvider):
+    """OpenAI API implementation"""
+
+    def __init__(self, api_key: Optional[str] = None, organization: Optional[str] = None):
+        """Initialize with API key from args or environment"""
+        self.api_key = api_key or os.environ.get("OPENAI_API_KEY")
+        if not self.api_key:
+            raise ValueError("OpenAI API key is required. Provide as argument or set OPENAI_API_KEY environment variable.")
+
+        self.organization = organization or os.environ.get("OPENAI_ORGANIZATION")
+        self.api_base = "https://api.openai.com/v1"
+
+    def complete(self,
+                prompt: str,
+                system_prompt: Optional[str] = None,
+                model: str = "gpt-4-turbo",
+                temperature: float = 0.7,
+                max_tokens: int = 4000) -> LLMResponse:
+        """Generate a completion using OpenAI's API"""
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}"
+        }
+
+        if self.organization:
+            headers["OpenAI-Organization"] = self.organization
+
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+
+        messages.append({"role": "user", "content": prompt})
+
+        data = {
+            "model": model,
+            "messages": messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens
+        }
+
+        response = requests.post(
+            f"{self.api_base}/chat/completions",
+            headers=headers,
+            json=data
+        )
+
+        response.raise_for_status()
+        result = response.json()
+
+        return LLMResponse(
+            content=result["choices"][0]["message"]["content"],
+            model=result["model"],
+            usage=result["usage"],
+            raw_response=result
+        )
+
+    def get_available_models(self) -> List[str]:
+        """Return a list of available OpenAI models"""
+        headers = {
+            "Authorization": f"Bearer {self.api_key}"
+        }
+
+        if self.organization:
+            headers["OpenAI-Organization"] = self.organization
+
+        response = requests.get(
+            f"{self.api_base}/models",
+            headers=headers
+        )
+
+        response.raise_for_status()
+        models = response.json()["data"]
+        return [model["id"] for model in models]
+
+class AnthropicProvider(LLMProvider):
+    """Anthropic Claude API implementation"""
+
+    def __init__(self, api_key: Optional[str] = None):
+        """Initialize with API key from args or environment"""
+        self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY")
+        if not self.api_key:
+            raise ValueError("Anthropic API key is required. Provide as argument or set ANTHROPIC_API_KEY environment variable.")
+
+        self.api_base = "https://api.anthropic.com/v1"
+
+    def complete(self,
+                prompt: str,
+                system_prompt: Optional[str] = None,
+                model: str = "claude-3-opus-20240229",
+                temperature: float = 0.7,
+                max_tokens: int = 4000) -> LLMResponse:
+        """Generate a completion using Anthropic's API"""
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-API-Key": self.api_key,
+            "anthropic-version": "2023-06-01"
+        }
+
+        data = {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": temperature,
+            "max_tokens": max_tokens
+        }
+
+        if system_prompt:
+            data["system"] = system_prompt
+
+        response = requests.post(
+            f"{self.api_base}/messages",
+            headers=headers,
+            json=data
+        )
+
+        response.raise_for_status()
+        result = response.json()
+
+        return LLMResponse(
+            content=result["content"][0]["text"],
+            model=result["model"],
+            usage={"prompt_tokens": result.get("usage", {}).get("input_tokens", 0),
+                   "completion_tokens": result.get("usage", {}).get("output_tokens", 0)},
+            raw_response=result
+        )
+
+    def get_available_models(self) -> List[str]:
+        """Return a list of available Anthropic models"""
+        # Anthropic doesn't have a models endpoint, so we return a static list
+        return [
+            "claude-3-opus-20240229",
+            "claude-3-sonnet-20240229",
+            "claude-3-haiku-20240307"
+        ]
+
+class LLMFactory:
+    """Factory for creating LLM providers"""
+
+    @staticmethod
+    def create_provider(provider_name: str, **kwargs) -> LLMProvider:
+        """Create and return an LLM provider instance"""
+        if provider_name.lower() == "openai":
+            return OpenAIProvider(**kwargs)
+        elif provider_name.lower() == "anthropic":
+            return AnthropicProvider(**kwargs)
+        else:
+            raise ValueError(f"Unsupported provider: {provider_name}")
+```
+
+
+```python
+# @title 1.3.0 --- API Call Function Definitions ---
+
+def extract_argdown_from_text(text: str, provider_name: str = "openai", model: str = None) -> str:
+    """
+    Extract ArgDown representation from text using LLM
+
+    Args:
+        text: The source text to extract arguments from
+        provider_name: The LLM provider to use (openai or anthropic)
+        model: Specific model to use, or None for default
+
+    Returns:
+        Extracted ArgDown representation
+    """
+    # Create LLM provider
+    provider = LLMFactory.create_provider(provider_name)
+
+    # Get extraction prompt
+    prompt_template = PromptLibrary.get_template("ARGDOWN_EXTRACTION")
+    prompt = prompt_template.format(text=text)
+
+    # Set model-specific parameters
+    if provider_name.lower() == "openai":
+        model = model or "gpt-4-turbo"
+        temperature = 0.3  # Lower temperature for more deterministic extraction
+        max_tokens = 4000
+    elif provider_name.lower() == "anthropic":
+        model = model or "claude-3-opus-20240229"
+        temperature = 0.2
+        max_tokens = 4000
+
+    # Call the LLM
+    system_prompt = "You are an expert in argument mapping and causal reasoning."
+    response = provider.complete(
+        prompt=prompt,
+        system_prompt=system_prompt,
+        model=model,
+        temperature=temperature,
+        max_tokens=max_tokens
+    )
+
+    # Extract the ArgDown content (remove any markdown code blocks if present)
+    argdown_content = response.content
+    if "```" in argdown_content:
+        # Extract content between code blocks if present
+        import re
+        matches = re.findall(r"```(?:argdown)?\n([\s\S]*?)\n```", argdown_content)
+        if matches:
+            argdown_content = matches[0]
+
+    return argdown_content
+
+def validate_argdown(argdown_text: str) -> Dict[str, Any]:
+    """
+    Validate ArgDown representation to ensure it's well-formed
+
+    Args:
+        argdown_text: ArgDown representation to validate
+
+    Returns:
+        Dictionary with validation results
+    """
+    # Initialize validation results
+    results = {
+        "is_valid": True,
+        "errors": [],
+        "warnings": [],
+        "stats": {
+            "node_count": 0,
+            "relationship_count": 0,
+            "max_depth": 0
+        }
+    }
+
+    # Basic syntax checks
+    lines = argdown_text.split("\n")
+    node_pattern = r'\[(.*?)\]:'
+    instantiation_pattern = r'{"instantiations":'
+
+    # Track nodes and relationships
+    nodes = set()
+    relationships = []
+    current_depth = 0
+    max_depth = 0
+
+    for i, line in enumerate(lines):
+        # Skip empty lines
+        if not line.strip():
+            continue
+
+        # Calculate indentation depth
+        indent = 0
+        if '+' in line:
+            indent = line.find('+') // 2
+
+        current_depth = indent
+        max_depth = max(max_depth, current_depth)
+
+        # Check for node definitions
+        import re
+        node_matches = re.findall(node_pattern, line)
+        if node_matches:
+            node = node_matches[0]
+            nodes.add(node)
+            results["stats"]["node_count"] += 1
+
+            # Check for instantiations
+            if instantiation_pattern not in line:
+                results["warnings"].append(f"Line {i+1}: Node '{node}' is missing instantiations metadata")
+
+        # Check parent-child relationships
+        if indent > 0 and '+' in line and node_matches:
+            # This is a child node; find its parent
+            parent_indent = indent - 1
+            j = i - 1
+            while j >= 0:
+                if '+' in lines[j] and lines[j].find('+') // 2 == parent_indent:
+                    parent_matches = re.findall(node_pattern, lines[j])
+                    if parent_matches:
+                        parent = parent_matches[0]
+                        relationships.append((parent, node))
+                        results["stats"]["relationship_count"] += 1
+                        break
+                j -= 1
+
+    results["stats"]["max_depth"] = max_depth
+
+    # If we didn't find any nodes, that's a problem
+    if results["stats"]["node_count"] == 0:
+        results["is_valid"] = False
+        results["errors"].append("No valid nodes found in ArgDown representation")
+
+    return results
+
+def process_source_document(file_path: str, provider_name: str = "openai") -> Dict[str, Any]:
+    """
+    Process a source document to extract ArgDown representation
+
+    Args:
+        file_path: Path to the source document
+        provider_name: The LLM provider to use
+
+    Returns:
+        Dictionary with extraction results
+    """
+    # Load the source document
+    text = ""
+    if file_path.endswith(".pdf"):
+        # PDF handling requires additional libraries
+        try:
+            import PyPDF2
+            with open(file_path, 'rb') as file:
+                reader = PyPDF2.PdfReader(file)
+                text = ""
+                for page in reader.pages:
+                    text += page.extract_text() + "\n"
+        except ImportError:
+            raise ImportError("PyPDF2 is required for PDF processing. Install it with: pip install PyPDF2")
+    elif file_path.endswith(".txt"):
+        with open(file_path, 'r') as file:
+            text = file.read()
+    elif file_path.endswith(".md"):
+        with open(file_path, 'r') as file:
+            text = file.read()
+    else:
+        raise ValueError(f"Unsupported file format: {file_path}")
+
+    # Extract ArgDown
+    argdown_content = extract_argdown_from_text(text, provider_name)
+
+    # Validate the extraction
+    validation_results = validate_argdown(argdown_content)
+
+    # Prepare results
+    results = {
+        "source_path": file_path,
+        "extraction_timestamp": time.time(),
+        "argdown_content": argdown_content,
+        "validation": validation_results,
+        "provider": provider_name
+    }
+
+    return results
+
+def save_argdown_extraction(results: Dict[str, Any], output_path: str) -> None:
+    """
+    Save ArgDown extraction results
+
+    Args:
+        results: Extraction results dictionary
+        output_path: Path to save the results
+    """
+    # Save the ArgDown content
+    with open(output_path, 'w') as file:
+        file.write(results["argdown_content"])
+
+    # Save metadata alongside
+    metadata_path = output_path.replace('.md', '_metadata.json')
+    metadata = {
+        "source_path": results["source_path"],
+        "extraction_timestamp": results["extraction_timestamp"],
+        "validation": results["validation"],
+        "provider": results["provider"]
+    }
+
+    with open(metadata_path, 'w') as file:
+        json.dump(metadata, file, indent=2)
+```
+
+
+```python
+# @title 1.3 --- Prepare LLM API Call ---
+def prepare_extraction_call(source_path, provider_name="openai", model=None):
+    """Prepare the LLM API call for ArgDown extraction"""
+
+    # Load the source document
+    print(f"Processing source document: {source_path}")
+
+    # Determine provider and model
+    provider = provider_name.lower()
+    if provider not in ["openai", "anthropic"]:
+        raise ValueError(f"Unsupported provider: {provider}. Use 'openai' or 'anthropic'.")
+
+    # Set default model if none provided
+    if model is None:
+        if provider == "openai":
+            model = "gpt-4-turbo"
+        elif provider == "anthropic":
+            model = "claude-3-opus-20240229"
+
+    # Print configuration
+    print(f"Using provider: {provider}")
+    print(f"Selected model: {model}")
+
+    return {
+        "source_path": source_path,
+        "provider": provider,
+        "model": model
+    }
+
+# Usage example:
+source_path = "example_document.pdf"  # Replace with actual document path
+extraction_config = prepare_extraction_call(source_path, provider_name="openai")
+```
+
 ## 1.4 Make ArgDown Extraction LLM API Call
 
 
 ```python
+# @title 1.4 --- Make ArgDown Extraction LLM API Call ---
+def execute_extraction(extraction_config):
+    """Execute the ArgDown extraction using the LLM API"""
 
+    print(f"Starting extraction from {extraction_config['source_path']}")
+    start_time = time.time()
+
+    try:
+        # Process the document
+        results = process_source_document(
+            extraction_config["source_path"],
+            provider_name=extraction_config["provider"]
+        )
+
+        # Print success message
+        elapsed_time = time.time() - start_time
+        print(f"Extraction completed in {elapsed_time:.2f} seconds")
+        print(f"Extracted {results['validation']['stats']['node_count']} nodes with "
+              f"{results['validation']['stats']['relationship_count']} relationships")
+
+        # Print any warnings
+        if results['validation']['warnings']:
+            print("\nWarnings:")
+            for warning in results['validation']['warnings']:
+                print(f"- {warning}")
+
+        return results
+
+    except Exception as e:
+        print(f"Error during extraction: {str(e)}")
+        raise
+
+# Usage example:
+extraction_results = execute_extraction(extraction_config)
 ```
 
 ## 1.5 Save ArgDown Extraction Response
@@ -254,7 +866,45 @@ Combine Systemprompt + API Specifications + ArgDown Instructions + Prompt + Sour
 
 
 ```python
+# @title 1.5 --- Save ArgDown Extraction Response ---
 
+def save_extraction_results(results, output_directory="./outputs"):
+    """Save the extraction results to file"""
+
+    # Ensure output directory exists
+    import os
+    os.makedirs(output_directory, exist_ok=True)
+
+    # Create base filename from source
+    import os.path
+    base_name = os.path.basename(results["source_path"]).split('.')[0]
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    output_filename = f"{base_name}_argdown_{timestamp}.md"
+    output_path = os.path.join(output_directory, output_filename)
+
+    # Save the results
+    save_argdown_extraction(results, output_path)
+
+    print(f"Saved ArgDown extraction to: {output_path}")
+    print(f"Metadata saved to: {output_path.replace('.md', '_metadata.json')}")
+
+    # Also save to standard location for further processing
+    standard_path = os.path.join(output_directory, "ArgDown.md")
+    with open(standard_path, 'w') as f:
+        f.write(results["argdown_content"])
+    print(f"Also saved to standard location: {standard_path}")
+
+    return output_path
+
+# Usage example:
+output_path = save_extraction_results(extraction_results)
+
+# Preview the extracted ArgDown
+from IPython.display import Markdown, display
+
+# Display the first 500 characters of the extracted ArgDown
+preview = extraction_results["argdown_content"][:500] + "..." if len(extraction_results["argdown_content"]) > 500 else extraction_results["argdown_content"]
+display(Markdown(f"## Extracted ArgDown Preview\n\n```\n{preview}\n```"))
 ```
 
 ## 1.6 Review and Check ArgDown.md File
@@ -262,8 +912,6 @@ Combine Systemprompt + API Specifications + ArgDown Instructions + Prompt + Sour
 
 ```python
 display(Markdown(md_content))
-
-
 ```
 
 ## 1.6.2 Check the Graph Structure with the ArgDown Sandbox Online
@@ -271,6 +919,8 @@ Copy and paste the BayesDown formatted ... in the ArgDown Sandbox below to quick
 
 
 ```python
+# @title 1.6.2 --- ArgDown Online Sandbox ---
+
 from IPython.display import IFrame
 
 IFrame(src="https://argdown.org/sandbox/map/", width="100%", height="600px")
@@ -295,6 +945,8 @@ Implementation nodes:
 
 
 ```python
+# @title 1.7 --- Parsing ArgDown & BayesDown (.md to .csv) ---
+
 def parse_markdown_hierarchy_fixed(markdown_text, ArgDown = False):
     """Main function to parse markdown hierarchy into a DataFrame with correct parent-child relationships"""
 
@@ -1289,7 +1941,194 @@ Add rows to data frame that can be calculated from the extracted rows
 
 
 ```python
+# @title 3.3.1 Data Post-Processing Functions ---
+
+# --- 3.3 Data-Post-Processing ---
+
+def enhance_extracted_data(df):
+    """
+    Enhance the extracted data with calculated columns
+
+    Args:
+        df: DataFrame with extracted BayesDown data
+
+    Returns:
+        Enhanced DataFrame with additional columns
+    """
+    # Create a copy to avoid modifying the original
+    enhanced_df = df.copy()
+
+    # 1. Calculate joint probabilities
+    enhanced_df['joint_probabilities'] = None
+
+    for idx, row in enhanced_df.iterrows():
+        title = row['Title']
+        priors = row['priors'] if isinstance(row['priors'], dict) else {}
+        posteriors = row['posteriors'] if isinstance(row['posteriors'], dict) else {}
+        parents = row['Parents'] if isinstance(row['Parents'], list) else []
+
+        # Skip if no parents or no priors
+        if not parents or not priors:
+            continue
+
+        # Initialize joint probabilities dictionary
+        joint_probs = {}
+
+        # Get instantiations
+        instantiations = row['instantiations']
+        if not isinstance(instantiations, list) or not instantiations:
+            continue
+
+        # For each parent and child instantiation combination, calculate joint probability
+        for inst in instantiations:
+            # Get this instantiation's prior probability
+            inst_prior_key = f"p({inst})"
+            if inst_prior_key not in priors:
+                continue
+
+            try:
+                inst_prior = float(priors[inst_prior_key])
+            except (ValueError, TypeError):
+                continue
+
+            # For each parent
+            for parent in parents:
+                parent_row = enhanced_df[enhanced_df['Title'] == parent]
+                if parent_row.empty:
+                    continue
+
+                parent_insts = parent_row.iloc[0]['instantiations']
+                if not isinstance(parent_insts, list) or not parent_insts:
+                    continue
+
+                for parent_inst in parent_insts:
+                    # Get conditional probability
+                    cond_key = f"p({inst}|{parent}={parent_inst})"
+                    if cond_key in posteriors:
+                        try:
+                            cond_prob = float(posteriors[cond_key])
+
+                            # Get parent's prior
+                            parent_priors = parent_row.iloc[0]['priors']
+                            if not isinstance(parent_priors, dict):
+                                continue
+
+                            parent_prior_key = f"p({parent_inst})"
+                            if parent_prior_key not in parent_priors:
+                                continue
+
+                            try:
+                                parent_prior = float(parent_priors[parent_prior_key])
+
+                                # Calculate joint probability: P(A,B) = P(A|B) * P(B)
+                                joint_prob = cond_prob * parent_prior
+                                joint_key = f"p({inst},{parent}={parent_inst})"
+                                joint_probs[joint_key] = str(round(joint_prob, 4))
+                            except (ValueError, TypeError):
+                                continue
+                        except (ValueError, TypeError):
+                            continue
+
+        # Store joint probabilities in dataframe
+        enhanced_df.at[idx, 'joint_probabilities'] = joint_probs
+
+    # 2. Calculate network metrics
+    # Create a directed graph
+    import networkx as nx
+    G = nx.DiGraph()
+
+    # Add nodes
+    for idx, row in enhanced_df.iterrows():
+        G.add_node(row['Title'])
+
+    # Add edges
+    for idx, row in enhanced_df.iterrows():
+        child = row['Title']
+        parents = row['Parents'] if isinstance(row['Parents'], list) else []
+
+        for parent in parents:
+            if parent in G.nodes():
+                G.add_edge(parent, child)
+
+    # Calculate centrality measures
+    degree_centrality = nx.degree_centrality(G)
+    in_degree_centrality = nx.in_degree_centrality(G)
+    out_degree_centrality = nx.out_degree_centrality(G)
+
+    try:
+        betweenness_centrality = nx.betweenness_centrality(G)
+    except:
+        betweenness_centrality = {node: 0 for node in G.nodes()}
+
+    # Add metrics to dataframe
+    enhanced_df['degree_centrality'] = None
+    enhanced_df['in_degree_centrality'] = None
+    enhanced_df['out_degree_centrality'] = None
+    enhanced_df['betweenness_centrality'] = None
+
+    for idx, row in enhanced_df.iterrows():
+        title = row['Title']
+        enhanced_df.at[idx, 'degree_centrality'] = degree_centrality.get(title, 0)
+        enhanced_df.at[idx, 'in_degree_centrality'] = in_degree_centrality.get(title, 0)
+        enhanced_df.at[idx, 'out_degree_centrality'] = out_degree_centrality.get(title, 0)
+        enhanced_df.at[idx, 'betweenness_centrality'] = betweenness_centrality.get(title, 0)
+
+    # 3. Add Markov blanket information (parents, children, and children's parents)
+    enhanced_df['markov_blanket'] = None
+
+    for idx, row in enhanced_df.iterrows():
+        title = row['Title']
+        parents = row['Parents'] if isinstance(row['Parents'], list) else []
+        children = row['Children'] if isinstance(row['Children'], list) else []
+
+        # Get children's parents (excluding this node)
+        childrens_parents = []
+        for child in children:
+            child_row = enhanced_df[enhanced_df['Title'] == child]
+            if not child_row.empty:
+                child_parents = child_row.iloc[0]['Parents']
+                if isinstance(child_parents, list):
+                    childrens_parents.extend([p for p in child_parents if p != title])
+
+        # Remove duplicates
+        childrens_parents = list(set(childrens_parents))
+
+        # Combine to get Markov blanket
+        markov_blanket = list(set(parents + children + childrens_parents))
+        enhanced_df.at[idx, 'markov_blanket'] = markov_blanket
+
+    return enhanced_df
+```
+
+
+```python
 # here we add all the rows that we have to calculate (joint probability..., maybe in several rounds (e.g. first add conditional proability, then use this column to calc joint probability...)
+
+# 3.3 Data Post-Processing
+
+# Enhance the extracted dataframe with calculated columns
+enhanced_df = enhance_extracted_data(result_df)
+
+# Display the enhanced dataframe
+print("Enhanced DataFrame with additional calculated columns:")
+enhanced_df.head()
+
+# Check some calculated metrics
+print("\nJoint Probabilities Example:")
+example_node = enhanced_df.loc[0, 'Title']
+joint_probs = enhanced_df.loc[0, 'joint_probabilities']
+print(f"Joint probabilities for {example_node}:")
+print(joint_probs)
+
+print("\nNetwork Metrics:")
+for idx, row in enhanced_df.iterrows():
+    print(f"{row['Title']}:")
+    print(f"  Degree Centrality: {row['degree_centrality']:.3f}")
+    print(f"  Betweenness Centrality: {row['betweenness_centrality']:.3f}")
+
+# Save the enhanced dataframe
+enhanced_df.to_csv('enhanced_extracted_data.csv', index=False)
+print("\nEnhanced data saved to 'enhanced_extracted_data.csv'")
 ```
 
 ### 3.4 Download and save finished data frame as .csv file
@@ -2395,6 +3234,63 @@ print(md_content)  # Print the returned content to see the questions
 ```
 
 
+```python
+# @title 0.0.0 --- Install & Import Libraries & Packages (One-Time Colab Setup) ---
+
+# implement boolean flags to indicate parts of the code that has to be skipped
+# best practice in Colab?
+
+# !pip install ...    vs.  %pip install ...   vs.  from  ...  import ...  as ...    vs.   !apt-get -qq install -y
+# "!" preceding a code block line in tells Colab/Jupyter to execute as command line
+
+# Check if the setup flag variable exists in the global scope
+if 'setup_complete' not in globals():
+    print("Performing one-time setup...")
+    # --- Your one-time code goes here ---
+    # Example: Install packages, download small files, initialize complex objects
+    # !pip install -q some_package
+    # import some_package
+    # data = download_small_dataset()
+    my_initialized_object = "This is initialized"
+    # --- End of one-time code ---
+
+    # Set the flag to indicate setup is done for this session
+    setup_complete = True
+    print("One-time setup finished.")
+else:
+    print("Setup already completed in this session. Skipping.")
+
+# You can now safely use variables/objects created during setup
+# print(my_initialized_object)
+
+try:
+    # If this variable exists, the block was already run successfully.
+    _setup_marker
+    print("Setup already completed in this session. Skipping.")
+except NameError:
+    print("Performing one-time setup...")
+    # --- Your one-time code goes here ---
+    # !pip install -q another_package
+    # configuration = load_config()
+    # --- End of one-time code ---
+
+    # Create the marker variable ONLY after successful execution
+    _setup_marker = True
+    print("One-time setup finished.")
+
+# Use things created in setup
+# print(configuration)
+
+
+library_name = "your_library_name"
+try:
+    __import__(library_name)
+    print(f"The library '{library_name}' is available in Colab.")
+except ImportError:
+    print(f"The library '{library_name}' is not available in Colab.")
+```
+
+
 1.   Import Libraries & Install Packages: [Run Section 0.1](https://colab.research.google.com/github/SingularitySmith/AMTAIR_Prototype/blob/main/Public_AMTAIR_Prototype.ipynb#scrollTo=0_1_Import_Libraries_Packages)
 2.   Connect to GitHub Repository & Load Data files: Run Section 0.2
 3.   ...
@@ -2409,6 +3305,86 @@ print(md_content)  # Print the returned content to see the questions
 This is the cell I'm linking to
 
 
+
+
+```python
+# prompt: how to title code blocks
+
+import requests      # For making HTTP requests
+import io           # For working with in-memory file-like objects
+import pandas as pd   # For data manipulation
+import numpy as np
+import json
+import re
+import matplotlib.pyplot as plt
+from IPython.display import HTML, display
+from IPython.display import Markdown, display
+import networkx as nx
+from pgmpy.models import BayesianNetwork
+from pgmpy.factors.discrete import TabularCPD
+from pgmpy.inference import VariableElimination
+from pyvis.network import Network
+import os
+import os.path
+from IPython.display import IFrame
+import itertools
+
+
+# --- 2. Data Processing: ArgDown to BayesDown ---
+# Load the data from the ArgDown_WithQuestions CSV file
+argdown_with_questions_df = pd.read_csv('ArgDown_WithQuestions.csv')
+
+# Display the DataFrame
+print(argdown_with_questions_df)
+argdown_with_questions_df
+
+
+# --- 2.2 ArgDown_WithQuestions.csv to BayesDownQuestions.md ---
+def extract_bayesdown_questions_fixed(argdown_with_questions_path, output_md_path, include_questions_as_comments=True):
+    # ... (function code as before) ...
+
+
+# --- 2.3 Generate BayesDown Probability Extraction Prompt ---
+# ... (code for generating the prompt) ...
+
+
+# --- 2.4 Prepare 2nd API call ---
+# ... (code for preparing the API call) ...
+
+
+# --- 2.5 Make BayesDown Probability Extraction API Call ---
+# ... (code for making the API call) ...
+
+
+# --- 2.6 Save BayesDown with Probability Estimates (.csv) ---
+# ... (code for saving the data) ...
+
+
+# --- 2.7 Review & Verify BayesDown Probability Estimates ---
+# ... (code for review and verification) ...
+
+
+# --- 2.8 Extract BayesDown with Probability Estimates as Dataframe ---
+# ... (code for extraction) ...
+
+
+# --- 3. Data Extraction: BayesDown (.md) to Database (.csv) ---
+# --- 3.1 ExtractBayesDown-Data_v1 ---
+# ... (code for BayesDown data extraction) ...
+
+
+# --- 3.1.2 Test BayesDown Extraction ---
+# ... (code for testing BayesDown extraction) ...
+
+
+# --- 3.3 Extraction ---
+# ... (code for extraction) ...
+
+
+# --- 3.3 Data-Post-Processing ---
+# ... (code for data post-processing) ...
+
+```
 
 ## COMBINED: 2.1 Generate and Extract "Prior-, Conditional- and Posterior Probability Questions" from 'ArgDown.csv' to 'ArgDown_WithQuestions.csv'
 
@@ -2988,6 +3964,8 @@ with open(f"{notebook_name}IPYNB.html", "w") as f:
 
 
 ```python
+# @title --- Convert .ipynb Notebook to MarkDown ---
+
 import nbformat
 from nbconvert import MarkdownExporter
 import os
@@ -3020,5 +3998,36 @@ with open(f"{notebook_name}IPYNB.md", "w") as f:
 
 
 ```python
+# @title --- Convert .ipynb Notebook to PDF ---
 
+import nbformat
+from nbconvert import PDFExporter
+import os
+
+repo_url = "https://raw.githubusercontent.com/SingularitySmith/AMTAIR_Prototype/main/data/example_1/"
+notebook_name = "AMTAIR_Prototype_example1"  #Change Notebook name and path when working on different examples
+
+# Download the notebook file
+!wget {repo_url}{notebook_name}.ipynb -O {notebook_name}.ipynb  # Corrected line
+
+# Load the notebook
+# add error handling for file not found
+try:
+  with open(f"{notebook_name}.ipynb") as f:
+    nb = nbformat.read(f, as_version=4)
+except FileNotFoundError:
+  print(f"Error: File '{notebook_name}.ipynb' not found. Please check if it was downloaded correctly.")
+
+
+# Initialize the PDF exporter
+exporter = PDFExporter(exclude_output=True)  # Changed to PDFExporter
+
+
+# Convert the notebook to PDF
+(body, resources) = exporter.from_notebook_node(nb)
+
+
+# Save the PDF to a file
+with open(f"{notebook_name}IPYNB.pdf", "wb") as f:  # Changed to 'wb' for binary writing
+    f.write(body)
 ```
