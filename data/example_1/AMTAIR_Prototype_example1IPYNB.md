@@ -295,8 +295,8 @@ Implementation nodes:
 
 
 ```python
-def parse_markdown_hierarchy(markdown_text, ArgDown = False):
-    """Main function to parse markdown hierarchy into a DataFrame"""
+def parse_markdown_hierarchy_fixed(markdown_text, ArgDown = False):
+    """Main function to parse markdown hierarchy into a DataFrame with correct parent-child relationships"""
 
     # Remove comments
     clean_text = remove_comments(markdown_text)
@@ -304,8 +304,8 @@ def parse_markdown_hierarchy(markdown_text, ArgDown = False):
     # Extract all titles with their descriptions and indentation levels
     titles_info = extract_titles_info(clean_text)
 
-    # Establish parent-child relationships
-    titles_with_relations = establish_relationships(titles_info, clean_text)
+    # Establish parent-child relationships - Use fixed function here
+    titles_with_relations = establish_relationships_fixed(titles_info, clean_text)
 
     # Convert to DataFrame
     df = convert_to_dataframe(titles_with_relations, ArgDown)
@@ -404,8 +404,15 @@ def extract_titles_info(text):
 
     return titles_info
 
-def establish_relationships(titles_info, text):
-    """Establish parent-child relationships between titles using the BayesDown indentation rules"""
+def establish_relationships_fixed(titles_info, text):
+    """
+    Establish parent-child relationships between titles using BayesDown indentation rules.
+
+    In BayesDown syntax:
+    - More indented nodes (with + symbol) are PARENTS of less indented nodes
+    - The relationship reads as "Effect is caused by Cause" (Effect + Cause)
+    - This aligns with how Bayesian networks represent causality
+    """
     lines = text.split('\n')
 
     # Dictionary to store line numbers for each title occurrence
@@ -471,57 +478,31 @@ def establish_relationships(titles_info, text):
                     j -= 1
             occurrence_indents[(title, line_num)] = indent
 
-    # Process for finding parents (looking forward)
+    # REMOVED: The problematic forward pass that was reversing relationships
+
+    # Enhanced backward pass for correct parent-child relationships
     for i, (title, line_num) in enumerate(all_occurrences):
         current_indent = occurrence_indents[(title, line_num)]
 
-        # Look ahead for potential parents that are exactly one indentation level higher
-        j = i + 1
-        while j < len(all_occurrences):
-            next_title, next_line = all_occurrences[j]
-            next_indent = occurrence_indents[(next_title, next_line)]
-
-            # If we find a title with same or less indentation, stop looking in this section
-            if next_indent <= current_indent:
-                break
-
-            # If this is a direct parent (exactly one more indentation) and not the same title
-            if next_indent == current_indent + 1 and next_title != title:
-                # More indented node is parent of less indented node
-                if next_title not in titles_info[title]['parents']:
-                    titles_info[title]['parents'].append(next_title)
-                if title not in titles_info[next_title]['children']:
-                    titles_info[next_title]['children'].append(title)
-
-            j += 1
-
-    # Process for finding children (looking backward)
-    for i, (title, line_num) in enumerate(all_occurrences):
-        current_indent = occurrence_indents[(title, line_num)]
-
-        # Skip titles with indentation 0 (they don't have children by looking backward)
+        # Skip root nodes (indentation 0) for processing
         if current_indent == 0:
             continue
 
-        # Look for the immediately preceding title with one less indentation (immediate child)
+        # Look for the immediately preceding node with lower indentation
         j = i - 1
-        found_child = False
-
-        while j >= 0 and not found_child:
+        while j >= 0:
             prev_title, prev_line = all_occurrences[j]
             prev_indent = occurrence_indents[(prev_title, prev_line)]
 
-            # If the previous title has exactly one less indentation and is not the same title
-            if prev_indent == current_indent - 1 and prev_title != title:
-                # Current title is parent of previous title
+            # If we find a node with less indentation, it's a child of current node
+            if prev_indent < current_indent:
+                # In BayesDown: More indented node is a parent (cause) of less indented node (effect)
                 if title not in titles_info[prev_title]['parents']:
                     titles_info[prev_title]['parents'].append(title)
                 if prev_title not in titles_info[title]['children']:
                     titles_info[title]['children'].append(prev_title)
-                found_child = True  # Only find one immediate child
 
-            # If we encounter a title with even less indentation, stop looking
-            if prev_indent < current_indent - 1:
+                # Only need to find the immediate child (closest preceding node with lower indentation)
                 break
 
             j -= 1
@@ -677,7 +658,7 @@ def add_parents_instantiation_columns_to_df(dataframe):
 
 ```python
 # example use case:
-ex_csv = parse_markdown_hierarchy(md_content, ArgDown = True)
+ex_csv = parse_markdown_hierarchy_fixed(md_content, ArgDown = True)
 ex_csv
 ```
 
@@ -687,7 +668,7 @@ ex_csv
 ```python
 # Assuming 'md_content' holds the markdown text
 # Store the results of running the function parse_markdown_hierarchy(md_content, ArgDown = True) as the file 'ArgDown.csv'
-result_df = parse_markdown_hierarchy(md_content, ArgDown = True)
+result_df = parse_markdown_hierarchy_fixed(md_content, ArgDown = True)
 
 # Save to CSV
 result_df.to_csv('ArgDown.csv', index=False)
@@ -898,377 +879,13 @@ argdown_with_questions_df
 
 ## 2.2 'ArgDown_WithQuestions.csv' to 'BayesDownQuestions.md'
 
-
-```python
-# Example usage and integration with existing code
-def generate_bayesdown_questions_md(argdown_with_questions_path, output_md_path, QuestionsMinimal=False, BayesDownFormat=False):
-    """
-    Generate comprehensive BayesDown questions or BayesDown format based on the enhanced CSV file.
-
-    Args:
-        argdown_with_questions_path (str): Path to the CSV file with probability questions
-        output_md_path (str): Path to save the output markdown file
-        QuestionsMinimal (bool, optional): If True, only return the questions generated for each node,
-                                           excluding terminology explanations. Defaults to False.
-        BayesDownFormat (bool, optional): If True, generate BayesDown format instead of questions.
-                                          Defaults to False.
-    """
-    if BayesDownFormat:
-        return generate_bayesdown_format_md(argdown_with_questions_path, output_md_path, QuestionsMinimal)
-
-    print(f"Loading enhanced CSV from {argdown_with_questions_path}...")
-
-    # Load the enhanced CSV file
-    try:
-        df = pd.read_csv(argdown_with_questions_path)
-        print(f"Successfully loaded CSV with {len(df)} rows.")
-    except Exception as e:
-        raise Exception(f"Error loading CSV: {e}")
-
-    # Validate required columns
-    required_columns = ['Title', 'Generate_Positive_Instantiation_Questions', 'Generate_Negative_Instantiation_Questions']
-    missing_columns = [col for col in required_columns if col not in df.columns]
-    if missing_columns:
-        raise Exception(f"Missing required columns: {', '.join(missing_columns)}")
-
-    print("Generating comprehensive BayesDown questions...")
-
-    # Start building the markdown content
-    md_content = ""  # Initialize as empty string
-
-    if not QuestionsMinimal:
-        md_content += "# BayesDown Probability Questions\n\n"
-        md_content += "This document contains questions for extracting probability estimates for BayesDown models.\n\n"
-
-        # Add comprehensive terminology explanation
-        md_content += "## Probability Terminology\n\n"
-
-        md_content += "### Types of Probabilities\n\n"
-        md_content += "- **Prior Probability**: The unconditional probability of a variable having a specific value before considering any evidence or parent variable states. For example, P(X=TRUE) represents the probability that X is TRUE without any additional information.\n\n"
-        md_content += "- **Conditional Probability**: The probability of a variable having a specific value given the values of its parent variables. For example, P(X=TRUE|Y=TRUE, Z=FALSE) represents the probability that X is TRUE when we know that Y is TRUE and Z is FALSE.\n\n"
-        md_content += "- **Posterior Probability**: The updated probability of a hypothesis after considering new evidence, calculated using Bayes' theorem. This represents a revised belief based on additional information.\n\n"
-        md_content += "- **Joint Probability**: The probability of multiple events occurring together. For example, P(X=TRUE, Y=FALSE) represents the probability that X is TRUE and Y is FALSE simultaneously.\n\n"
-        md_content += "- **Marginal Probability**: The probability of an event across all possible states of another variable. It can be calculated by summing the joint probability over all possible values of the other variables.\n\n"
-
-        md_content += "### Source of Probability Estimates\n\n"
-        md_content += "For each probability estimate, please identify the source using one of the following categories:\n\n"
-        md_content += "- **Direct Statement**: The probability is explicitly stated in the text.\n"
-        md_content += "- **Derived Estimate**: The probability is calculated or inferred from other probabilities mentioned in the text.\n"
-        md_content += "- **Context-Based Estimate**: The probability is inferred from the general context, tone, or strength of assertions in the text.\n"
-        md_content += "- **Expert Judgment**: The probability is based on domain expertise, not directly stated in the text.\n"
-        md_content += "- **Default Assignment**: The probability is assigned a reasonable default value due to lack of information.\n\n"
-
-        md_content += "### Certainty of Estimates\n\n"
-        md_content += "For each probability estimate, please assess your certainty using one of the following approaches:\n\n"
-        md_content += "- **Confidence Interval**: Provide a range that likely contains the true probability (e.g., \"80% confidence interval: 0.3-0.5\").\n"
-        md_content += "- **Confidence Level**: Rate your confidence in the estimate on a scale (e.g., \"High confidence: 85%\").\n"
-        md_content += "- **Error Margin**: Specify how much the estimate might vary (e.g., \"0.7 ± 0.1\").\n"
-        md_content += "- **Qualitative Assessment**: Describe your certainty qualitatively (e.g., \"Very certain\", \"Moderately certain\", \"Highly uncertain\").\n\n"
-
-    # Generate questions for each node
-    for idx, row in df.iterrows():
-        title = row['Title']
-        description = row['Description'] if 'Description' in df.columns and not pd.isna(row['Description']) else ""
-
-        md_content += f"## {title}\n\n"  # Still include title even in minimal mode
-
-        if description:
-            md_content += f"{description}\n\n"
-
-        # Process positive instantiation questions
-        try:
-            positive_questions = json.loads(row['Generate_Positive_Instantiation_Questions'])
-
-            md_content += "### Positive Instantiation Questions\n\n"
-
-            for question in positive_questions:
-                md_content += f"1. **{question}**\n"
-
-                # Add source question with appropriate terminology based on question type
-                if q_type == 'prior':
-                    md_content += f"   - **Source**: What is the source for this prior probability estimate? (Direct statement, derived estimate, context-based, expert judgment, default)\n"
-                else:
-                    md_content += f"   - **Source**: What is the source for this conditional probability estimate? (Direct statement, derived estimate, context-based, expert judgment, default)\n"
-
-                # Add certainty question
-                md_content += f"   - **Certainty**: How certain are you about this probability estimate? (Provide a confidence interval, confidence level, error margin, or qualitative assessment)\n\n"
-        except Exception as e:
-            md_content += f"No positive instantiation questions available. Error: {e}\n\n"
-
-        # Process negative instantiation questions
-        try:
-            negative_questions = json.loads(row['Generate_Negative_Instantiation_Questions'])
-
-            md_content += "### Negative Instantiation Questions\n\n"
-
-            for question in negative_questions:
-                md_content += f"1. **{question}**\n"
-
-                # Add source question with appropriate terminology based on question type
-                if q_type == 'prior':
-                    md_content += f"   - **Source**: What is the source for this prior probability estimate? (Direct statement, derived estimate, context-based, expert judgment, default)\n"
-                else:
-                    md_content += f"   - **Source**: What is the source for this conditional probability estimate? (Direct statement, derived estimate, context-based, expert judgment, default)\n"
-
-                # Add certainty question
-                md_content += f"   - **Certainty**: How certain are you about this probability estimate? (Provide a confidence interval, confidence level, error margin, or qualitative assessment)\n\n"
-        except Exception as e:
-            md_content += f"No negative instantiation questions available. Error: {e}\n\n"
-
-    # Save the markdown content
-    with open(output_md_path, 'w') as f:
-        f.write(md_content)
-
-    print(f"BayesDown questions saved to {output_md_path}")
-    return md_content
-```
+2.2 Save BayesDown Extraction Questions as 'BayesDownQuestions.md'
 
 
 ```python
-# Generate BayesDown format
-bayesdown_format = generate_bayesdown_questions_md(
-    "ArgDown_WithQuestions.csv",
-    "BayesDownFormat.md",
-    QuestionsMinimal=True,
-    BayesDownFormat=True
-)
-
-# Display a preview of the format
-print("\nBayesDown Format Preview:")
-print(bayesdown_format[:5000] + "...\n")
-```
-
-
-
-
-```python
-import pandas as pd
-import json
-from IPython.display import Markdown, display
-
-def generate_bayesdown_format_md(argdown_with_questions_path, output_md_path, QuestionsMinimal=False):
+def extract_bayesdown_questions_fixed(argdown_with_questions_path, output_md_path, include_questions_as_comments=True):
   """
-  Generate BayesDown format file based on the enhanced CSV file.
-  Args:
-      argdown_with_questions_path (str): Path to the CSV file with probability questions
-      output_md_path (str): Path to save the output markdown file
-      QuestionsMinimal (bool, optional): If True, only generate the BayesDown format without explanations.
-                                        Defaults to False.
-  """
-  print(f"Loading enhanced CSV from {argdown_with_questions_path}...")
-
-  # Load the enhanced CSV file
-  try:
-      df = pd.read_csv(argdown_with_questions_path)
-      print(f"Successfully loaded CSV with {len(df)} rows.")
-  except Exception as e:
-      raise Exception(f"Error loading CSV: {e}")
-
-  # Validate required columns
-  required_columns = ['Title', 'Description', 'Parents', 'instantiations']
-  missing_columns = [col for col in required_columns if col not in df.columns]
-  if missing_columns:
-      raise Exception(f"Missing required columns: {', '.join(missing_columns)}")
-
-  print(f"Generating BayesDown format file...")
-
-  # Start building the markdown content
-  md_content = ""  # Initialize as empty string
-
-  # Add explanations if QuestionsMinimal is False
-  if not QuestionsMinimal:
-      md_content += "# BayesDown Format\n\n"
-      md_content += "This document contains the BayesDown representation for the Bayesian network.\n\n"
-      md_content += "## Format Description\n\n"
-      md_content += "BayesDown is a format that extends ArgDown with probabilistic information. It uses:\n\n"
-      md_content += "- **Node definitions**: `[Node_Name]: Description {\"metadata\": ...}`\n"
-      md_content += "- **Hierarchical relationships**: Child nodes are indented and prefixed with `+`\n"
-      md_content += "- **Metadata**: JSON structure containing instantiations, priors, and posteriors\n\n"
-      md_content += "## Network Structure\n\n"
-
-  # Create a dictionary for easy lookup of node information
-  nodes_dict = {}
-  for _, row in df.iterrows():
-      # Parse instantiations
-      if isinstance(row['instantiations'], str):
-          try:
-              instantiations = json.loads(row['instantiations'].replace("'", "\""))
-          except json.JSONDecodeError:
-              # Handle non-JSON string formats
-              instantiations_str = row['instantiations'].strip("[]").replace("'", "").replace("\"", "")
-              instantiations = [s.strip() for s in instantiations_str.split(',') if s.strip()]
-      else:
-          instantiations = row['instantiations'] if isinstance(row['instantiations'], list) else []
-
-      # Parse parents
-      if isinstance(row['Parents'], str):
-          try:
-              parents = json.loads(row['Parents'].replace("'", "\""))
-          except json.JSONDecodeError:
-              # Handle non-JSON string formats
-              parents_str = row['Parents'].strip("[]").replace("'", "").replace("\"", "")
-              parents = [s.strip() for s in parents_str.split(',') if s.strip()]
-      else:
-          parents = row['Parents'] if isinstance(row['Parents'], list) else []
-
-      # Create node entry
-      nodes_dict[row['Title']] = {
-          'description': row['Description'],
-          'instantiations': instantiations,
-          'parents': parents,
-          'questions_positive': row.get('Generate_Positive_Instantiation_Questions', '{}'),
-          'questions_negative': row.get('Generate_Negative_Instantiation_Questions', '{}')
-      }
-
-  # Identify root nodes (nodes without parents or with parents that don't exist in our dataset)
-  root_nodes = []
-  for node_name, node_info in nodes_dict.items():
-      has_valid_parent = False
-      for parent in node_info['parents']:
-          if parent in nodes_dict:
-              has_valid_parent = True
-              break
-      if not has_valid_parent:
-          root_nodes.append(node_name)
-
-  # If no root nodes found, use the first node as root
-  if not root_nodes and nodes_dict:
-      root_nodes = [next(iter(nodes_dict))]
-
-  # Get children for each node
-  for node_name, node_info in nodes_dict.items():
-      node_info['children'] = []
-
-  for node_name, node_info in nodes_dict.items():
-      for parent in node_info['parents']:
-          if parent in nodes_dict:
-              nodes_dict[parent]['children'].append(node_name)
-
-  # Function to generate BayesDown syntax for a node and its children
-  def generate_node_syntax(node_name, indent_level=0):
-      if node_name not in nodes_dict:
-          return ""
-
-      node_info = nodes_dict[node_name]
-      indent = " " * indent_level
-
-      # Create metadata with instantiations
-      metadata = {
-          "instantiations": node_info['instantiations'],
-          "priors": {},
-          "posteriors": {}
-      }
-
-      # Add placeholder priors based on instantiations
-      for instantiation in node_info['instantiations']:
-          metadata["priors"][f"p({instantiation})"] = "?"
-
-      # Add placeholder posteriors if node has parents
-      if node_info['parents']:
-          # Parse positive questions to understand conditional probabilities
-          try:
-              positive_questions = json.loads(node_info['questions_positive'])
-              for q_type, question in positive_questions.items():
-                  if q_type.startswith('conditional_'):
-                      # Extract condition from question
-                      # Format: "What is the probability for Node=state if Parent1=state1, Parent2=state2?"
-                      question_parts = question.split('if ')
-                      if len(question_parts) > 1:
-                          condition_part = question_parts[1].strip().rstrip('?')
-                          condition_key = f"p({node_info['instantiations'][0]}|{condition_part})"
-                          metadata["posteriors"][condition_key] = "?"
-
-              # Parse negative questions
-              negative_questions = json.loads(node_info['questions_negative'])
-              for q_type, question in negative_questions.items():
-                  if q_type.startswith('conditional_'):
-                      question_parts = question.split('if ')
-                      if len(question_parts) > 1:
-                          condition_part = question_parts[1].strip().rstrip('?')
-                          condition_key = f"p({node_info['instantiations'][1]}|{condition_part})"
-                          metadata["posteriors"][condition_key] = "?"
-          except json.JSONDecodeError:
-              # If we can't parse questions, create basic placeholders
-              for parent in node_info['parents']:
-                  if parent in nodes_dict:
-                      for parent_inst in nodes_dict[parent]['instantiations']:
-                          for inst in node_info['instantiations']:
-                              metadata["posteriors"][f"p({inst}|{parent}={parent_inst})"] = "?"
-
-      # Format the node definition with metadata
-      metadata_json = json.dumps(metadata, indent=2).replace('\n', ' ').replace('  ', ' ')
-      node_syntax = f"{indent}[{node_name}]: {node_info['description']} {metadata_json}"
-
-      # Add children with proper indentation
-      child_syntax = ""
-      for child in node_info['children']:
-          # Skip if this is a circular reference
-          if child != node_name:
-              child_prefix = f"\n{indent} + "
-              child_syntax += child_prefix + generate_node_syntax(child, indent_level + 2).lstrip()
-
-      return node_syntax + child_syntax
-
-  # Generate BayesDown syntax for each root node and its descendants
-  network_syntax = ""
-  for root in root_nodes:
-      network_syntax += generate_node_syntax(root) + "\n\n"
-
-  # Add the network syntax to the markdown content
-  md_content += network_syntax
-
-  # Save the markdown content
-  with open(output_md_path, 'w') as f:
-      f.write(md_content)
-
-  print(f"BayesDown format file saved to {output_md_path}")
-  return md_content
-```
-
-
-```python
-# Example of how to use the new functionality:
-
-# Generate BayesDown format
-bayesdown_format = generate_bayesdown_questions_md(
-    "ArgDown_WithQuestions.csv",
-    "BayesDownFormat.md",
-    QuestionsMinimal=True,
-    BayesDownFormat=True
-)
-
-# Display a preview of the format
-print("\nBayesDown Format Preview:")
-print(bayesdown_format[:500] + "...\n")
-
-# Generate the original questions format for comparison
-questions_format = generate_bayesdown_questions_md(
-    "ArgDown_WithQuestions.csv",
-    "BayesDownQuestions.md",
-    QuestionsMinimal=True,
-    BayesDownFormat=False
-)
-
-print("\nBayesDown Questions Format Preview:")
-print(questions_format[:50000] + "...\n")
-```
-
-## 2.1 Generate and Extract "Prior-, Conditional- and Posterior Probability Questions" from 'ArgDown.csv' to 'ArgDown_WithQuestions.csv'
-
-## 2.2 Save BayesDown Extraction Questions as 'BayesDownQuestions.md'
-
-
-```python
-import pandas as pd
-import json
-import networkx as nx
-from IPython.display import Markdown, display
-import re
-
-
-def generate_bayesdown_questions(argdown_with_questions_path, output_md_path, include_questions_as_comments=True):
-  """
-  Generate BayesDown syntax from the ArgDown_WithQuestions CSV file.
+  Generate BayesDown syntax from the ArgDown_WithQuestions CSV file with correct parent-child relationships.
 
   Args:
       argdown_with_questions_path (str): Path to the CSV file with probability questions
@@ -1300,7 +917,7 @@ def generate_bayesdown_questions(argdown_with_questions_path, output_md_path, in
   for idx, row in df.iterrows():
       G.add_node(row['Title'], data=row)
 
-  # Add edges to the graph based on parent-child relationships
+  # Add edges to the graph based on parent-child relationships - CORRECTLY
   for idx, row in df.iterrows():
       child = row['Title']
 
@@ -1314,6 +931,7 @@ def generate_bayesdown_questions(argdown_with_questions_path, output_md_path, in
                   parent_list = [p.strip().strip('\'"') for p in parents.split(',')]
                   for parent in parent_list:
                       if parent in G.nodes():
+                          # In BayesDown: Parent (cause) -> Child (effect)
                           G.add_edge(parent, child)
       elif isinstance(parents, list):
           # Handle actual list
@@ -1335,15 +953,18 @@ def generate_bayesdown_questions(argdown_with_questions_path, output_md_path, in
           return {}
 
   # Start building the BayesDown content
-  bayesdown_content = "# BayesDown Representation with Placeholder Probabilities\n\n"
-  bayesdown_content += "/* This file contains BayesDown syntax with placeholder probabilities.\n"
-  bayesdown_content += "   Replace the placeholders with actual probability values based on the \n"
-  bayesdown_content += "   questions in the comments. */\n\n"
+  bayesdown_content = ""  # Initialize as empty
 
-  # Get root nodes (nodes with no incoming edges)
-  root_nodes = [n for n in G.nodes() if G.in_degree(n) == 0]
+  if include_questions_as_comments:
+    bayesdown_content = "# BayesDown Representation with Placeholder Probabilities\n\n"
+    bayesdown_content += "/* This file contains BayesDown syntax with placeholder probabilities.\n"
+    bayesdown_content += "   Replace the placeholders with actual probability values based on the \n"
+    bayesdown_content += "   questions in the comments. */\n\n"
 
-  # Helper function to process a node and its descendants recursively
+  # Get leaf nodes (nodes with no outgoing edges) - these are effects without children
+  leaf_nodes = [n for n in G.nodes() if G.out_degree(n) == 0]
+
+  # Helper function to process a node and its parents recursively
   def process_node(node, indent_level=0, processed_nodes=None):
       if processed_nodes is None:
           processed_nodes = set()
@@ -1358,21 +979,7 @@ def generate_bayesdown_questions(argdown_with_questions_path, output_md_path, in
       description = node_data['Description'] if not pd.isna(node_data['Description']) else ""
 
       # Parse instantiations from the row data
-      instantiations = node_data['instantiations']
-      if isinstance(instantiations, str):
-          if instantiations.startswith('[') and instantiations.endswith(']'):
-              instantiations = instantiations.strip('[]')
-              if instantiations:
-                  instantiations = [inst.strip().strip('\'"') for inst in instantiations.split(',')]
-              else:
-                  instantiations = [f"{title}_TRUE", f"{title}_FALSE"]
-          else:
-              instantiations = [f"{title}_TRUE", f"{title}_FALSE"]
-      elif isinstance(instantiations, list):
-          if not instantiations:
-              instantiations = [f"{title}_TRUE", f"{title}_FALSE"]
-      else:
-          instantiations = [f"{title}_TRUE", f"{title}_FALSE"]
+      instantiations = parse_instantiations_safely(node_data['instantiations'])
 
       # Build the node string
       node_output = ""
@@ -1382,14 +989,12 @@ def generate_bayesdown_questions(argdown_with_questions_path, output_md_path, in
           # Add positive questions as comments
           if 'Generate_Positive_Instantiation_Questions' in node_data:
               positive_questions = safe_parse_json(node_data['Generate_Positive_Instantiation_Questions'])
-              # positive_questions.keys() now contains the questions
               for question in positive_questions.keys():
                   node_output += f"{indent}/* {question} */\n"
 
           # Add negative questions as comments
           if 'Generate_Negative_Instantiation_Questions' in node_data:
               negative_questions = safe_parse_json(node_data['Generate_Negative_Instantiation_Questions'])
-              # negative_questions.keys() now contains the questions
               for question in negative_questions.keys():
                   node_output += f"{indent}/* {question} */\n"
 
@@ -1407,72 +1012,72 @@ def generate_bayesdown_questions(argdown_with_questions_path, output_md_path, in
           "instantiations": instantiations
       }
 
-      # Add placeholder priors based on instantiations
+      # Add priors with full questions as keys
       priors = {}
-      for inst in instantiations:
-          priors[f"p({inst})"] = "PLACEHOLDER_PROBABILITY"
+      if 'Generate_Positive_Instantiation_Questions' in node_data:
+          positive_questions = safe_parse_json(node_data['Generate_Positive_Instantiation_Questions'])
+          for question, estimate_key in positive_questions.items():
+              if estimate_key == 'prior':
+                  priors[question] = "%?"  # Default placeholder
+
+      if 'Generate_Negative_Instantiation_Questions' in node_data:
+          negative_questions = safe_parse_json(node_data['Generate_Negative_Instantiation_Questions'])
+          for question, estimate_key in negative_questions.items():
+              if estimate_key == 'prior':
+                  priors[question] = "%?"  # Default placeholder
+
       metadata["priors"] = priors
 
-      # Add placeholder posteriors if this node has parents
+      # Add posteriors with full questions as keys
       parents = list(G.predecessors(node))
       if parents:
           posteriors = {}
+          if 'Generate_Positive_Instantiation_Questions' in node_data:
+              positive_questions = safe_parse_json(node_data['Generate_Positive_Instantiation_Questions'])
+              for question, estimate_key in positive_questions.items():
+                  if estimate_key.startswith('estimate_'):
+                      posteriors[question] = "?%"  # Default placeholder
 
-          # Get parent instantiations
-          parent_insts = {}
-          for parent in parents:
-              parent_data = G.nodes[parent]['data']
-              p_instantiations = parent_data['instantiations']
-
-              if isinstance(p_instantiations, str):
-                  if p_instantiations.startswith('[') and p_instantiations.endswith(']'):
-                      p_instantiations = p_instantiations.strip('[]')
-                      if p_instantiations:
-                          p_instantiations = [p.strip().strip('\'"') for p in p_instantiations.split(',')]
-                      else:
-                          p_instantiations = [f"{parent}_TRUE", f"{parent}_FALSE"]
-                  else:
-                      p_instantiations = [f"{parent}_TRUE", f"{parent}_FALSE"]
-              elif isinstance(p_instantiations, list):
-                  if not p_instantiations:
-                      p_instantiations = [f"{parent}_TRUE", f"{parent}_FALSE"]
-              else:
-                  p_instantiations = [f"{parent}_TRUE", f"{parent}_FALSE"]
-
-              parent_insts[parent] = p_instantiations
-
-          # Generate all combinations of parent instantiations
-          import itertools
-          parent_names = list(parent_insts.keys())
-          combinations = []
-
-          for parent in parent_names:
-              combinations.append([(parent, inst) for inst in parent_insts[parent]])
-
-          all_combinations = list(itertools.product(*combinations))
-
-          # Create posteriors for each child instantiation and parent combination
-          for inst in instantiations:
-              for combination in all_combinations:
-                  condition_str = ",".join([f"{parent}_{inst}" for parent, inst in combination])
-                  key = f"p({inst}|{condition_str})"
-                  posteriors[key] = "PLACEHOLDER_PROBABILITY"
+          if 'Generate_Negative_Instantiation_Questions' in node_data:
+              negative_questions = safe_parse_json(node_data['Generate_Negative_Instantiation_Questions'])
+              for question, estimate_key in negative_questions.items():
+                  if estimate_key.startswith('estimate_'):
+                      posteriors[question] = "?%"  # Default placeholder
 
           metadata["posteriors"] = posteriors
 
       # Format the node with metadata
       node_output += f"{prefix}[{title}]: {description} {json.dumps(metadata)}\n"
 
-      # Process child nodes
-      children = list(G.successors(node))
-      for child in children:
-          node_output += process_node(child, indent_level + 1, processed_nodes)
+      # Process parent nodes
+      for parent in parents:
+          if parent != node:  # Avoid self-references
+              parent_output = process_node(parent, indent_level + 1, processed_nodes)
+              node_output += parent_output
 
       return node_output
 
-  # Process each root node and its descendants
-  for root in root_nodes:
-      bayesdown_content += process_node(root)
+  # Helper function to parse instantiations safely
+  def parse_instantiations_safely(instantiations_data):
+      if isinstance(instantiations_data, list):
+          return instantiations_data if instantiations_data else [f"TRUE", f"FALSE"]
+
+      if isinstance(instantiations_data, str):
+          try:
+              parsed = json.loads(instantiations_data)
+              if isinstance(parsed, list):
+                  return parsed if parsed else [f"TRUE", f"FALSE"]
+          except:
+              if instantiations_data.startswith('[') and instantiations_data.endswith(']'):
+                  items = instantiations_data.strip('[]').split(',')
+                  result = [item.strip(' "\'') for item in items if item.strip()]
+                  return result if result else [f"TRUE", f"FALSE"]
+
+      return [f"TRUE", f"FALSE"]  # Default
+
+  # Process each leaf node and its ancestors
+  for leaf in leaf_nodes:
+      bayesdown_content += process_node(leaf)
 
   # Save the BayesDown content
   with open(output_md_path, 'w') as f:
@@ -1480,21 +1085,18 @@ def generate_bayesdown_questions(argdown_with_questions_path, output_md_path, in
 
   print(f"BayesDown Questions saved to {output_md_path}")
   return bayesdown_content
-
-# Example usage:
-md_content = generate_bayesdown_questions("ArgDown_WithQuestions.csv", "BayesDownQuestions.md")
-# To get only the questions, set QuestionsMinimal=True
-
-print(md_content)  # Print the returned content to see the questions
 ```
 
 
 ```python
 # Explicitly set the value of include_questions_as_comments
-include_questions_as_comments = False  # or False, depending on your needs
+include_questions_as_comments=False  # or False, depending on your needs
 
 # Get the markdown content
-md_content = generate_bayesdown_questions("ArgDown_WithQuestions.csv", "BayesDownQuestions.md", include_questions_as_comments=include_questions_as_comments)
+bayesdown_questions = extract_bayesdown_questions_fixed(
+  "ArgDown_WithQuestions.csv",
+  "BayesDownQuestions.md", include_questions_as_comments=include_questions_as_comments
+)
 
 # Determine the output file path based on include_questions_as_comments
 if include_questions_as_comments: # Assuming include_questions_as_comments is defined somewhere in previous cells
@@ -1511,10 +1113,16 @@ print(f"Markdown content saved to {output_file_path}")
 
 
 ```python
-# Load and print the content of the 'BayesDownQuestions.md' file
-with open("BayesDownQuestions.md", "r") as f:
-    file_content = f.read()
-    print(file_content)
+# Generate BayesDown format
+bayesdown_questions = extract_bayesdown_questions_fixed(
+    "ArgDown_WithQuestions.csv",
+    "FULL_BayesDownQuestions.md",
+    include_questions_as_comments=True
+)
+
+# Display a preview of the format
+print("\nBayesDown Format Preview:")
+print(bayesdown_questions[:5000] + "...\n")
 ```
 
 
@@ -1525,26 +1133,48 @@ with open("FULL_BayesDownQuestions.md", "r") as f:
     print(file_content)
 ```
 
-## 2.2 Generate BayesDown Extraction Prompt
 
-Generate 2nd Extraction Prompt for Probabilities based on the questions generated from the 'ArgDown.csv' extraction
+```python
+# Generate BayesDown format
+bayesdown_questions = extract_bayesdown_questions_fixed(
+    "ArgDown_WithQuestions.csv",
+    "BayesDownQuestions.md",
+    include_questions_as_comments=False
+)
+
+# Display a preview of the format
+print(
+
+)
+print(bayesdown_questions[:5000] + "...\n")
+```
+
+
 
 
 ```python
-
+# Load and print the content of the 'BayesDownQuestions.md' file
+with open("BayesDownQuestions.md", "r") as f:
+    file_content = f.read()
+    print(file_content)
 ```
 
-## 2.3 Repeat Steps from 1.3 to 1.8 but for BayesDown / Probability Extraction
-
-## 2.3 Converting ArgDown to BayesDown with Probability Extraction
-
-BayesDown extends the ArgDown format by incorporating probabilistic information about arguments and their relationships. This section demonstrates how to transform an ArgDown representation into BayesDown by:
-
-1. **Extracting probability statements** from the text
-2. **Formalizing conditional relationships** between variables
-3. **Quantifying uncertainty** in argument strength and variable states
 
 
+## 2.3 Generate BayesDown Probability Extraction Prompt
+
+Generate 2nd Extraction Prompt for Probabilities based on the questions generated from the 'ArgDown.csv' extraction
+
+## 2.4 Prepare 2nd API call
+
+## 2.5 Make BayesDown Probability Extraction API Call
+
+## 2.6 Save BayesDown with Probability Estimates (.csv)
+
+## 2.7 Review & Verify BayesDown Probability Estimates
+
+## 2.7.2 Check the Graph Structure with the ArgDown Sandbox Online
+Copy and paste the BayesDown formatted ... in the ArgDown Sandbox below to quickly verify that the network renders correctly.
 
 ### 2.3.1 BayesDown Format Specification
 
@@ -1588,6 +1218,8 @@ Ensuring coherent probability distributions
 Checking for logical consistency in conditional relationships
 Verifying that all required probability statements are present
 Handling missing data with appropriate default values
+
+## 2.8 Extract BayesDown with Probability Estimates as Dataframe
 
 # 3.0 Data Extraction: BayesDown (.md) to Database (.csv)
 
@@ -2778,6 +2410,324 @@ This is the cell I'm linking to
 
 
 
+## COMBINED: 2.1 Generate and Extract "Prior-, Conditional- and Posterior Probability Questions" from 'ArgDown.csv' to 'ArgDown_WithQuestions.csv'
+
+
+```python
+# Main function to fix the ArgDown → BayesDown generation pipeline
+def fix_bayesdown_generation():
+    # Step 1: Fix the relationship establishment function
+    def establish_relationships_fixed(titles_info, text):
+        """
+        Establish parent-child relationships between titles using BayesDown indentation rules.
+
+        In BayesDown syntax:
+        - More indented nodes (with + symbol) are PARENTS of less indented nodes
+        - The relationship reads as "Effect is caused by Cause" (Effect + Cause)
+        - This aligns with how Bayesian networks represent causality
+        """
+        lines = text.split('\n')
+
+        # Dictionary to store line numbers for each title occurrence
+        title_occurrences = {}
+
+        # Record line number for each title (including multiple occurrences)
+        line_number = 0
+        for line in lines:
+            if not line.strip():
+                line_number += 1
+                continue
+
+            title_match = re.search(r'[<\[](.+?)[>\]]', line)
+            if not title_match:
+                line_number += 1
+                continue
+
+            title = title_match.group(1)
+
+            # Store all occurrences of each title with their line numbers
+            if title not in title_occurrences:
+                title_occurrences[title] = []
+            title_occurrences[title].append(line_number)
+
+            # Store all line numbers where this title appears
+            if 'line_numbers' not in titles_info[title]:
+                titles_info[title]['line_numbers'] = []
+            titles_info[title]['line_numbers'].append(line_number)
+
+            # For backward compatibility, keep the first occurrence in 'line'
+            if titles_info[title]['line'] is None:
+                titles_info[title]['line'] = line_number
+
+            line_number += 1
+
+        # Create an ordered list of all title occurrences with their line numbers
+        all_occurrences = []
+        for title, occurrences in title_occurrences.items():
+            for line_num in occurrences:
+                all_occurrences.append((title, line_num))
+
+        # Sort occurrences by line number
+        all_occurrences.sort(key=lambda x: x[1])
+
+        # Get indentation for each occurrence
+        occurrence_indents = {}
+        for title, line_num in all_occurrences:
+            for line in lines[line_num:line_num+1]:  # Only check the current line
+                indent = 0
+                if '+' in line:
+                    symbol_index = line.find('+')
+                    # Count spaces before the '+' symbol
+                    j = symbol_index - 1
+                    while j >= 0 and line[j] == ' ':
+                        indent += 1
+                        j -= 1
+                elif '-' in line:
+                    symbol_index = line.find('-')
+                    # Count spaces before the '-' symbol
+                    j = symbol_index - 1
+                    while j >= 0 and line[j] == ' ':
+                        indent += 1
+                        j -= 1
+                occurrence_indents[(title, line_num)] = indent
+
+        # For each line, find the proper parent-child relationships
+        # In BayesDown, a more indented node is a parent of the less indented node above it
+        for i, (title, line_num) in enumerate(all_occurrences):
+            current_indent = occurrence_indents[(title, line_num)]
+
+            # Find the closest previous node with less indentation
+            # This will be the child of the current node
+            j = i - 1
+            while j >= 0:
+                prev_title, prev_line = all_occurrences[j]
+                prev_indent = occurrence_indents[(prev_title, prev_line)]
+
+                # If we found a node with less indentation, it's a child of current node
+                if prev_indent < current_indent:
+                    # This is the key relationship: more indented node (current) is parent of less indented node (previous)
+                    if title not in titles_info[prev_title]['parents']:
+                        titles_info[prev_title]['parents'].append(title)
+                    if prev_title not in titles_info[title]['children']:
+                        titles_info[title]['children'].append(prev_title)
+                    break  # Only need the immediate child
+
+                j -= 1
+
+        return titles_info
+
+    # Step 2: Updated main parsing function
+    def parse_markdown_hierarchy_fixed(markdown_text, ArgDown=False):
+        """Main function to parse markdown hierarchy into a DataFrame with correct parent-child relationships"""
+
+        # Remove comments
+        clean_text = remove_comments(markdown_text)
+
+        # Extract all titles with their descriptions and indentation levels
+        titles_info = extract_titles_info(clean_text)
+
+        # Establish parent-child relationships - Use fixed function here
+        titles_with_relations = establish_relationships_fixed(titles_info, clean_text)
+
+        # Convert to DataFrame
+        df = convert_to_dataframe(titles_with_relations, ArgDown)
+
+        # Add No_Parent and No_Children columns
+        df = add_no_parent_no_child_columns_to_df(df)
+
+        # Add Parents instantiation columns
+        df = add_parents_instantiation_columns_to_df(df)
+
+        return df
+
+    # Helper function to safely parse lists
+    def parse_list_safely(list_data):
+        if isinstance(list_data, list):
+            return list_data
+
+        if isinstance(list_data, str):
+            try:
+                # Try to parse as JSON
+                parsed = json.loads(list_data.replace("'", "\""))
+                if isinstance(parsed, list):
+                    return parsed
+            except:
+                # Try to parse as string list
+                if list_data.startswith('[') and list_data.endswith(']'):
+                    items = list_data.strip('[]').split(',')
+                    return [item.strip(' "\'') for item in items if item.strip()]
+                elif list_data.strip():
+                    # Handle single item
+                    return [list_data.strip()]
+
+        # Default case
+        return []
+
+    # Step 3: Updated BayesDown generation function
+    def generate_bayesdown_format_md_fixed(argdown_with_questions_path, output_md_path, QuestionsMinimal=False):
+        """
+        Generate BayesDown format file with correct parent-child relationships.
+        """
+        print(f"Loading enhanced CSV from {argdown_with_questions_path}...")
+
+        # Load the enhanced CSV file
+        try:
+            df = pd.read_csv(argdown_with_questions_path)
+            print(f"Successfully loaded CSV with {len(df)} rows.")
+        except Exception as e:
+            raise Exception(f"Error loading CSV: {e}")
+
+        # Validate required columns
+        required_columns = ['Title', 'Description', 'Parents', 'instantiations']
+        missing_columns = [col for col in required_columns if col not in df.columns]
+        if missing_columns:
+            raise Exception(f"Missing required columns: {', '.join(missing_columns)}")
+
+        print(f"Generating BayesDown format file...")
+
+        # Start building the markdown content
+        md_content = ""  # Initialize as empty string
+
+        # Add explanations if QuestionsMinimal is False
+        if not QuestionsMinimal:
+            md_content += "# BayesDown Format\n\n"
+            md_content += "This document contains the BayesDown representation for the Bayesian network.\n\n"
+            md_content += "## Format Description\n\n"
+            md_content += "BayesDown is a format that extends ArgDown with probabilistic information. It uses:\n\n"
+            md_content += "- **Node definitions**: `[Node_Name]: Description {\"metadata\": ...}`\n"
+            md_content += "- **Hierarchical relationships**: Parent nodes (causes) are indented and prefixed with `+` below their effects\n"
+            md_content += "- **Metadata**: JSON structure containing instantiations, priors, and posteriors\n\n"
+            md_content += "## Network Structure\n\n"
+
+        # Create a dictionary for easy lookup of node information
+        nodes_dict = {}
+        for _, row in df.iterrows():
+            # Parse instantiations
+            instantiations = parse_list_safely(row['instantiations'])
+
+            # Parse parents
+            parents = parse_list_safely(row['Parents'])
+
+            # Create node entry
+            nodes_dict[row['Title']] = {
+                'description': row['Description'] if not pd.isna(row['Description']) else "",
+                'instantiations': instantiations if instantiations else ["TRUE", "FALSE"],
+                'parents': parents,
+                'children': []  # Will be filled in based on parent relationships
+            }
+
+        # Set up children based on parent relationships
+        for node_name, node_info in nodes_dict.items():
+            for parent in node_info['parents']:
+                if parent in nodes_dict:
+                    if node_name not in nodes_dict[parent]['children']:
+                        nodes_dict[parent]['children'].append(node_name)
+
+        # Identify leaf nodes (effects without causes)
+        leaf_nodes = []
+        for node_name, node_info in nodes_dict.items():
+            if not node_info['children']:
+                leaf_nodes.append(node_name)
+
+        # If no leaf nodes found, use nodes without parents
+        if not leaf_nodes:
+            leaf_nodes = [node for node, info in nodes_dict.items() if not info['parents']]
+
+        # If still no nodes found, use the first node as a starting point
+        if not leaf_nodes and nodes_dict:
+            leaf_nodes = [next(iter(nodes_dict))]
+
+        # Function to generate BayesDown syntax for a node and its parents
+        def generate_node_syntax(node_name, indent_level=0, processed_nodes=None):
+            if processed_nodes is None:
+                processed_nodes = set()
+
+            if node_name not in nodes_dict:
+                return ""
+
+            # If we've already fully processed this node, just add a reference
+            if node_name in processed_nodes:
+                indent = ' ' * indent_level
+                return f"{indent}+ [{node_name}]\n"
+
+            node_info = nodes_dict[node_name]
+            indent = " " * indent_level
+            prefix = f"{indent}+ " if indent_level > 0 else ""
+
+            # Mark this node as processed
+            processed_nodes.add(node_name)
+
+            # Create metadata with instantiations
+            metadata = {
+                "instantiations": node_info['instantiations'],
+                "priors": {},
+                "posteriors": {}
+            }
+
+            # Add placeholder priors based on instantiations
+            for instantiation in node_info['instantiations']:
+                metadata["priors"][f"p({instantiation})"] = "0.6"  # Default placeholder
+
+            # Add placeholder posteriors if node has parents
+            if node_info['parents']:
+                posteriors = {}
+                for parent in node_info['parents']:
+                    if parent in nodes_dict:
+                        for parent_inst in nodes_dict[parent]['instantiations']:
+                            for inst in node_info['instantiations']:
+                                # Create placeholder conditional probabilities
+                                posteriors[f"p({inst}|{parent}={parent_inst})"] = "0.59"
+                metadata["posteriors"] = posteriors
+
+            # Format the node definition with metadata
+            metadata_json = json.dumps(metadata, indent=None).replace('\n', ' ')
+            node_syntax = f"{prefix}[{node_name}]: {node_info['description']} {metadata_json}\n"
+
+            # Add parents with proper indentation
+            for parent in node_info['parents']:
+                if parent in nodes_dict and parent != node_name:  # Avoid self-references
+                    parent_syntax = generate_node_syntax(parent, indent_level + 2, processed_nodes)
+                    node_syntax += parent_syntax
+
+            return node_syntax
+
+        # Generate BayesDown syntax for each leaf node (effect)
+        for leaf in leaf_nodes:
+            md_content += generate_node_syntax(leaf) + "\n"
+
+        # Save the markdown content
+        with open(output_md_path, 'w') as f:
+            f.write(md_content)
+
+        print(f"BayesDown format file saved to {output_md_path}")
+        return md_content
+
+    # Return the fixed functions
+    return {
+        'establish_relationships': establish_relationships_fixed,
+        'parse_markdown_hierarchy': parse_markdown_hierarchy_fixed,
+        'generate_bayesdown_format_md': generate_bayesdown_format_md_fixed
+    }
+
+# Usage:
+fixed_functions = fix_bayesdown_generation()
+
+# Replace the original functions with fixed versions
+establish_relationships = fixed_functions['establish_relationships']
+parse_markdown_hierarchy = fixed_functions['parse_markdown_hierarchy']
+generate_bayesdown_format_md = fixed_functions['generate_bayesdown_format_md']
+
+# Now use the updated function to process ArgDown content
+result_df = parse_markdown_hierarchy(md_content)
+
+# Generate BayesDown format
+bayesdown_format = generate_bayesdown_format_md(
+    "ArgDown_WithQuestions.csv",
+    "BayesDownFormat.md",
+    QuestionsMinimal=True
+)
+```
+
 
 ```python
 # notebook_name = "NoHTML_AMTAIR_Prototype"
@@ -2804,6 +2754,189 @@ This is the cell I'm linking to
 # download the html
 # files.download(file0[:-5]+"html")
 
+```
+
+
+```python
+import pandas as pd
+import json
+from IPython.display import Markdown, display
+
+# Helper function to parse lists safely
+def parse_list_safely(list_data):
+    if isinstance(list_data, list):
+        return list_data
+
+    if isinstance(list_data, str):
+        try:
+            # Try to parse as JSON
+            parsed = json.loads(list_data)
+            if isinstance(parsed, list):
+                return parsed
+        except:
+            # Try to parse as string list
+            if list_data.startswith('[') and list_data.endswith(']'):
+                items = list_data.strip('[]').split(',')
+                return [item.strip(' "\'') for item in items if item.strip()]
+            elif list_data.strip():
+                # Handle single item
+                return [list_data.strip()]
+
+    # Default case
+    return []
+
+def generate_bayesdown_format_md_fixed(argdown_with_questions_path, output_md_path, QuestionsMinimal=False):
+    """
+    Generate BayesDown format file based on the enhanced CSV file,
+    with correct parent-child relationships.
+
+    Args:
+        argdown_with_questions_path (str): Path to the CSV file with probability questions
+        output_md_path (str): Path to save the output markdown file
+        QuestionsMinimal (bool, optional): If True, only generate the BayesDown format without explanations.
+                                        Defaults to False.
+    """
+    print(f"Loading enhanced CSV from {argdown_with_questions_path}...")
+
+    # Load the enhanced CSV file
+    try:
+        df = pd.read_csv(argdown_with_questions_path)
+        print(f"Successfully loaded CSV with {len(df)} rows.")
+    except Exception as e:
+        raise Exception(f"Error loading CSV: {e}")
+
+    # Validate required columns
+    required_columns = ['Title', 'Description', 'Parents', 'instantiations']
+    missing_columns = [col for col in required_columns if col not in df.columns]
+    if missing_columns:
+        raise Exception(f"Missing required columns: {', '.join(missing_columns)}")
+
+    print(f"Generating BayesDown format file...")
+
+    # Start building the markdown content
+    md_content = ""  # Initialize as empty string
+
+    # Add explanations if QuestionsMinimal is False
+    if not QuestionsMinimal:
+        md_content += "# BayesDown Format\n\n"
+        md_content += "This document contains the BayesDown representation for the Bayesian network.\n\n"
+        md_content += "## Format Description\n\n"
+        md_content += "BayesDown is a format that extends ArgDown with probabilistic information. It uses:\n\n"
+        md_content += "- **Node definitions**: `[Node_Name]: Description {\"metadata\": ...}`\n"
+        md_content += "- **Hierarchical relationships**: Parent nodes are indented and prefixed with `+`\n"
+        md_content += "- **Metadata**: JSON structure containing instantiations, priors, and posteriors\n\n"
+        md_content += "## Network Structure\n\n"
+
+    # Create a dictionary for easy lookup of node information
+    nodes_dict = {}
+    for _, row in df.iterrows():
+        # Parse instantiations
+        instantiations = parse_list_safely(row['instantiations'])
+
+        # Parse parents
+        parents = parse_list_safely(row['Parents'])
+
+        # Create node entry
+        nodes_dict[row['Title']] = {
+            'description': row['Description'],
+            'instantiations': instantiations,
+            'parents': parents,
+            'children': [],  # Will be filled in based on parent relationships
+            'questions_positive': row.get('Generate_Positive_Instantiation_Questions', '{}'),
+            'questions_negative': row.get('Generate_Negative_Instantiation_Questions', '{}')
+        }
+
+    # Set up children based on parent relationships
+    for node_name, node_info in nodes_dict.items():
+        for parent in node_info['parents']:
+            if parent in nodes_dict:
+                nodes_dict[parent]['children'].append(node_name)
+
+    # Identify root nodes (effects that aren't causes for anything else)
+    root_nodes = []
+    for node_name, node_info in nodes_dict.items():
+        if not node_info['children']:
+            root_nodes.append(node_name)
+
+    # If no root nodes found, use the first node as root
+    if not root_nodes and nodes_dict:
+        root_nodes = [next(iter(nodes_dict))]
+
+    # Function to recursively generate BayesDown syntax
+    def generate_node_syntax(node_name, indent_level=0, processed_nodes=None):
+        if processed_nodes is None:
+            processed_nodes = set()
+
+        if node_name not in nodes_dict:
+            return ""
+
+        # If we've already fully processed this node, just add a reference
+        if node_name in processed_nodes:
+            return f"{' ' * indent_level}+ [{node_name}]\n"
+
+        processed_nodes.add(node_name)
+
+        node_info = nodes_dict[node_name]
+        indent = " " * indent_level
+
+        # Create metadata with instantiations
+        metadata = {
+            "instantiations": node_info['instantiations'],
+            "priors": {},
+            "posteriors": {}
+        }
+
+        # Add placeholder priors based on instantiations
+        for instantiation in node_info['instantiations']:
+            metadata["priors"][f"p({instantiation})"] = "? %"  # Default placeholder
+
+        # Add placeholder posteriors if node has parents
+        if node_info['parents']:
+            for parent in node_info['parents']:
+                if parent in nodes_dict:
+                    for parent_inst in nodes_dict[parent]['instantiations']:
+                        for inst in node_info['instantiations']:
+                            # Create placeholder conditional probabilities
+                            metadata["posteriors"][f"p({inst}|{parent}={parent_inst})"] = "?? %"
+
+        # Format the node definition with metadata
+        metadata_json = json.dumps(metadata, indent=None).replace('\n', ' ')
+        node_syntax = f"{indent}[{node_name}]: {node_info['description']} {metadata_json}\n"
+
+        # Add parents with proper indentation
+        for parent in node_info['parents']:
+            if parent in nodes_dict and parent != node_name:  # Avoid self-references
+                parent_syntax = generate_node_syntax(parent, indent_level + 2, processed_nodes)
+                node_syntax += parent_syntax
+
+        return node_syntax
+
+
+    # Generate BayesDown syntax for each root node
+    for root in root_nodes:
+        md_content += generate_node_syntax(root) + "\n"
+
+    # Save the markdown content
+    with open(output_md_path, 'w') as f:
+        f.write(md_content)
+
+    print(f"BayesDown format file saved to {output_md_path}")
+    return md_content
+
+
+
+# Example of how to use the new functionality:
+
+# Generate BayesDown format
+bayesdown_format_fixed = generate_bayesdown_format_md_fixed(
+    "ArgDown_WithQuestions.csv",
+    "BayesDownFormat.md",
+    QuestionsMinimal=True
+)
+
+# Display a preview of the format
+print("\nBayesDown Format Preview:")
+print(bayesdown_format_fixed[:5000] + "...\n")
 ```
 
 # 6.0 Save Outputs
@@ -2883,4 +3016,9 @@ exporter = MarkdownExporter(exclude_output=True)  # Correct initialization
 # Save the Markdown to a file
 with open(f"{notebook_name}IPYNB.md", "w") as f:
     f.write(body)
+```
+
+
+```python
+
 ```
