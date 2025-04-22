@@ -11,5 +11,6 @@
 - [AMTAIR_Prototype_0_1.1.html](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_0_1.1.html)
 - [AMTAIR_Prototype_example1.html](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_example1.html)
 - [.DS_Store](https://singularitysmith.github.io/AMTAIR_Prototype/.DS_Store)
+- [CodeImplementation0.2](https://singularitysmith.github.io/AMTAIR_Prototype/CodeImplementation0.2)
 - [bayesian_network_example1.html](https://singularitysmith.github.io/AMTAIR_Prototype/bayesian_network_example1.html)
 - [AMTAIR_Prototype_example1IPYNB (1).html](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_example1IPYNB (1).html)
