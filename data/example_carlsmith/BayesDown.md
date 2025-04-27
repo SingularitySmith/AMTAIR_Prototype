@@ -8,3 +8,10 @@
 	•	[APS_POSSIBLE_BY_2070]
 	•	[INCENTIVES_TO_BUILD_APS]
 	•	[ALIGNMENT_DIFFICULT]
+[HUMAN_DIS-EMPOWERMENT]:Misaligned power-seeking scales to permanent human dis-empowerment.{“instantiations”: [“disempower_TRUE”,“disempower_FALSE”],“posteriors”: {“p(disempower_TRUE|aps_possible_TRUE,incentives_TRUE,alignment_diff_TRUE,hip_misalign_TRUE)”: “0.40”,  /* IsPowerSeekingAIanExistentia isk_JosephCarlsmith.pdf](file-service://file-QsK2WCkh3d9YYbHw76S5zB) */“p(disempower_FALSE|aps_possible_TRUE,incentives_TRUE,alignment_diff_TRUE,hip_misalign_TRUE)”: “0.60”,“p(disempower_TRUE|any_other_parent_combo)”: “0.00”,“p(disempower_FALSE|any_other_parent_combo)”: “1.00”}}
+	•	[APS_POSSIBLE_BY_2070]
+	•	[INCENTIVES_TO_BUILD_APS]
+	•	[ALIGNMENT_DIFFICULT]
+	•	[HI_IMPACT_MISALIGNED_BEHAVIOUR]
+[EXISTENTIAL_CATASTROPHE]:Such dis-empowerment constitutes an existential catastrophe.{“instantiations”: [“x_catastrophe_TRUE”,“x_catastrophe_FALSE”],“posteriors”: {“p(x_catastrophe_TRUE|disempower_TRUE)”: “0.95”,   /* IsPowerSeekingAIanExistentia Risk_JosephCarlsmith.pdf](file-service://file-sK2WCkh3d9YYbHw76S5zB) */“p(x_catastrophe_FALSE|disempower_TRUE)”: “0.05”,“p(x_catastrophe_TRUE|disempower_FALSE)”: “0.00”,“p(x_catastrophe_FALSE|disempower_FALSE)”: “1.00”}}
+	•	[HUMAN_DIS-EMPOWERMENT]
