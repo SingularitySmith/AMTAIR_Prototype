@@ -1,0 +1,17 @@
+[APS_POSSIBLE_BY_2070]:It becomes possible and financially feasible to build APS systems before 2070.{“instantiations”: [“aps_possible_TRUE”, “aps_possible_FALSE”],“priors”: {“p(aps_possible_TRUE)”: “0.65”,  /* Carlsmith central estimate sPowerSeekingAIanExistentia Risk_JosephCarlsmith.pdf](file-service://file-QsK2WCkh3d9YYbHw76S5zB) */“p(aps_possible_FALSE)”: “0.35”}}
+[INCENTIVES_TO_BUILD_APS]:Strong incentives exist to build APS systems.{“instantiations”: [“incentives_TRUE”, “incentives_FALSE”],“priors”: {                       /* unconditional fallback /“p(incentives_TRUE)”: “0.52”,   / 0.65 × 0.80 + 0.35 × 0  (Bayes rule; see note) /“p(incentives_FALSE)”: “0.48”},“posteriors”: {“p(incentives_TRUE|aps_possible_TRUE)”: “0.80”,   / IsPowerSeekingAIanExistentia Risk_JosephCarlsmith.pdf](file-service://file-QsK2WCkh3d9YYbHw76S5zB) /“p(incentives_FALSE|aps_possible_TRUE)”: “0.20”,“p(incentives_TRUE|aps_possible_FALSE)”: “0.00”,  / impossible if building APS is impossible /“p(incentives_FALSE|aps_possible_FALSE)”: “1.00”}}
+	•	[APS_POSSIBLE_BY_2070]
+[ALIGNMENT_DIFFICULT]:It is much harder to build practically PS-aligned APS than superficially attractive PS-misaligned APS.{“instantiations”: [“alignment_diff_TRUE”,“alignment_diff_FALSE”],“posteriors”: {“p(alignment_diff_TRUE|aps_possible_TRUE,incentives_TRUE)”: “0.40”,   /* sPowerSeekingAIanExistentia isk_JosephCarlsmith.pdf](file-service://file-QsK2WCkh3d9YYbHw76S5zB) */“p(alignment_diff_FALSE|aps_possible_TRUE,incentives_TRUE)”: “0.60”,“p(alignment_diff_TRUE|any_other_parent_combo)”: “0.00”,“p(alignment_diff_FALSE|any_other_parent_combo)”: “1.00”}}
+	•	[APS_POSSIBLE_BY_2070]
+	•	[INCENTIVES_TO_BUILD_APS]
+[HI_IMPACT_MISALIGNED_BEHAVIOUR]:Some deployed APS systems seek power in misaligned ways causing > $1 T damage.{“instantiations”: [“hip_misalign_TRUE”,“hip_misalign_FALSE”],“posteriors”: {“p(hip_misalign_TRUE|aps_possible_TRUE,incentives_TRUE,alignment_diff_TRUE)”: “0.65”,  /* IsPowerSeekingAIanExistentia Risk_JosephCarlsmith.pdf](file-service://file-QsK2WCkh3d9YYbHw76S5zB) */“p(hip_misalign_FALSE|aps_possible_TRUE,incentives_TRUE,alignment_diff_TRUE)”: “0.35”,“p(hip_misalign_TRUE|any_other_parent_combo)”: “0.00”,“p(hip_misalign_FALSE|any_other_parent_combo)”: “1.00”}}
+	•	[APS_POSSIBLE_BY_2070]
+	•	[INCENTIVES_TO_BUILD_APS]
+	•	[ALIGNMENT_DIFFICULT]
+[HUMAN_DIS-EMPOWERMENT]:Misaligned power-seeking scales to permanent human dis-empowerment.{“instantiations”: [“disempower_TRUE”,“disempower_FALSE”],“posteriors”: {“p(disempower_TRUE|aps_possible_TRUE,incentives_TRUE,alignment_diff_TRUE,hip_misalign_TRUE)”: “0.40”,  /* IsPowerSeekingAIanExistentia isk_JosephCarlsmith.pdf](file-service://file-QsK2WCkh3d9YYbHw76S5zB) */“p(disempower_FALSE|aps_possible_TRUE,incentives_TRUE,alignment_diff_TRUE,hip_misalign_TRUE)”: “0.60”,“p(disempower_TRUE|any_other_parent_combo)”: “0.00”,“p(disempower_FALSE|any_other_parent_combo)”: “1.00”}}
+	•	[APS_POSSIBLE_BY_2070]
+	•	[INCENTIVES_TO_BUILD_APS]
+	•	[ALIGNMENT_DIFFICULT]
+	•	[HI_IMPACT_MISALIGNED_BEHAVIOUR]
+[EXISTENTIAL_CATASTROPHE]:Such dis-empowerment constitutes an existential catastrophe.{“instantiations”: [“x_catastrophe_TRUE”,“x_catastrophe_FALSE”],“posteriors”: {“p(x_catastrophe_TRUE|disempower_TRUE)”: “0.95”,   /* IsPowerSeekingAIanExistentia Risk_JosephCarlsmith.pdf](file-service://file-sK2WCkh3d9YYbHw76S5zB) */“p(x_catastrophe_FALSE|disempower_TRUE)”: “0.05”,“p(x_catastrophe_TRUE|disempower_FALSE)”: “0.00”,“p(x_catastrophe_FALSE|disempower_FALSE)”: “1.00”}}
+	•	[HUMAN_DIS-EMPOWERMENT]
