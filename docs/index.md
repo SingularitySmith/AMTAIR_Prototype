@@ -1,5 +1,7 @@
 # 📂 Site Directory
 
+- [AMTAIR_Prototype_example_carlsmithIPYNB (1).pdf](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_example_carlsmithIPYNB (1).pdf)
+- [AMTAIR_Prototype_example_carlsmithIPYNB (1).html](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_example_carlsmithIPYNB (1).html)
 - [AMTAIR_Prototype_example_rain-sprinkler-lawnIPYNB.html](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_example_rain-sprinkler-lawnIPYNB.html)
 - [AMTAIR_Prototype_example1.html](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_example1.html)
 - [bayesian_network_example1.html](https://singularitysmith.github.io/AMTAIR_Prototype/bayesian_network_example1.html)
