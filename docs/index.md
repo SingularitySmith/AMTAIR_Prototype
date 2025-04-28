@@ -5,6 +5,7 @@
 - [AMTAIR_Prototype_example_rain-sprinkler-lawnIPYNB.html](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_example_rain-sprinkler-lawnIPYNB.html)
 - [AMTAIR_Prototype_example1.html](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_example1.html)
 - [bayesian_network_example1.html](https://singularitysmith.github.io/AMTAIR_Prototype/bayesian_network_example1.html)
+- [bayesian_network_carlsmith.html](https://singularitysmith.github.io/AMTAIR_Prototype/bayesian_network_carlsmith.html)
 - [PUBLIC_AMTAIR_Prototype.html](https://singularitysmith.github.io/AMTAIR_Prototype/PUBLIC_AMTAIR_Prototype.html)
 - [OLD_0.1_DAGDrawing.html](https://singularitysmith.github.io/AMTAIR_Prototype/OLD_0.1_DAGDrawing.html)
 - [NoteBook2.0.md](https://singularitysmith.github.io/AMTAIR_Prototype/NoteBook2.0.md)
