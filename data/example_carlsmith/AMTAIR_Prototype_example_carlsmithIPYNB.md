@@ -86,6 +86,22 @@ For broader context on the project's motivation and placement within AI governan
 
 >[AMTAIR Prototype Demonstration (Public Colab Notebook)](#scrollTo=lt8-AnebGUXr)
 
+>[AMTAIR Prototype: Automating Transformative AI Risk Modeling](#scrollTo=iDy_leH6DJH_)
+
+>>[Executive Summary](#scrollTo=iDy_leH6DJH_)
+
+>>>[Purpose Within the Master's Thesis](#scrollTo=iDy_leH6DJH_)
+
+>>>[Relevance to AI Governance](#scrollTo=iDy_leH6DJH_)
+
+>>[Notebook Structure and Workflow](#scrollTo=iDy_leH6DJH_)
+
+>>[Project Context and Purpose](#scrollTo=Cm1JQGDYNJjf)
+
+>>[Notebook Overview and Pipeline](#scrollTo=Cm1JQGDYNJjf)
+
+>>[Connection to Master's Thesis](#scrollTo=Cm1JQGDYNJjf)
+
 >>[Instructions --- How to use this notebook:](#scrollTo=22NBzTxxsnfQ)
 
 >>[Key Concepts:](#scrollTo=NovjnOw6bzLi)
@@ -94,6 +110,8 @@ For broader context on the project's motivation and placement within AI governan
 
 >>[Troubleshooting:](#scrollTo=NovjnOw6bzLi)
 
+>[Environment Setup and Data Access](#scrollTo=neYYoWhbNRIJ)
+
 >[0.1 Prepare Colab/Python Environment --- Import Libraries & Packages](#scrollTo=GtVFO-s74vI_)
 
 >>[0.2 Connect to GitHub Repository](#scrollTo=2a3VR0fLhJow)
@@ -101,6 +119,12 @@ For broader context on the project's motivation and placement within AI governan
 >>[0.3 File Import](#scrollTo=y-ix4Rp5fE9m)
 
 >[1.0 Sources (PDF's of Papers) to ArgDown (.md file)](#scrollTo=52XyPlte5HrU)
+
+>[Sources to ArgDown: Structured Argument Extraction](#scrollTo=1-7O4KHfNU-e)
+
+>>[Process Overview](#scrollTo=1-7O4KHfNU-e)
+
+>>[What is ArgDown?](#scrollTo=1-7O4KHfNU-e)
 
 >>[1.1 Specify Source Document (e.g. PDF)](#scrollTo=ESKnZ_4f_a6y)
 
@@ -122,11 +146,23 @@ For broader context on the project's motivation and placement within AI governan
 
 >[2.0 Probability Extractions: ArgDown (.csv) to BayesDown (.md + plugin JSON syntax)](#scrollTo=7SGB0XMp5VFq)
 
+>[ArgDown to BayesDown: Adding Probability Information](#scrollTo=hWkmySZYNtzS)
+
+>>[Process Overview](#scrollTo=hWkmySZYNtzS)
+
+>>[What is BayesDown?](#scrollTo=hWkmySZYNtzS)
+
 >>[2.1 Probability Extraction Questions --- 'ArgDown.csv' to 'ArgDown_WithQuestions.csv'](#scrollTo=WcF2nHXBZru4)
 
 >>[2.2 'ArgDown_WithQuestions.csv' to 'BayesDownQuestions.md'](#scrollTo=-q9UOQ8yaBZn)
 
 >>[2.3 Generate BayesDown Probability Extraction Prompt](#scrollTo=Ux4OUCPue6Bu)
+
+>>[2.3.1 BayesDown Format Specification](#scrollTo=ivcnd2ml41Nv)
+
+>>>[Core Structure](#scrollTo=ivcnd2ml41Nv)
+
+>>>>>[Rain-Sprinkler-Lawn Example](#scrollTo=Fn72WmgVEOH0)
 
 >>[2.4 Prepare 2nd API call](#scrollTo=d4tB9WD-fIWZ)
 
@@ -138,11 +174,17 @@ For broader context on the project's motivation and placement within AI governan
 
 >>[2.7.2 Check the Graph Structure with the ArgDown Sandbox Online](#scrollTo=VwoAgBsafonh)
 
->>>[2.3.1 BayesDown Format Specification](#scrollTo=ivcnd2ml41Nv)
-
 >>[2.8 Extract BayesDown with Probability Estimates as Dataframe](#scrollTo=19KDn2mKf309)
 
->[3.0 Data Extraction: BayesDown (.md) to Database (.csv)](#scrollTo=SJ9OIyEv5qqb)
+>[3.0 Data Extraction: BayesDown (.md) to Database (.csv)](#scrollTo=vUSS00TCEpeW)
+
+>[BayesDown to Structured Data: Network Construction](#scrollTo=vUSS00TCEpeW)
+
+>>[Extraction Pipeline Overview](#scrollTo=vUSS00TCEpeW)
+
+>>>[Theoretical Foundation](#scrollTo=vUSS00TCEpeW)
+
+>>>[Role in Thesis Research](#scrollTo=vUSS00TCEpeW)
 
 >>>[3.1 ExtractBayesDown-Data_v1](#scrollTo=AFnu_1Ludahi)
 
@@ -150,15 +192,21 @@ For broader context on the project's motivation and placement within AI governan
 
 >>[3.1.2.2 Check the Graph Structure with the ArgDown Sandbox Online](#scrollTo=z4Hgs0ICDQyW)
 
->>>[3.1.2.B Test with 'Example_file_combined_withBayesDown_Crossgenerational.md'](#scrollTo=oSDF6M_h3h6O)
-
 >>[3.3 Extraction](#scrollTo=mv8f4c4D3yJj)
 
 >>>[3.3 Data-Post-Processing](#scrollTo=UcXf3fZ8dahj)
 
 >>>[3.4 Download and save finished data frame as .csv file](#scrollTo=xTwPO_J-dahj)
 
->[4.0 Analysis & Inference: Practical Software Tools ()](#scrollTo=LHQm7ydMmPhN)
+>[Analysis & Inference: Bayesian Network Visualization](#scrollTo=t3zl7vKMECMg)
+
+>>[Bayesian Network Visualization Approach](#scrollTo=t3zl7vKMECMg)
+
+>>>[Visualization Philosophy](#scrollTo=t3zl7vKMECMg)
+
+>>>[Connection to AMTAIR Goals](#scrollTo=t3zl7vKMECMg)
+
+>>>[Implementation Structure](#scrollTo=t3zl7vKMECMg)
 
 >>[Phase 1: Dependencies/Functions](#scrollTo=LSeSAPvtgIgU)
 
@@ -170,9 +218,17 @@ For broader context on the project's motivation and placement within AI governan
 
 >[Quickly check HTML Outputs](#scrollTo=bFtxTKmLElSF)
 
+>[Conclusion: From Prototype to Production](#scrollTo=oatKYlKrOSiN)
+
+>>[Summary of Achievements](#scrollTo=oatKYlKrOSiN)
+
+>>[Limitations and Future Work](#scrollTo=oatKYlKrOSiN)
+
+>>[Connection to AMTAIR Project](#scrollTo=oatKYlKrOSiN)
+
 >[6.0 Save Outputs](#scrollTo=kjbIj19epbrF)
 
->>[Convert ipynb to HTML in Colab](#scrollTo=0QqlN6dYpm4s)
+>[Saving and Exporting Results](#scrollTo=0QqlN6dYpm4s)
 
 >>[Convert .ipynb Notebook to MarkDown](#scrollTo=pS6AhdiSCLw4)
 
@@ -501,28 +557,159 @@ class PromptLibrary:
 
     # ArgDown extraction prompt - transforms source text into structured argument map
     ARGDOWN_EXTRACTION = PromptTemplate("""
-You are an expert in creating structured argument maps in ArgDown format. Your task is to extract the key arguments, premises, and conclusions from the provided text, and represent them in a hierarchical ArgDown format.
+You are participating in the AMTAIR (Automating Transformative AI Risk Modeling) project and you are tasked with converting natural language arguments into ArgDown syntax by extracting and formalizing causal world models from unstructured text.
+Your specific task is to extract the implicit causal model from the provided document in structured ArgDown format.
 
-Follow these guidelines:
-1. Use the format [Statement]: Description for main claims
-2. Use the + symbol and indentation to indicate supporting statements
-3. Capture the core argumentative structure, focusing on causal relationships and key claims
-4. Ensure each statement has a clear, concise title followed by a fuller description
-5. Add the "instantiations" field to indicate possible states of each variable
+## Epistemic Foundation & Purpose
 
-Here is the metadata format to include for each node:
-{"instantiations": ["node_TRUE", "node_FALSE"]}
+This extraction represents one possible interpretation of the implicit causal model in the document. Multiple extractions from the same text help reveal patterns of convergence (where the model is clearly articulated) and divergence (where the model contains ambiguities). This approach acknowledges that expert texts often contain implicit rather than explicit causal models.
 
-Example:
-[Thesis]: Main claim of the text. {"instantiations": ["thesis_TRUE", "thesis_FALSE"]}
- + [Support1]: First supporting argument. {"instantiations": ["support1_TRUE", "support1_FALSE"]}
-   + [Evidence1]: Evidence for Support1. {"instantiations": ["evidence1_TRUE", "evidence1_FALSE"]}
- + [Support2]: Second supporting argument. {"instantiations": ["support2_TRUE", "support2_FALSE"]}
+Your role is to reveal the causal structure already present in the author's thinking, maintaining epistemic humility about your interpretation while adhering strictly to the required format.
 
-Text to analyze:
-$text
+## ArgDown Format Specification
 
-Create an ArgDown representation that captures the key arguments, their relationships, and possible states:
+### Core Syntax
+
+ArgDown represents causal relationships using a hierarchical structure:
+
+1. Variables appear in square brackets with descriptive text:
+   `[Variable_Name]: Description of the variable.`
+
+2. Causal relationships use indentation (2 spaces per level) and '+' symbols:
+
+[Effect]: Description of effect. + [Cause]: Description of cause. + [Deeper_Cause]: Description of deeper cause.
+
+3. Causality flows from bottom (more indented) to top (less indented):
+- More indented variables (causes) influence less indented variables (effects)
+- The top-level variable is the ultimate effect or outcome
+- Deeper indentation levels represent root causes or earlier factors
+
+4. Each variable must include JSON metadata with possible states (instantiations):
+`[Variable]: Description. {"instantiations": ["variable_STATE1", "variable_STATE2"]}`
+
+### JSON Metadata Format
+
+The JSON metadata must follow this exact structure:
+
+```json
+{"instantiations": ["variable_STATE1", "variable_STATE2"]}
+
+Requirements:
+* Double quotes (not single) around field names and string values
+* Square brackets enclosing the instantiations array
+* Comma separation between array elements
+* No trailing comma after the last element
+* Must be valid JSON syntax that can be parsed by standard JSON parsers
+
+For binary variables (most common case):
+{"instantiations": ["variable_TRUE", "variable_FALSE"]}
+
+For multi-state variables (when clearly specified in the text):
+{"instantiations": ["variable_HIGH", "variable_MEDIUM", "variable_LOW"]}
+
+The metadata must appear on the same line as the variable definition, after the description.
+## Complex Structural Patterns
+### Variables Influencing Multiple Effects
+The same variable can appear multiple times in different places in the hierarchy if it influences multiple effects:
+[Effect1]: First effect description. {"instantiations": ["effect1_TRUE", "effect1_FALSE"]}
+  + [Cause_A]: Description of cause A. {"instantiations": ["cause_a_TRUE", "cause_a_FALSE"]}
+
+[Effect2]: Second effect description. {"instantiations": ["effect2_TRUE", "effect2_FALSE"]}
+  + [Cause_A]
+  + [Cause_B]: Description of cause B. {"instantiations": ["cause_b_TRUE", "cause_b_FALSE"]}
+
+### Multiple Causes of the Same Effect
+Multiple causes can influence the same effect by being listed at the same indentation level:
+[Effect]: Description of effect. {"instantiations": ["effect_TRUE", "effect_FALSE"]}
+  + [Cause1]: Description of first cause. {"instantiations": ["cause1_TRUE", "cause1_FALSE"]}
+  + [Cause2]: Description of second cause. {"instantiations": ["cause2_TRUE", "cause2_FALSE"]}
+    + [Deeper_Cause]: A cause that influences Cause2. {"instantiations": ["deeper_cause_TRUE", "deeper_cause_FALSE"]}
+
+### Causal Chains
+Causal chains are represented through multiple levels of indentation:
+[Ultimate_Effect]: The final outcome. {"instantiations": ["ultimate_effect_TRUE", "ultimate_effect_FALSE"]}
+  + [Intermediate_Effect]: A mediating variable. {"instantiations": ["intermediate_effect_TRUE", "intermediate_effect_FALSE"]}
+    + [Root_Cause]: The initial cause. {"instantiations": ["root_cause_TRUE", "root_cause_FALSE"]}
+  + [2nd_Intermediate_Effect]: A mediating variable. {"instantiations": ["intermediate_effect_TRUE", "intermediate_effect_FALSE"]}
+
+
+### Common Cause of Multiple Variables
+A common cause affecting multiple variables is represented by referencing the same variable in multiple places:
+[Effect1]: First effect description. {"instantiations": ["effect1_TRUE", "effect1_FALSE"]}
+  + [Common_Cause]: Description of common cause. {"instantiations": ["common_cause_TRUE", "common_cause_FALSE"]}
+
+[Effect2]: Second effect description. {"instantiations": ["effect2_TRUE", "effect2_FALSE"]}
+  + [Common_Cause]
+
+## Detailed Extraction Workflow
+Please follow this step-by-step process, documenting your reasoning in XML tags:
+<analysis>
+First, conduct a holistic analysis of the document:
+1. Identify the main subject matter or domain
+2. Note key concepts, variables, and factors discussed
+3. Pay attention to language indicating causal relationships (causes, affects, influences, depends on, etc.)
+4. Look for the ultimate outcomes or effects that are the focus of the document
+5. Record your general understanding of the document's implicit causal structure
+</analysis>
+<variable_identification>
+Next, identify and list the key variables in the causal model:
+* Focus on factors that are discussed as having an influence or being influenced
+* For each variable:
+  * Create a descriptive name in [square_brackets]
+  * Write a concise description based directly on the text
+  * Determine possible states (usually binary TRUE/FALSE unless clearly specified)
+* Distinguish between:
+  * Outcome variables (effects the author is concerned with)
+  * Intermediate variables (both causes and effects in chains)
+  * Root cause variables (exogenous factors in the model)
+* List all identified variables with their descriptions and possible states
+</variable_identification>
+
+<causal_structure>
+Then, determine the causal relationships between variables:
+* For each variable, identify what factors influence it
+* Note the direction of causality (what causes what)
+* Look for mediating variables in causal chains
+* Identify common causes of multiple effects
+* Capture feedback loops if present (though they must be represented as DAGs)
+* Map out the hierarchical structure of the causal model
+</causal_structure>
+
+<format_conversion>
+Now, convert your analysis into proper ArgDown format:
+* Start with the ultimate outcome variables at the top level
+* Place direct causes indented below with \+ symbols
+* Continue with deeper causes at further indentation levels
+* Add variable descriptions and instantiations metadata
+* Ensure variables appearing in multiple places have consistent names
+* Check that the entire structure forms a valid directed acyclic graph
+</format_conversion>
+
+<validation>
+
+Finally, review your extraction for quality and format correctness:
+1. Verify all variables have properly formatted metadata
+2. Check that indentation properly represents causal direction
+3. Confirm the extraction accurately reflects the document's implicit model
+4. Ensure no cycles exist in the causal structure
+5. Verify that variables referenced multiple times are consistent
+6. Check that the extraction would be useful for subsequent analysis
+
+</validation>
+
+
+## Source Document Analysis Guidance
+When analyzing the source document:
+* Focus on revealing the author's own causal model, not imposing an external framework
+* Maintain the author's terminology where possible
+* Look for both explicit statements of causality and implicit assumptions
+* Pay attention to the relative importance the author assigns to different factors
+* Notice where the author expresses certainty versus uncertainty
+* Consider the level of granularity appropriate to the document's own analysis
+
+Remember that your goal is to make the implicit model explicit, not to evaluate or improve it.
+The value lies in accurately representing the author's perspective, even if you might personally disagree or see limitations in their model.
+
 """)
 
     # BayesDown probability extraction prompt - enhances ArgDown with probability information
@@ -1994,8 +2181,7 @@ argdown_with_questions_df
 """
 BLOCK PURPOSE: Transforms the ArgDown with questions into a BayesDown template with placeholders.
 
-This function creates a BayesDown representation with probability placeholders based on
-the questions generated in the previous step. It:
+This function creates a BayesDown representation with probability placeholders based on the questions generated in the previous step. It:
 
 1. Loads the CSV file with probability questions
 2. Constructs a directed graph to represent the causal structure
@@ -2003,8 +2189,7 @@ the questions generated in the previous step. It:
 4. Optionally includes comments with the specific questions to be answered
 5. Saves the result as a markdown file for the next stage of the pipeline
 
-The output is a BayesDown template that can be used in the probability extraction phase,
-where the placeholders will be replaced with actual probability values.
+The output is a BayesDown template that can be used in the probability extraction phase, where the placeholders will be replaced with actual probability values.
 
 DEPENDENCIES: networkx, pandas, json libraries
 INPUTS: CSV file with ArgDown structure and probability questions
