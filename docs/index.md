@@ -7,6 +7,7 @@
 - [bayesian_network_example1.html](https://singularitysmith.github.io/AMTAIR_Prototype/bayesian_network_example1.html)
 - [bayesian_network_carlsmith.html](https://singularitysmith.github.io/AMTAIR_Prototype/bayesian_network_carlsmith.html)
 - [PUBLIC_AMTAIR_Prototype.html](https://singularitysmith.github.io/AMTAIR_Prototype/PUBLIC_AMTAIR_Prototype.html)
+- [Draft9.2_sec2.3-4.4_feedback.pdf](https://singularitysmith.github.io/AMTAIR_Prototype/Draft9.2_sec2.3-4.4_feedback.pdf)
 - [OLD_0.1_DAGDrawing.html](https://singularitysmith.github.io/AMTAIR_Prototype/OLD_0.1_DAGDrawing.html)
 - [NoteBook2.0.md](https://singularitysmith.github.io/AMTAIR_Prototype/NoteBook2.0.md)
 - [AMTAIR_Prototype_example1IPYNB (1).html](https://singularitysmith.github.io/AMTAIR_Prototype/AMTAIR_Prototype_example1IPYNB (1).html)
