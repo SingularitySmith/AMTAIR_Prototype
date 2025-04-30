@@ -1,0 +1,28 @@
+\contentsline {subsubsection}{Introduction}{2}{section*.2}%
+\contentsline {subsubsection}{The nature of AGI}{3}{section*.3}%
+\contentsline {paragraph}{Definition of artificial intelligence}{3}{section*.4}%
+\contentsline {paragraph}{Definition of transformative AGI}{4}{section*.5}%
+\contentsline {paragraph}{Definition of superintelligence}{4}{section*.6}%
+\contentsline {paragraph}{The source of power of AGI}{4}{section*.7}%
+\contentsline {paragraph}{Orthogonality Thesis}{4}{section*.8}%
+\contentsline {paragraph}{Convergence Thesis}{5}{section*.9}%
+\contentsline {paragraph}{The alignment problem}{5}{section*.10}%
+\contentsline {paragraph}{Danger of AGI}{6}{section*.11}%
+\contentsline {paragraph}{Relevance of cognitive abilities}{7}{section*.12}%
+\contentsline {subparagraph}{Failed alignment}{8}{section*.13}%
+\contentsline {subparagraph}{Successful alignment}{8}{section*.14}%
+\contentsline {paragraph}{The 'unilateralist's curse'}{9}{section*.15}%
+\contentsline {subsubsection}{Epistemic Problems in the Anticipated Political Debates about AI}{9}{section*.16}%
+\contentsline {paragraph}{Timing and burden of prove}{10}{section*.17}%
+\contentsline {paragraph}{Reversed restrictions and burden of prove}{10}{section*.18}%
+\contentsline {paragraph}{Sovereignty of nations}{11}{section*.19}%
+\contentsline {paragraph}{Dominance of collective interests}{11}{section*.20}%
+\contentsline {paragraph}{Public mistrust of experts}{11}{section*.21}%
+\contentsline {paragraph}{Researchers as key authorities}{11}{section*.22}%
+\contentsline {paragraph}{Lobbying}{12}{section*.23}%
+\contentsline {paragraph}{No influence of economic interests}{12}{section*.24}%
+\contentsline {paragraph}{Examples}{12}{section*.25}%
+\contentsline {subparagraph}{Nuclear Weapons}{12}{section*.26}%
+\contentsline {subparagraph}{Soviet Bio-weapons program}{13}{section*.27}%
+\contentsline {paragraph}{What success does and does not look like}{13}{section*.28}%
+\contentsline {subsubsection}{Conclusion}{13}{section*.29}%
